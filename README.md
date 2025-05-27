@@ -118,7 +118,7 @@ npm run dev
 
 Desarrollado por 
 
-**Rodrygo** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
-**Miguel** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
-**Eduardo** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
-**Mathias** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+- **Rodrygo** — [GitHub](https://github.com/RdrigoFH)
+- **Miguel** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+- **Eduardo** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+- **Mathias** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)

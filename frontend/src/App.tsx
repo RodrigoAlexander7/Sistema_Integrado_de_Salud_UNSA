@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home";
+import Inicio from "./pages/Inicio"
+import Busqueda from "./pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
 
 function App() {
   return (
     <BrowserRouter>
+    <div className="flex items-center justify-center min-h-screen">
       <Routes>
         <Route
           path="/"
@@ -16,8 +18,10 @@ function App() {
             </div>
           }
         />
-        <Route path="/home" element={<Home />} />
+        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/busqueda" element={<Busqueda />} />
       </Routes>
+      </div>
     </BrowserRouter>
   );
 }

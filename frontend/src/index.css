@@ -41,19 +41,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-html, body, #root {
-  min-height: 100vh;
-  background-image: linear-gradient(to bottom right, 
-    #4B5563, 
-    #374151, 
-    #1F2937, 
-    #374151,  
-    #4B5563  
-  );
-  margin: 0;
-  padding: 0;
-}
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

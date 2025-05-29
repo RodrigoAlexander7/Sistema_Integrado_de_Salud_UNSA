@@ -1,18 +1,23 @@
-import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { LoginForm } from "@/components/login-form";
+import Inicio from "@/components/Inicio"; 
 
-import { LoginForm } from "@/components/login-form"
-
-import './App.css'
+import './App.css';
 
 function App() {
-
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <LoginForm />
+    <Router>
+      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+        <div className="w-full max-w-sm">
+          <Routes>
+            <Route path="/" element={<LoginForm />} />
+            <Route path="/Inicio" element={<Inicio />} />
+          </Routes>
+        </div>
       </div>
-    </div>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;
+

@@ -83,6 +83,12 @@ cd frontend
 npm run dev
 ```
 
+### Iniciar en Docker (Opcion 2)
+En terminal:
+```bash
+docker-compose up --build
+```
+
 ---
 
 ## 📂 Estructura del proyecto

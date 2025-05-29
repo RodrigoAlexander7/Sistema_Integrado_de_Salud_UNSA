@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LoginForm } from "@/components/login-form";
 import Inicio from "@/components/Inicio"; 
+import { TestConection } from "@/components/test"; 
 
 import './App.css';
 
@@ -12,6 +13,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginForm />} />
             <Route path="/Inicio" element={<Inicio />} />
+            <Route path="/TestConection" element={<TestConection />} />
           </Routes>
         </div>
       </div>

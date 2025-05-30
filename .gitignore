@@ -1,0 +1,27 @@
+# Archivos y directorios generales ignorados
+.DS_Store
+Thumbs.db
+.env
+.env.*.local
+.vscode/
+*.log
+
+# Dependencias de Node.js
+node_modules/
+
+# --- Backend (Node.js/Express/TypeScript) ---
+# Directorio de salida de compilación de TypeScript para el backend
+backend/dist/
+backend/build/
+backend/*.log
+
+# --- Frontend (React/Vite/TypeScript) ---
+frontend/dist/
+
+# Directorios de caché de Vite
+frontend/.vite/
+
+# Archivos de caché del editor 
+.idea/ 
+*.iml  
+.history/ 

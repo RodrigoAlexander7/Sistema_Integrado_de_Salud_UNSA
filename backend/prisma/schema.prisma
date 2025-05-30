@@ -1,0 +1,416 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Users & Authentication
+model Usuario {
+  id              Int               @id @default(autoincrement())
+  nombreUsuario   String            @unique @map("nombre_usuario")
+  contrasenaHash  String            @map("contrasena_hash")
+  tipoUsuario     TipoUsuario       @map("tipo_usuario")
+  email           String            @unique
+  ultimoAcceso    DateTime?         @map("ultimo_acceso")
+  activo          Boolean           @default(true)
+  fechaRegistro   DateTime          @default(now()) @map("fecha_registro")
+  medico          Medico?
+  enfermera       Enfermera?
+  auditorias      AuditoriaHistoria[]
+
+  @@map("usuarios")
+}
+
+enum TipoUsuario {
+  MEDICO
+  ENFERMERA
+}
+
+// Healthcare Professionals
+model Medico {
+  id                Int                 @id @default(autoincrement())
+  usuario           Usuario             @relation(fields: [usuarioId], references: [id])
+  usuarioId         Int                 @unique @map("usuario_id")
+  tipoDocumento     String              @map("tipo_documento")
+  numDocumento      String              @map("num_documento")
+  nombres           String
+  apellidos         String
+  numLicencia       String              @map("num_licencia")
+  telefono          String?
+  correo            String?
+  fechaRegistro     DateTime            @default(now()) @map("fecha_registro")
+  activo            Boolean             @default(true)
+  especialidades    MedicoEspecialidad[]
+  episodiosClinicos EpisodioClinco[]
+
+  @@unique([tipoDocumento, numDocumento])
+  @@map("medicos")
+}
+
+model Enfermera {
+  id                Int                @id @default(autoincrement())
+  usuario           Usuario            @relation(fields: [usuarioId], references: [id])
+  usuarioId         Int                @unique @map("usuario_id")
+  tipoDocumento     String             @map("tipo_documento")
+  numDocumento      String             @map("num_documento")
+  nombres           String
+  apellidos         String
+  numLicencia       String             @map("num_licencia")
+  telefono          String?
+  correo            String?
+  fechaRegistro     DateTime           @default(now()) @map("fecha_registro")
+  activo            Boolean            @default(true)
+  episodiosClinicos EpisodioClinco[]
+
+  @@unique([tipoDocumento, numDocumento])
+  @@map("enfermeras")
+}
+
+// University Structure
+model Facultad {
+  id                  Int                  @id @default(autoincrement())
+  nombre              String
+  codigo              String               @unique
+  descripcion         String?
+  activo              Boolean              @default(true)
+  programasAcademicos ProgramaAcademico[]
+
+  @@map("facultades")
+}
+
+model ProgramaAcademico {
+  id          Int       @id @default(autoincrement())
+  facultad    Facultad  @relation(fields: [facultadId], references: [id])
+  facultadId  Int       @map("facultad_id")
+  nombre      String
+  codigo      String    @unique
+  descripcion String?
+  nivel       String    // PREGRADO/POSGRADO
+  activo      Boolean   @default(true)
+  pacientes   Paciente[]
+
+  @@map("programas_academicos")
+}
+
+// Locations
+model Sede {
+  id               Int           @id @default(autoincrement())
+  nombre           String
+  direccion        String
+  telefono         String?
+  horarioAtencion  String?       @map("horario_atencion")
+  activo           Boolean       @default(true)
+  consultorios     Consultorio[]
+
+  @@map("sedes")
+}
+
+model Consultorio {
+  id                Int                @id @default(autoincrement())
+  sede              Sede               @relation(fields: [sedeId], references: [id])
+  sedeId            Int                @map("sede_id")
+  nombre            String
+  codigo            String
+  tipo              String             // CONSULTA/PROCEDIMIENTO
+  activo            Boolean            @default(true)
+  episodiosClinicos EpisodioClinco[]
+
+  @@unique([sedeId, codigo])
+  @@map("consultorios")
+}
+
+// Medical Specialties
+model Especialidad {
+  id                  Int                  @id @default(autoincrement())
+  nombre              String
+  descripcion         String?
+  codigo              String               @unique
+  activo              Boolean              @default(true)
+  medicoEspecialidad  MedicoEspecialidad[]
+  episodiosClinicos   EpisodioClinco[]
+
+  @@map("especialidades")
+}
+
+model MedicoEspecialidad {
+  id              Int          @id @default(autoincrement())
+  medico          Medico       @relation(fields: [medicoId], references: [id])
+  medicoId        Int          @map("medico_id")
+  especialidad    Especialidad @relation(fields: [especialidadId], references: [id])
+  especialidadId  Int          @map("especialidad_id")
+  fechaInicio     DateTime     @map("fecha_inicio")
+  fechaFin        DateTime?    @map("fecha_fin")
+  activo          Boolean      @default(true)
+
+  @@unique([medicoId, especialidadId])
+  @@map("medico_especialidad")
+}
+
+// Patients
+model Paciente {
+  id                    Int                    @id @default(autoincrement())
+  tipoDocumento         String                 @map("tipo_documento")
+  numDocumento          String                 @map("num_documento")
+  nombres               String
+  apellidos             String
+  fechaNacimiento       DateTime               @map("fecha_nacimiento")
+  genero                String                 @db.Char(1)
+  direccion             String?
+  telefono              String?
+  correo                String?
+  grupoSanguineo        String?                @map("grupo_sanguineo")
+  alergias              String?
+  antecedentesFamiliares String?               @map("antecedentes_familiares")
+  estadoCivil           String?                @map("estado_civil")
+  fechaRegistro         DateTime               @default(now()) @map("fecha_registro")
+  activo                Boolean                @default(true)
+  programaAcademico     ProgramaAcademico      @relation(fields: [programaAcademicoId], references: [id])
+  programaAcademicoId   Int                    @map("programa_academico_id")
+  contactosEmergencia   ContactoEmergencia[]
+  historiasClinicas     HistoriaClinica[]
+
+  @@unique([tipoDocumento, numDocumento])
+  @@map("pacientes")
+}
+
+model ContactoEmergencia {
+  id                Int       @id @default(autoincrement())
+  paciente          Paciente  @relation(fields: [pacienteId], references: [id])
+  pacienteId        Int       @map("paciente_id")
+  nombres           String
+  apellidos         String
+  parentesco        String
+  telefonoPrincipal String    @map("telefono_principal")
+  telefonoSecundario String?  @map("telefono_secundario")
+  direccion         String?
+  activo            Boolean   @default(true)
+
+  @@map("contactos_emergencia")
+}
+
+// Clinical Records
+model HistoriaClinica {
+  id                     Int                 @id @default(autoincrement())
+  paciente               Paciente            @relation(fields: [pacienteId], references: [id])
+  pacienteId             Int                 @map("paciente_id")
+  fechaApertura          DateTime            @map("fecha_apertura")
+  estado                 String
+  observacionesGenerales String?             @map("observaciones_generales")
+  ultimaActualizacion    DateTime            @updatedAt @map("ultima_actualizacion")
+  episodiosClinicos      EpisodioClinco[]
+  auditorias             AuditoriaHistoria[]
+
+  @@map("historias_clinicas")
+}
+
+model EpisodioClinco {
+  id                     Int                     @id @default(autoincrement())
+  historiaClinica        HistoriaClinica         @relation(fields: [historiaClinicaId], references: [id])
+  historiaClinicaId      Int                     @map("historia_clinica_id")
+  especialidad           Especialidad            @relation(fields: [especialidadId], references: [id])
+  especialidadId         Int                     @map("especialidad_id")
+  medico                 Medico?                 @relation(fields: [medicoId], references: [id])
+  medicoId               Int?                    @map("medico_id")
+  enfermera              Enfermera               @relation(fields: [enfermeraId], references: [id])
+  enfermeraId            Int                     @map("enfermera_id")
+  consultorio            Consultorio             @relation(fields: [consultorioId], references: [id])
+  consultorioId          Int                     @map("consultorio_id")
+  fechaEpisodio          DateTime                @map("fecha_episodio")
+  motivoConsulta         String                  @map("motivo_consulta")
+  sintomas               String?
+  tratamiento            String?
+  observaciones          String?
+  signosVitales          SignosVitales[]
+  diagnosticos           Diagnostico[]
+  prescripciones         Prescripcion[]
+  documentosClinicos     DocumentoClinico[]
+  consentimientos        ConsentimientoInformado[]
+  odontologiaDetalle     OdontologiaDetalle?
+  oftalmologiaDetalle    OftalmologiaDetalle?
+  psicologiaDetalle      PsicologiaDetalle?
+  trabajoSocialDetalle   TrabajoSocialDetalle?
+  auditorias             AuditoriaHistoria[]
+
+  @@map("episodios_clinicos")
+}
+
+model SignosVitales {
+  id                   Int             @id @default(autoincrement())
+  episodioClinico      EpisodioClinco  @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId    Int             @map("episodio_clinico_id")
+  presionArterial      String?         @map("presion_arterial")
+  temperatura          Decimal?        @db.Decimal(4,1)
+  frecuenciaCardiaca   Int?            @map("frecuencia_cardiaca")
+  frecuenciaRespiratoria Int?          @map("frecuencia_respiratoria")
+  saturacionOxigeno    Decimal?        @map("saturacion_oxigeno") @db.Decimal(4,1)
+  peso                 Decimal?        @db.Decimal(5,2)
+  altura               Decimal?        @db.Decimal(3,2)
+  imc                  Decimal?        @db.Decimal(4,2)
+  fechaRegistro        DateTime        @default(now()) @map("fecha_registro")
+
+  @@map("signos_vitales")
+}
+
+// Diagnoses with ICD-10
+model CodigoCIE10 {
+  codigo        String        @id
+  descripcion   String
+  categoria     String
+  subcategoria  String?
+  activo        Boolean       @default(true)
+  diagnosticos  Diagnostico[]
+
+  @@map("codigos_cie10")
+}
+
+model Diagnostico {
+  id                  Int             @id @default(autoincrement())
+  episodioClinico     EpisodioClinco  @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId   Int             @map("episodio_clinico_id")
+  codigoCIE10         CodigoCIE10     @relation(fields: [codigoCIE10Id], references: [codigo])
+  codigoCIE10Id       String          @map("codigo_cie10_id")
+  tipo                TipoDiagnostico @default(PRINCIPAL)
+  descripcionAdicional String?        @map("descripcion_adicional")
+  fechaRegistro       DateTime        @default(now()) @map("fecha_registro")
+
+  @@map("diagnosticos")
+}
+
+enum TipoDiagnostico {
+  PRINCIPAL
+  SECUNDARIO
+}
+
+// Prescriptions
+model Prescripcion {
+  id                  Int            @id @default(autoincrement())
+  episodioClinico     EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId   Int            @map("episodio_clinico_id")
+  nombreMedicamento   String         @map("nombre_medicamento")
+  dosis               String
+  viaAdministracion   String         @map("via_administracion")
+  frecuencia          String
+  duracion            String
+  indicaciones        String?
+  fechaPrescripcion   DateTime       @default(now()) @map("fecha_prescripcion")
+
+  @@map("prescripciones")
+}
+
+// Clinical Documents
+model DocumentoClinico {
+  id                Int            @id @default(autoincrement())
+  episodioClinico   EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId Int            @map("episodio_clinico_id")
+  tipoDocumento     String         @map("tipo_documento")
+  titulo            String
+  rutaArchivo       String         @map("ruta_archivo")
+  contenido         Bytes?
+  formato           String
+  fechaDocumento    DateTime       @map("fecha_documento")
+  fechaRegistro     DateTime       @default(now()) @map("fecha_registro")
+  observaciones     String?
+
+  @@map("documentos_clinicos")
+}
+
+// Informed Consent
+model ConsentimientoInformado {
+  id                      Int            @id @default(autoincrement())
+  episodioClinico         EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId       Int            @map("episodio_clinico_id")
+  tipoProcedimiento       String         @map("tipo_procedimiento")
+  contenido               String
+  fechaFirma              DateTime?      @map("fecha_firma")
+  firmadoPaciente         Boolean        @default(false) @map("firmado_paciente")
+  firmadoRepresentante    Boolean        @default(false) @map("firmado_representante")
+  nombreRepresentante     String?        @map("nombre_representante")
+  documentoRepresentante  String?        @map("documento_representante")
+  documentoDigitalizado   Bytes?         @map("documento_digitalizado")
+
+  @@map("consentimientos_informados")
+}
+
+// Specialty-specific details
+model OdontologiaDetalle {
+  id                    Int            @id @default(autoincrement())
+  episodioClinico       EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId     Int            @unique @map("episodio_clinico_id")
+  odontograma           Bytes?
+  indiceCPOD            Decimal?       @map("indice_cpod") @db.Decimal(4,2)
+  observacionesDentales String?        @map("observaciones_dentales")
+  procedimientosRealizados String?     @map("procedimientos_realizados")
+
+  @@map("odontologia_detalles")
+}
+
+model OftalmologiaDetalle {
+  id                    Int            @id @default(autoincrement())
+  episodioClinico       EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId     Int            @unique @map("episodio_clinico_id")
+  agudezaVisualOD       String?        @map("agudeza_visual_od")
+  agudezaVisualOI       String?        @map("agudeza_visual_oi")
+  presionIntraocularOD  Decimal?       @map("presion_intraocular_od") @db.Decimal(4,1)
+  presionIntraocularOI  Decimal?       @map("presion_intraocular_oi") @db.Decimal(4,1)
+  fondoOjo              String?        @map("fondo_ojo")
+  formulaOptica         String?        @map("formula_optica")
+
+  @@map("oftalmologia_detalles")
+}
+
+model PsicologiaDetalle {
+  id                    Int            @id @default(autoincrement())
+  episodioClinico       EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId     Int            @unique @map("episodio_clinico_id")
+  evaluacionMental      String?        @map("evaluacion_mental")
+  testAplicados         String?        @map("test_aplicados")
+  impresionDiagnostica  String?        @map("impresion_diagnostica")
+  planIntervencion      String?        @map("plan_intervencion")
+  evolucion             String?
+
+  @@map("psicologia_detalles")
+}
+
+model TrabajoSocialDetalle {
+  id                    Int            @id @default(autoincrement())
+  episodioClinico       EpisodioClinco @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId     Int            @unique @map("episodio_clinico_id")
+  evaluacionSocioeconomica String?     @map("evaluacion_socioeconomica")
+  dinamicaFamiliar      String?        @map("dinamica_familiar")
+  redesApoyo            String?        @map("redes_apoyo")
+  intervencionRealizada String?        @map("intervencion_realizada")
+  seguimientoCaso       String?        @map("seguimiento_caso")
+
+  @@map("trabajo_social_detalles")
+}
+
+// Audit
+model AuditoriaHistoria {
+  id              Int             @id @default(autoincrement())
+  historiaClinica HistoriaClinica? @relation(fields: [historiaClinicaId], references: [id])
+  historiaClinicaId Int?          @map("historia_clinica_id")
+  episodioClinico EpisodioClinco? @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId Int?          @map("episodio_clinico_id")
+  usuario         Usuario         @relation(fields: [usuarioId], references: [id])
+  usuarioId       Int             @map("usuario_id")
+  fechaAccion     DateTime        @default(now()) @map("fecha_accion")
+  tipoAccion      String          @map("tipo_accion")
+  descripcion     String?
+  tablaAfectada   String          @map("tabla_afectada")
+  idRegistro      Int             @map("id_registro")
+  datosAntiguos   String?         @map("datos_antiguos") @db.Text
+  datosNuevos     String?         @map("datos_nuevos") @db.Text
+  direccionIp     String          @map("direccion_ip")
+
+  @@map("auditoria_historias")
+}

@@ -83,6 +83,15 @@ cd frontend
 npm run dev
 ```
 
+<<<<<<< HEAD
+=======
+### Iniciar en Docker (Opcion 2)
+En terminal:
+```bash
+docker-compose up --build
+```
+
+>>>>>>> 9ef602bc127159a608b6db3113d911e72ed45397
 ---
 
 ## 📂 Estructura del proyecto
@@ -121,4 +130,8 @@ Desarrollado por
 - **Rodrygo** — [GitHub](https://github.com/RdrigoFH)
 - **Miguel** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
 - **Eduardo** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+<<<<<<< HEAD
 - **Mathias** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+=======
+- **Mathias** — [GitHub](https://github.com/rodry/faltaeditar/waaaaaaaaa)
+>>>>>>> 9ef602bc127159a608b6db3113d911e72ed45397

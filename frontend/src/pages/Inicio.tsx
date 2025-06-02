@@ -27,50 +27,59 @@ const patientInfo: PatientData = {
 };
 
 const PatientCard: React.FC<{ data: PatientData; showVitals?: boolean }> = ({ data, showVitals = true }) => {
-    return (
-        <div>
-            
-            <Card className="w-full max-w-3xl mb-4 shadow-md">
-            
-            <CardContent className="p-4">
-            
-            <h2 className="font-semibold text-lg mb-2">Nombre: {data.name}</h2>
-            <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-                <p><strong>Presión Arterial:</strong> {data.bloodPressure}</p>
-                <p><strong>Temperatura:</strong> {data.temperature}</p>
-                {showVitals && (
+  return (
+    <div className="w-full max-w-4xl mx-auto my-2">
+      <Card className="border border-gray-300 shadow-sm rounded-md overflow-hidden">
+        <CardContent className="p-0">
+
+          {/* Encabezado */}
+          <div className="text-center text-xl font-bold text-gray-800 border-b px-6 py-2">
+            Nombre: <span className="font-semibold">{data.name}</span>
+          </div>
+
+          {/* Contenido en dos columnas */}
+          <div className="grid grid-cols-2 divide-x border-t text-sm">
+            {/* Columna izquierda */}
+            <div className="grid grid-cols-[160px_1fr] gap-y-2 px-4 py-3">
+              <div className="font-semibold">Presión Arterial:</div><div>{data.bloodPressure}</div>
+              <div className="font-semibold">Temperatura:</div><div>{data.temperature}</div>
+              {showVitals && (
                 <>
-                    <p><strong>Frecuencia Cardíaca:</strong> {data.heartRate}</p>
-                    <p><strong>Frecuencia Respiratoria:</strong> {data.respiratoryRate}</p>
+                  <div className="font-semibold">Frecuencia Cardíaca:</div><div>{data.heartRate}</div>
+                  <div className="font-semibold">Frecuencia Respiratoria:</div><div>{data.respiratoryRate}</div>
                 </>
-                )}
+              )}
             </div>
-            <div className="space-y-2">
-                <p><strong>Saturación Oxígeno:</strong> {data.oxygenSaturation}</p>
-                <p><strong>Peso:</strong> {data.weight}</p>
-                {showVitals && (
+
+            {/* Columna derecha */}
+            <div className="grid grid-cols-[160px_1fr] gap-y-2 px-4 py-3">
+              <div className="font-semibold">Saturación Oxígeno:</div><div>{data.oxygenSaturation}</div>
+              <div className="font-semibold">Peso:</div><div>{data.weight}</div>
+              {showVitals && (
                 <>
-                    <p><strong>Altura:</strong> {data.height}</p>
-                    <p><strong>IMC:</strong> {data.bmi}</p>
+                  <div className="font-semibold">Altura:</div><div>{data.height}</div>
+                  <div className="font-semibold">IMC:</div><div>{data.bmi}</div>
                 </>
-                )}
+              )}
             </div>
-            </div>
+          </div>
+
         </CardContent>
-        </Card>
-        </div>
-        
-    );
+      </Card>
+    </div>
+  );
 };
+
 
 const Inicio: React.FC = () => {
     return (
-        <div className="flex flex-col items-center px-4 py-6">
-        <BarraOpciones/>
-        <h1 className="text-2xl font-bold text-center mb-6 text-blue-900">Nuevo Paciente</h1>
-        <PatientCard data={patientInfo} />
-        <PatientCard data={patientInfo} showVitals={false} />
+        <div className="w-full min-h-screen flex flex-col">
+            <BarraOpciones />
+            <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
+                Nuevo Paciente
+            </h1>
+            <PatientCard data={patientInfo} />
+            <PatientCard data={patientInfo} showVitals={false} />
         </div>
     );
 };

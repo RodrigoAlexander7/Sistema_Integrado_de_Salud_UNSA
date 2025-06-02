@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Inicio from "./pages/Inicio"
-import Busqueda from "./pages/Busqueda";
+import Inicio from "@/pages/Inicio"
+import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
+import Perfil from "@/pages/Perfil";
+import Directorio from "./pages/Directorio";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         />
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/busqueda" element={<Busqueda />} />
+        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/directorio" element={<Directorio />} />
       </Routes>
       </div>
     </BrowserRouter>

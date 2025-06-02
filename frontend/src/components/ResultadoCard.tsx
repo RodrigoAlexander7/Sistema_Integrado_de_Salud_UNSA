@@ -1,25 +1,18 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 interface ResultadoCardProps {
-  cui: string;
-  nombre: string;
-  fecha: string;
+  columnas: (string | React.ReactNode)[];
+  colCount?: number; // Número de columnas (por defecto 4)
 }
 
-const ResultadoCard: React.FC<ResultadoCardProps> = ({ cui, nombre, fecha }) => {
+const ResultadoCard: React.FC<ResultadoCardProps> = ({ columnas, colCount = 4 }) => {
   return (
     <Card className="w-full">
-      <CardContent className="py-2 px-4 grid grid-cols-4 items-center gap-4">
-        <p className="text-sm">{cui}</p>
-        <p className="text-sm">{nombre}</p>
-        <p className="text-sm">{fecha}</p>
-        <div className="flex justify-end">
-          <Button variant="outline" className="h-8 px-3 text-sm">
-            Ver Historial
-          </Button>
-        </div>
+      <CardContent className={`py-2 px-4 grid grid-cols-${colCount} items-center gap-4`}>
+        {columnas.map((col, idx) => (
+          <div key={idx} className="text-sm truncate">{col}</div>
+        ))}
       </CardContent>
     </Card>
   );

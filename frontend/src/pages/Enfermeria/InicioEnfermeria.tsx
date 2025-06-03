@@ -1,19 +1,25 @@
 import React from "react";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Home, FileText, UserPlus, CheckCircle } from "lucide-react";
 import BarraOpciones from "../../components/barra-opciones";
 import {
-    faCircleUser,
+    
     faUserPlus,
     faUserCheck,
     faFileLines,
-    faHouse,
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 const InicioEnf: React.FC = () => {
+    
+    const navigate = useNavigate(); 
+
+    const handleHistoriaClinicaIngreso = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("abriendo Historia Clinica Ingreso") 
+        navigate("/HistoriaClinica-Ingreso");
+    } 
     return (
         <div className="w-full min-h-screen bg-white">
             <BarraOpciones />
@@ -44,7 +50,7 @@ const InicioEnf: React.FC = () => {
 
                     {/* Card 3 */}
                     <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer">
-                        <CardContent className="flex flex-col items-center">
+                        <CardContent className="flex flex-col items-center" onClick={handleHistoriaClinicaIngreso}>
                             <FontAwesomeIcon icon={faUserPlus} style={{ color: "#1c398e", scale: 3.5 }} />
                             <p className="text-md font-medium text-blue-950"><br /><br /><br />Nueva Historia</p>
                         </CardContent>

@@ -5,6 +5,7 @@ import { LoginForm } from "@/components/login-form";
 import Perfil from "@/pages/Perfil";
 import Directorio from "./pages/Directorio";
 import InicioEnf from "./pages/Enfermeria/InicioEnfermeria"
+import HistoriaClinicaIngreso from "./pages/Enfermeria/HistoriaClinicaIngreso"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/directorio" element={<Directorio />} />
         <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
+        <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
       </Routes>
       </div>
     </BrowserRouter>

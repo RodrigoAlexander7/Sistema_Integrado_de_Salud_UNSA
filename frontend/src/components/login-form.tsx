@@ -20,17 +20,16 @@ export function LoginForm({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault(); 
-    navigate("/Inicio"); 
+    //navigate("/Inicio"); 
+    navigate("/Inicio-Enfermeria");
   };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-col items-center gap-1.5 px-6">
           <CardTitle className="text-2xl font-black">Iniciar Sesión</CardTitle>
-          <CardDescription>
-            Bienvenido de nuevo - Inicia sesión para continuar.
-          </CardDescription>
+          <CardDescription>Bienvenido de nuevo</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin}> 

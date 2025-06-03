@@ -1,52 +1,35 @@
-
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Inicio from "@/pages/Inicio"
+import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
-import Inicio from "@/pages/Inicio";
 import Perfil from "@/pages/Perfil";
-import './App.css';
-import { useEffect, useState } from "react";
-import { TestConection } from "@/components/test"; 
-
-import './App.css';
-// Componente de layout condicional
-function Layout() {
-  const location = useLocation();
-  const isLogin = location.pathname === "/";
-
-  return (
-    <div className={isLogin ? "flex min-h-svh items-center justify-center p-6 md:p-10" : "min-h-screen"}>
-      <Routes>
-        <Route path="/" element={<div className="w-full max-w-sm"><LoginForm /></div>} />
-        <Route path="/Inicio" element={<Inicio />} />
-        <Route path="/frontend/src/pages/Perfil.tsx" element={<Perfil />} />
-      </Routes>
-    </div>
-  );
-}
-
-
-
-
+import Directorio from "./pages/Directorio";
+import InicioEnf from "./pages/Enfermeria/InicioEnfermeria"
 
 function App() {
   return (
-    <Router>
-
-      <Layout />
-
-      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-        <div className="w-full max-w-sm">
-          <Routes>
-            <Route path="/" element={<LoginForm />} />
-            <Route path="/Inicio" element={<Inicio />} />
-            <Route path="/TestConection" element={<TestConection />} />
-          </Routes>
-        </div>
+    <BrowserRouter>
+    <div className="flex items-center justify-center min-h-screen">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+              <div className="w-full max-w-sm">
+                <LoginForm />
+              </div>
+            </div>
+          }
+        />
+        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/busqueda" element={<Busqueda />} />
+        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/directorio" element={<Directorio />} />
+        <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
+      </Routes>
       </div>
-
-    </Router>
+    </BrowserRouter>
   );
 }
 
 export default App;
-

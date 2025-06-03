@@ -6,6 +6,7 @@ import Perfil from "@/pages/Perfil";
 import Directorio from "./pages/Directorio";
 import InicioEnf from "./pages/Enfermeria/InicioEnfermeria"
 import HistoriaClinicaIngreso from "./pages/Enfermeria/HistoriaClinicaIngreso"
+import TriajePacientesExistentes from "./pages/Enfermeria/TriajePacientesExistentes"
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/directorio" element={<Directorio />} />
         <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
         <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
+        <Route path="/Triaje-Pacientes" element={<TriajePacientesExistentes />} />
       </Routes>
       </div>
     </BrowserRouter>

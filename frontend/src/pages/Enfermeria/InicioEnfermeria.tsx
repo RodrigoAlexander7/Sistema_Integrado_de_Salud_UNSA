@@ -20,13 +20,18 @@ const InicioEnf: React.FC = () => {
         console.log("abriendo Historia Clinica Ingreso") 
         navigate("/HistoriaClinica-Ingreso");
     } 
+    const handleTriajePacientesExistentes = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("abriendo triaje de pacientes") 
+        navigate("/Triaje-Pacientes");
+    } 
     return (
         <div className="w-full min-h-screen bg-white">
             <BarraOpciones />
 
             {/* Contenido principal */}
             <main className="flex flex-col items-center mt-12 px-4">
-                <h1 className="text-3xl md:text-4xl font-bold text-blue-950 mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
                     Bienvenido/a Veronika Elizabeth, Rios Cuadros
                 </h1>
                 <p className="text-lg text-gray-700 mb-10">¿Qué acción deseas realizar?</p>
@@ -58,7 +63,7 @@ const InicioEnf: React.FC = () => {
 
                     {/* Card 4 */}
                     <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer">
-                        <CardContent className="flex flex-col items-center">
+                        <CardContent className="flex flex-col items-center" onClick={handleTriajePacientesExistentes}>
                             <FontAwesomeIcon icon={faUserCheck} style={{ color: "#1c398e", scale: 3.5 }} />
                             <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
                         </CardContent>

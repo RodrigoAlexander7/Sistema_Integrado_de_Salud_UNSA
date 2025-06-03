@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import BarraOpciones from "../components/Barra-opciones";
 
+
 const ConfiguracionUsuario: React.FC = () => {
     return (
         <div className="min-h-screen w-full bg-gray-50">
@@ -42,7 +43,7 @@ const ConfiguracionUsuario: React.FC = () => {
                     <label className="block font-medium">Confirmar Nueva Contraseña:</label>
                     <Input type="password" value="xxxxxxxxxxxxxxxxxx" readOnly />
                 </div>
-                <Button className="w-fit self-center mt-2">Cambiar Contraseña</Button>
+                <Button className="w-fit self-center mt-2 ">Cambiar Contraseña</Button>
                 </div>
             </CardContent>
             </Card>
@@ -52,7 +53,10 @@ const ConfiguracionUsuario: React.FC = () => {
             <CardContent className="p-6">
                 <h2 className="text-xl font-semibold text-center text-gray-800 mb-4">Preferencias de Sistema:</h2>
                 <div className="flex justify-center">
-                <Input className="w-32 text-center" value="Claro" readOnly />
+                <Button className="w-32 text-center">
+                    Claro
+                </Button>
+                
                 </div>
             </CardContent>
             </Card>

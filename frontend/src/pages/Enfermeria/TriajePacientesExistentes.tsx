@@ -1,48 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-//import { Checkbox } from "@/components/ui/checkbox";
 import { FaChevronDown } from "react-icons/fa";
 import BarraOpciones from "../../components/barra-opciones";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    //DropdownMenuItem,
-    //DropdownMenuLabel,
-    //DropdownMenuSeparator,
     DropdownMenuTrigger,
     DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faMagnifyingGlass
-} from "@fortawesome/free-solid-svg-icons";
-
-const pacientes = [
-    {
-        nombre: "Leonel Messi",
-        motivo: "Dolor abdominal",
-        sintomas: "Náuseas y vómitos",
-    },
-    {
-        nombre: "Fernando Alonso",
-        motivo: "Tos persistente",
-        sintomas: "Dificultad para respirar leve",
-    },
-    {
-        nombre: "Juan Perez",
-        motivo: "Ansiedad",
-        sintomas: "Problemas para dormir",
-    },
-];
+interface Paciente {
+    nombre: string;
+    motivo: string;
+    sintomas: string;
+}
 
 const opcionesUrgencia = ["Estandar", "Prioridad", "Urgencia"];
 const opcionesEspecialidad = ["Nutrición", "Psicología", "T. Social"];
 
 const TriajePacientesExistentes: React.FC = () => {
+
+    const pacientes: Paciente[] = [
+        { nombre: "Leonel Messi", motivo: "Dolor abdominal", sintomas: "Náuseas y vómitos" },
+        { nombre: "Fernando Alonso", motivo: "Tos persistente", sintomas: "Dificultad para respirar leve" },
+        { nombre: "Juan Perez", motivo: "Ansiedad", sintomas: "Problemas para dormir" },
+    ];
+
+    const [urgenciasSeleccionadas, setUrgenciasSeleccionadas] = useState<string[]>(Array(pacientes.length).fill(""));
+    const [especialidadesSeleccionadas, setEspecialidadesSeleccionadas] = useState<string[][]>(
+        Array(pacientes.length).fill([]).map(() => [])
+    );
+
+    const toggleUrgencia = (index: number, value: string) => {
+        const nuevas = [...urgenciasSeleccionadas];
+        nuevas[index] = value;
+        setUrgenciasSeleccionadas(nuevas);
+    };
+
+    const toggleEspecialidad = (index: number, value: string) => {
+        const nuevas = [...especialidadesSeleccionadas];
+        if (nuevas[index].includes(value)) {
+        nuevas[index] = nuevas[index].filter((v) => v !== value);
+        } else {
+        nuevas[index] = [...nuevas[index], value];
+        }
+        setEspecialidadesSeleccionadas(nuevas);
+    };
     return (
+        
         <div className="w-full min-h-screen bg-white px-6 py-8">
             <BarraOpciones />
-            {/* Título y barra de búsqueda */}
             <div className="mb-6">
                 <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Pacientes existentes</h1>
                 <div className="flex items-center gap-3 w-full md:w-auto">
@@ -71,43 +80,48 @@ const TriajePacientesExistentes: React.FC = () => {
                         {/* Dropdown Urgencia */}
                         <div>
                             <DropdownMenu>
-                                <DropdownMenuTrigger className="border rounded-md px-3 py-1 flex items-center justify-between w-full text-sm">
-                                    <span className="truncate">Seleccionar</span>
-                                    <FaChevronDown className="ml-2 text-xs" />
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="w-36 justify-between">
+                                    {urgenciasSeleccionadas[index] || "Seleccionar"} <FaChevronDown className="ml-2 h-3 w-3" />
+                                    </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-44 mt-2">
-                                    {opcionesUrgencia.map((opcion) => (
-                                        <DropdownMenuCheckboxItem key={opcion}>
-                                            {opcion}
-                                        </DropdownMenuCheckboxItem>
+                                <DropdownMenuContent className="w-40">
+                                    {opcionesUrgencia.map((u) => (
+                                    <DropdownMenuCheckboxItem
+                                        key={u}
+                                        checked={urgenciasSeleccionadas[index] === u}
+                                        onCheckedChange={() => toggleUrgencia(index, u)}
+                                    >
+                                        {u}
+                                    </DropdownMenuCheckboxItem>
                                     ))}
-                                    <div className="flex justify-between mt-2 px-2">
-                                        <Button variant="ghost" size="sm">Clear</Button>
-                                        <Button variant="default" size="sm">Ok</Button>
-                                    </div>
                                 </DropdownMenuContent>
-                            </DropdownMenu>
+                </DropdownMenu>
                         </div>
 
                         {/* Dropdown Especialidades */}
                         <div>
                             <DropdownMenu>
-                                <DropdownMenuTrigger className="border rounded-md px-3 py-1 flex items-center justify-between w-full text-sm">
-                                    <span className="truncate">Seleccionar</span>
-                                    <FaChevronDown className="ml-2 text-xs" />
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-44 mt-2">
-                                    {opcionesEspecialidad.map((opcion) => (
-                                        <DropdownMenuCheckboxItem key={opcion}>
-                                            {opcion}
-                                        </DropdownMenuCheckboxItem>
-                                    ))}
-                                    <div className="flex justify-between mt-2 px-2">
-                                        <Button variant="ghost" size="sm">Clear</Button>
-                                        <Button variant="default" size="sm">Ok</Button>
-                                    </div>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-44 justify-between">
+                    {especialidadesSeleccionadas[index].length > 0
+                        ? especialidadesSeleccionadas[index].join(", ")
+                        : "Seleccionar"}{" "}
+                    <FaChevronDown className="ml-2 h-3 w-3" />
+                    </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-44">
+                    {opcionesEspecialidad.map((e) => (
+                    <DropdownMenuCheckboxItem
+                        key={e}
+                        checked={especialidadesSeleccionadas[index].includes(e)}
+                        onCheckedChange={() => toggleEspecialidad(index, e)}
+                    >
+                        {e}
+                    </DropdownMenuCheckboxItem>
+                    ))}
+                </DropdownMenuContent>
+                </DropdownMenu>
                         </div>
                     </div>
                 ))}

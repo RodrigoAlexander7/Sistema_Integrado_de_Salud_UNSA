@@ -10,7 +10,7 @@ const Perfil: React.FC = () => {
             <BarraOpciones />
             
             <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                Perfil de Usuario
+                PERFIL DE USUARIO
             </h1>
 
             <div className="flex flex-col items-center gap-6 px-4 mb-12">

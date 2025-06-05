@@ -26,10 +26,10 @@ const BarraOpciones: React.FC = () => {
         navigate("/perfil"); 
     };
     
-    const handleTriajePacientesExistentes = (e: React.FormEvent) => {
+    const handlePacientesEnEspera = (e: React.FormEvent) => {
             e.preventDefault();
-            console.log("abriendo triaje de pacientes") 
-            navigate("/Triaje-Pacientes");
+            console.log("abriendo pacientes en espera") 
+            navigate("/pacientesEspera");
         } 
     return (
         <header className="w-full bg-white shadow-md px-4 py-3 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -68,7 +68,7 @@ const BarraOpciones: React.FC = () => {
                     </TooltipContent>
                 </Tooltip>
             </Button>
-            <Button variant="ghost" size="icon" className=" scale-200 hover:scale-220 transition-transform duration-200" onClick={handleTriajePacientesExistentes}>
+            <Button variant="ghost" size="icon" className=" scale-200 hover:scale-220 transition-transform duration-200" onClick={handlePacientesEnEspera}>
             
                 <Tooltip>
                     <TooltipTrigger><FontAwesomeIcon icon={faBell} style={{color: "#1c398e"}} /></TooltipTrigger>

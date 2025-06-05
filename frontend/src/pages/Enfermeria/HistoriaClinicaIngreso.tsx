@@ -1,17 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import BarraOpciones from "../../components/barra-opciones-enfermeria";
+import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 
 const HistoriaClinicaIngreso: React.FC = () => {
+    const navigate = useNavigate(); 
+    const [mostrarAlerta, setMostrarAlerta] = useState(false);
+
+    const handleInicioEnf = (e: React.FormEvent) => {
+            e.preventDefault();
+            setMostrarAlerta(true); 
+            setTimeout(() => {
+                setMostrarAlerta(false);
+                
+            }, 5000);
+        };
     return (
         <div className="w-full min-h-screen bg-white px-4 py-8 flex flex-col items-center">
             <BarraOpciones />
-
-            <h1 className="text-3xl font-bold text-blue-900 mb-6">
+            <Card 
+                className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4"
+            >
+                <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
                 Historia Clínica de Ingreso
+                </h1>
+            </Card>
+            <h1 className="text-3xl font-bold text-blue-900 mb-6">
             </h1>
 
             {/* Contenedor del formulario */}
@@ -102,9 +120,41 @@ const HistoriaClinicaIngreso: React.FC = () => {
 
                 {/* Botón */}
                 <div className="mt-6 flex justify-center">
-                    <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg">
+                    <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg" onClick={handleInicioEnf}>
                         Inscribir Paciente
                     </Button>
+                    {mostrarAlerta && (
+                        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-xl p-6">
+                            <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+                                Triaje guardado exitosamente
+                            </h2>
+                            <p className="text-sm text-gray-600 mb-6 text-center">
+                                ¿Qué deseas hacer a continuación?
+                            </p>
+                            <div className="flex justify-center gap-4">
+                                <Button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                                    onClick={() => {
+                                        // Acción para iniciar episodio médico
+                                        // Por ejemplo, redirigir a otra página:
+                                        navigate("/Inicio-Enfermeria"); // Ajusta la ruta según tu app
+                                    }}>
+                                    Aceptar
+                                                                    </Button>
+                                <Button
+                                    className="bg-green-600 hover:bg-green-700 text-white"
+                                    onClick={() => {
+                                        // Acción para iniciar episodio médico
+                                        // Por ejemplo, redirigir a otra página:
+                                        navigate("/triaje"); // Ajusta la ruta según tu app
+                                    }}
+                                >
+                                    Comenzar episodio médico
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>

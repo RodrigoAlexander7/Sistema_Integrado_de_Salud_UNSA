@@ -62,7 +62,7 @@ const PacientesEspera: React.FC = () => {
                     <div>Síntomas</div>
                     <div>Urgencia</div>
                     <div>Especialidad</div>
-                    <div>Historia Clínica</div>
+                    <div></div>
                 </div>
 
                 {pacientes.map((paciente, index) => (
@@ -99,11 +99,12 @@ const PacientesEspera: React.FC = () => {
                         {/* Botón Historia Clínica */}
                         <div>
                             <Button className="bg-blue-500 hover:bg-blue-600 text-white px-4">
-                                Historia Clínica
+                                Aceptar
                             </Button>
                         </div>
                     </div>
                 ))}
+
             </div>
         </div>
     );

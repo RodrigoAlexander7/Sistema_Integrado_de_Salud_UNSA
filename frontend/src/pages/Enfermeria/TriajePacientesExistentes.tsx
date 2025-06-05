@@ -11,27 +11,28 @@ import {
     DropdownMenuTrigger,
     DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
+import { useNavigate } from "react-router-dom";
 interface Paciente {
     nombre: string;
     motivo: string;
     sintomas: string;
+    especialidad: string;
 }
 
 const opcionesUrgencia = ["Estandar", "Prioridad", "Urgencia"];
 const opcionesEspecialidad = ["Nutrición", "Psicología", "T. Social"];
-
 const TriajePacientesExistentes: React.FC = () => {
 
     const pacientes: Paciente[] = [
-        { nombre: "Leonel Messi", motivo: "Dolor abdominal", sintomas: "Náuseas y vómitos" },
-        { nombre: "Fernando Alonso", motivo: "Tos persistente", sintomas: "Dificultad para respirar leve" },
-        { nombre: "Juan Perez", motivo: "Ansiedad", sintomas: "Problemas para dormir" },
+        { nombre: "Leonel Messi", motivo: "Dolor abdominal", sintomas: "Náuseas y vómitos", especialidad: "Psicología, T. Social"},
+        { nombre: "Fernando Alonso", motivo: "Tos persistente", sintomas: "Dificultad para respirar leve", especialidad: "Psicología, T. Social" },
+        { nombre: "Juan Perez", motivo: "Ansiedad", sintomas: "Problemas para dormir", especialidad: "Psicología, T. Social" },
     ];
 
     const [urgenciasSeleccionadas, setUrgenciasSeleccionadas] = useState<string[]>(Array(pacientes.length).fill(""));
     const [especialidadesSeleccionadas, setEspecialidadesSeleccionadas] = useState<string[][]>(
         Array(pacientes.length).fill([]).map(() => [])
-    );
+    );  
 
     const toggleUrgencia = (index: number, value: string) => {
         const nuevas = [...urgenciasSeleccionadas];
@@ -48,6 +49,12 @@ const TriajePacientesExistentes: React.FC = () => {
         }
         setEspecialidadesSeleccionadas(nuevas);
     };
+    const navigate = useNavigate();
+    const handlePacientesEspera = (e: React.FormEvent) => {
+            e.preventDefault();
+            console.log("abriendo lista de pacientes de espera") 
+            navigate("/pacientesEspera"); 
+        };
     return (
         
         <div className="w-full min-h-screen bg-white px-6 py-8">
@@ -69,6 +76,7 @@ const TriajePacientesExistentes: React.FC = () => {
                     <div>Síntomas</div>
                     <div>Urgencia</div>
                     <div>Especialidades</div>
+                    <div></div>
                 </div>
 
                 {pacientes.map((paciente, index) => (
@@ -76,6 +84,7 @@ const TriajePacientesExistentes: React.FC = () => {
                         <div>{paciente.nombre}</div>
                         <div>{paciente.motivo}</div>
                         <div>{paciente.sintomas}</div>
+                        
 
                         {/* Dropdown Urgencia */}
                         <div>
@@ -127,9 +136,12 @@ const TriajePacientesExistentes: React.FC = () => {
                 ))}
 
                 {/* Botón al final */}
-                <div className="px-4 py-4 border-t flex justify-start">
-                    <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6">
+                <div className="px-4 py-4 border-t flex justify-start space-x-4">
+                    <Button className="bg-blue-500 hover:bg-blue-600 hover:scale-105 xt-white px-6">
                         Añadir nuevo episodio clínico
+                    </Button>
+                    <Button className="bg-blue-500 hover:bg-blue-600 hover:scale-105 text-white px-6" onClick={handlePacientesEspera}>
+                        Pacientes en espera
                     </Button>
                 </div>
             </div>

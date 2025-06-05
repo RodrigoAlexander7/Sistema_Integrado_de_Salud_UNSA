@@ -7,7 +7,7 @@ import Directorio from "./pages/Directorio";
 import InicioEnf from "./pages/Enfermeria/InicioEnfermeria"
 import HistoriaClinicaIngreso from "./pages/Enfermeria/HistoriaClinicaIngreso"
 import TriajePacientesExistentes from "./pages/Enfermeria/TriajePacientesExistentes"
-
+import PacientesEspera from "./pages/Enfermeria/PacientesEspera"
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +30,8 @@ function App() {
         <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
         <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
         <Route path="/Triaje-Pacientes" element={<TriajePacientesExistentes />} />
+        <Route path="/pacientesEspera" element={<PacientesEspera />} />
+        
       </Routes>
       </div>
     </BrowserRouter>

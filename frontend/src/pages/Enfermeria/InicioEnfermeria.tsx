@@ -20,11 +20,7 @@ const InicioEnf: React.FC = () => {
         console.log("abriendo Historia Clinica Ingreso") 
         navigate("/HistoriaClinica-Ingreso");
     } 
-    const handleTriajePacientesExistentes = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("abriendo triaje de pacientes") 
-        navigate("/Triaje-Pacientes");
-    } 
+        
     return (
         <div className="w-full min-h-screen bg-white">
             <BarraOpciones />
@@ -63,7 +59,7 @@ const InicioEnf: React.FC = () => {
 
                     {/* Card 4 */}
                     <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer">
-                        <CardContent className="flex flex-col items-center" onClick={handleTriajePacientesExistentes}>
+                        <CardContent className="flex flex-col items-center" >
                             <FontAwesomeIcon icon={faUserCheck} style={{ color: "#1c398e", scale: 3.5 }} />
                             <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
                         </CardContent>

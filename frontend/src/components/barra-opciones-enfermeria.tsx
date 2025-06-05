@@ -30,7 +30,11 @@ const BarraOpciones: React.FC = () => {
             e.preventDefault();
             console.log("abriendo pacientes en espera") 
             navigate("/pacientesEspera");
-        } 
+    }
+    const handleInicioEnf = (e: React.FormEvent) => {
+            e.preventDefault();
+            navigate("/Inicio-Enfermeria");
+    } 
     return (
         <header className="w-full bg-white shadow-md px-4 py-3 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3 w-full md:w-auto">
@@ -50,7 +54,7 @@ const BarraOpciones: React.FC = () => {
 
         <nav className="flex items-center gap-5 w-full md:w-auto justify-end">
             
-            <Button variant="ghost" size="icon" className="scale-200 hover:scale-220 transition-transform duration-200">
+            <Button variant="ghost" size="icon" className="scale-200 hover:scale-220 transition-transform duration-200" onClick={handleInicioEnf}>
             
                 <Tooltip>
                     <TooltipTrigger><FontAwesomeIcon icon={faHouse} style={{ color: "#1c398e" }} /></TooltipTrigger>

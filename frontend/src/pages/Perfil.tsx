@@ -8,10 +8,14 @@ const Perfil: React.FC = () => {
     return (
         <div className="w-full min-h-screen flex flex-col bg-gray-50">
             <BarraOpciones />
+            <Card 
+                className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4"
+            >
+                <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
+                    PERFIL DE USUARIO
+                </h1>
+            </Card>
             
-            <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                PERFIL DE USUARIO
-            </h1>
 
             <div className="flex flex-col items-center gap-6 px-4 mb-12">
                 {/* Información Personal */}

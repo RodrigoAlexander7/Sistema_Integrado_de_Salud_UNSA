@@ -21,9 +21,9 @@ export function LoginForm({
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault(); 
     //navigate("/Inicio"); 
-    //navigate("/Inicio-Enfermeria");
+    navigate("/Inicio-Enfermeria");
     //navigate("/busqueda")
-    navigate("/directorio")
+    //navigate("/directorio")
   };
 
   return (

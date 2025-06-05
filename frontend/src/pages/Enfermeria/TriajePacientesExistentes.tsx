@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaChevronDown } from "react-icons/fa";
-import BarraOpciones from "../../components/barra-opciones";
+import BarraOpciones from "../../components/barra-opciones-enfermeria";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import {

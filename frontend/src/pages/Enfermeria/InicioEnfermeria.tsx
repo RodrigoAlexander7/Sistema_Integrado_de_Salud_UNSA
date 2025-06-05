@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import BarraOpciones from "../../components/barra-opciones";
+import BarraOpciones from "../../components/barra-opciones-enfermeria";
 import {
     
     faUserPlus,

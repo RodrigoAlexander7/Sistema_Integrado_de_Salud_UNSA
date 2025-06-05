@@ -21,8 +21,9 @@ const Inicio: React.FC = () => {
 
   const handleTrabajoSocial = (e: React.FormEvent) => {
     e.preventDefault();
-    //navigate("/trabajo-social-diagnostico");
-    navigate("/psicologia-diagnostico");
+    navigate("/trabajo-social-diagnostico");
+    //navigate("/psicologia-diagnostico");
+    //navigate("/oftalmologia-diagnostico");
   };
 
   return (

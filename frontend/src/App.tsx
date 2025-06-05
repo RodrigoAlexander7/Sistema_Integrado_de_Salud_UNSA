@@ -11,6 +11,7 @@ import TriajePaciente from "./pages/Enfermeria/TriajePaciente"
 import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
 import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
 import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
+import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
         <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
         <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
         <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
-
+        <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
         
       </Routes>
       </div>

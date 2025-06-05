@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Inicio from "@/pages/Inicio"
+import Inicio from "@/pages/Doctor/Inicio"
 import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
 import Perfil from "@/pages/Perfil";
@@ -8,6 +8,10 @@ import InicioEnf from "./pages/Enfermeria/InicioEnfermeria"
 import HistoriaClinicaIngreso from "./pages/Enfermeria/HistoriaClinicaIngreso"
 import PacientesEspera from "./pages/Enfermeria/PacientesEspera"
 import TriajePaciente from "./pages/Enfermeria/TriajePaciente"
+import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
+import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
+import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +35,10 @@ function App() {
         <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
         <Route path="/pacientesEspera" element={<PacientesEspera />} />
         <Route path="/triaje" element={<TriajePaciente />} />
+        <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
+        <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
+        <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
+
         
       </Routes>
       </div>

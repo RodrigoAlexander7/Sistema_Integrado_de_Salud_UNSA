@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BarraOpciones from "../../components/barra-opciones-doctor";
 import FichaEstudiante from "../../components/FichaEstudiante";
 import Seleccion_diagnostico from "../../components/diagnostico-primario-secundario";
 
 const DiagnosticoTrabSoc = () => {
-    const [diagnostico, setDiagnostico] = useState<string>("");
-
     return (
         <div className="w-full min-h-screen flex flex-col">
         <BarraOpciones />

@@ -1,10 +1,7 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
-
 import FichaEstudiante from "../../components/FichaEstudiante";
 import Seleccion_diagnostico from "../../components/diagnostico-primario-secundario";
-
-
 const DiagnosticoOftalmologia = () => {
     return (
         <div className="min-h-screen bg-white text-gray-800 p-6 md:p-10 space-y-6">

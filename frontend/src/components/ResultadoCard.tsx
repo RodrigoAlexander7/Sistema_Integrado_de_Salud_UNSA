@@ -1,21 +1,42 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface ResultadoCardProps {
-  columnas: (string | React.ReactNode)[];
-  colCount?: number; // Número de columnas (por defecto 4)
+  columnas: {
+    contenido: React.ReactNode;
+    ancho?: "1" | "2" | "3" | "4" | "5" | "6" | "full";
+    alineacion?: "izquierda" | "centro" | "derecha";
+    truncar?: boolean;
+  }[];
+  className?: string;
 }
 
-const ResultadoCard: React.FC<ResultadoCardProps> = ({ columnas, colCount = 4 }) => {
+export function ResultadoCard({ columnas, className }: ResultadoCardProps) {
   return (
-    <Card className="w-full">
-      <CardContent className={`py-2 px-4 grid grid-cols-${colCount} items-center gap-4`}>
-        {columnas.map((col, idx) => (
-          <div key={idx} className="text-sm truncate">{col}</div>
+    <Card className={cn("w-full ", className)}>
+      <div className="grid grid-cols-12 gap-4 px-6 py-3 items-center">
+        {columnas.map((col, index) => (
+          <div
+            key={index}
+            className={cn(
+              col.ancho === "1" && "col-span-1",
+              col.ancho === "2" && "col-span-2",
+              col.ancho === "3" && "col-span-3",
+              col.ancho === "4" && "col-span-4",
+              col.ancho === "5" && "col-span-5",
+              col.ancho === "6" && "col-span-6",
+              col.ancho === "full" && "col-span-12",
+              !col.ancho && "col-span-1",
+              col.alineacion === "izquierda" && "text-left",
+              col.alineacion === "centro" && "text-center",
+              col.alineacion === "derecha" && "text-right justify-end",
+              col.truncar && "truncate",
+            )}
+          >
+            {col.contenido}
+          </div>
         ))}
-      </CardContent>
+      </div>
     </Card>
   );
-};
-
-export default ResultadoCard;
+}

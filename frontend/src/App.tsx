@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LayoutWithSidebar } from "./components/layout-with-sidebar";
 import Inicio from "@/pages/Doctor/Inicio"
 import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
@@ -15,23 +16,27 @@ import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
 
 function App() {
   return (
-    <BrowserRouter>
-    <div className="flex items-center justify-center min-h-screen">
+     <BrowserRouter>
       <Routes>
+        {/* Ruta de login - sin layout */}
         <Route
           path="/"
           element={
-            <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-              <div className="w-full max-w-sm">
-                <LoginForm />
-              </div>
+            <div className="flex min-h-screen w-full items-center justify-center p-6">
+              <LoginForm />
             </div>
           }
         />
-        <Route path="/inicio" element={<Inicio />} />
-        <Route path="/busqueda" element={<Busqueda />} />
+        
+        {/* Rutas CON sidebar */}
+        <Route element={<LayoutWithSidebar />}>
+          <Route path="/inicio" element={<Inicio />} />
+          <Route path="/busqueda" element={<Busqueda />} />
+          <Route path="/directorio" element={<Directorio />} />
+
+          
+        </Route>
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/directorio" element={<Directorio />} />
         <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
         <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
         <Route path="/pacientesEspera" element={<PacientesEspera />} />
@@ -42,7 +47,6 @@ function App() {
         <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
         
       </Routes>
-      </div>
     </BrowserRouter>
   );
 }

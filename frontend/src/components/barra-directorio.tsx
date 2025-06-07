@@ -20,7 +20,7 @@ export const BarraDirectorio: React.FC<BarraDirectorioProps> = ({
   onBuscar,
 }) => {
   return (
-    <div className="flex justify-center mt-0 px-4">
+    <div className="w-full max-w-[90rem] mx-auto mt-0">
       <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4">
         <CardContent>
           <form
@@ -28,7 +28,7 @@ export const BarraDirectorio: React.FC<BarraDirectorioProps> = ({
               e.preventDefault();
               onBuscar();
             }}
-            className="flex flex-col items-center gap-8"
+            className="flex flex-col items-center gap-8 py-6"
           >
             <CardTitle className="text-4xl font-bold text-center">
               Directorio del Personal

@@ -2,12 +2,13 @@ import React from "react";
 import {
   Home,
   Search,
-  Users,
   FilePlus,
   LogOut,
   KeyRound,
   Clock,
   Settings,
+  User,
+  Book,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,9 @@ const Sidebar: React.FC = () => {
 
   const menuItems = [
     { label: "Inicio", icon: <Home size={22} />, path: "/inicio" },
+    { label: "Información Personal", icon: <User size={22} />, path: "/perfil" },
     { label: "Búsqueda", icon: <Search size={22} />, path: "/busqueda" },
-    { label: "Directorio", icon: <Users size={22} />, path: "/directorio" },
+    { label: "Directorio", icon: <Book size={22} />, path: "/directorio" },
     { label: "Crear Historia", icon: <FilePlus size={22} />, path: "/crear-historia" },
     { label: "Pendientes", icon: <Clock size={22} />, path: "/pendientes" },
     { label: "Configuración", icon: <Settings size={22} />, path: "/configuracion" },
@@ -29,7 +31,7 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 min-h-screen text-gray-800 border-r bg-white fixed left-0 top-0 flex flex-col px-4 py-6 shadow-sm">
       {/* Logo */}
-      <div className="flex items-center justify-center mb-10">
+      <div className="flex items-center justify-start px-3 mb-10">
         <img src="/LOGO_UNSA.png" alt="Logo UNSA" className="h-12" />
       </div>
 

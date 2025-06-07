@@ -3,19 +3,26 @@ import { BarraBusqueda } from "@/components/barra-busqueda";
 import { ResultadoCard } from "@/components/ResultadoCard";
 import { Button } from "@/components/ui/button";
 
+interface Resultado {
+  cui: string;
+  nombre: string;
+  fecha: string;
+}
+
 function Busqueda() {
   const [cui, setCui] = useState("");
   const [nombre, setNombre] = useState("");
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
 
-  const resultadosCompletos = [
+  const resultadosCompletos: Resultado[] = [
     { cui: "20211001", nombre: "Juan Pérez Torres", fecha: "2023-11-12" },
     { cui: "20211002", nombre: "María López Díaz", fecha: "2023-10-08" },
     { cui: "20211003", nombre: "Carlos Ruiz Vega", fecha: "2023-09-20" },
   ];
 
-  const [resultadosFiltrados, setResultadosFiltrados] = useState(resultadosCompletos);
+  const [resultadosFiltrados, setResultadosFiltrados] = useState<Resultado[]>([]);
+
 
   const handleBuscar = () => {
     const resultados = resultadosCompletos.filter((r) => {
@@ -40,13 +47,24 @@ function Busqueda() {
     setNombre("");
     setFechaInicio("");
     setFechaFin("");
-    setResultadosFiltrados(resultadosCompletos);
+    setResultadosFiltrados([]);
   };
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <main className="flex-1 min-w-0 pl-8 pr-8 py-8">
-        <BarraBusqueda />
+      <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
+        <BarraBusqueda
+          cui={cui}
+          setCui={setCui}
+          nombre={nombre}
+          setNombre={setNombre}
+          fechaInicio={fechaInicio}
+          setFechaInicio={setFechaInicio}
+          fechaFin={fechaFin}
+          setFechaFin={setFechaFin}
+          onBuscar={handleBuscar}
+          onLimpiar={handleLimpiar}
+        />
 
         <div className="w-full max-w-[90rem] mx-auto">
           <h2 className="text-2xl font-bold py-8">Resultados de Búsqueda</h2>

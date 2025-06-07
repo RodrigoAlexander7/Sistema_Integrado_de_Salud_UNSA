@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import BarraOpciones from "../../components/barra-opciones-doctor";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -28,64 +27,118 @@ const Pacientes_pendientes: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
-      <BarraOpciones />
-      <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4">
-        <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-          Nuevo Paciente
-        </h1>
-      </Card>
+    <div className="w-full"> 
 
-      <div className="w-full max-w-4xl mx-auto my-2">
-        <Card className="border border-gray-300 shadow-sm rounded-md overflow-hidden scale-110">
-          <CardContent className="p-0">
-            {/* Encabezado */}
-            <div className="text-center text-xl font-bold text-gray-800 border-b px-6 py-2">
-              Nombre:{" "}
-              <span className="font-semibold">{patientInfo.name}</span>
-            </div>
+      {/* Main ajustado */}
+      <main className="flex-1 min-w-0 pl-8 pr-8 py-4"> {/* Cambios clave aquí */}
+        {/* Contenedor principal */}
+        <div className="w-full max-w-full"> {/* Aseguramos ancho completo */}
+          
+          {/* Título principal */}
+          <div className="w-full mb-8">
+            <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg rounded-xl border-none">
+              <CardContent className="w-full flex flex-col items-center gap-4 py-10 px-0">
+                <CardTitle className="text-4xl font-bold text-center text-blue-950">
+                  Nuevo Paciente
+                </CardTitle>
+              </CardContent>
+            </Card>
+          </div>
 
-            {/* Contenido en dos columnas */}
-            <div className="grid grid-cols-2 divide-x border-t text-sm">
-              {/* Columna izquierda */}
-              <div className="grid grid-cols-[160px_1fr] gap-y-2 px-4 py-3">
-                <div className="font-semibold">Presión Arterial:</div>
-                <div>{patientInfo.bloodPressure}</div>
-                <div className="font-semibold">Temperatura:</div>
-                <div>{patientInfo.temperature}</div>
-                <div className="font-semibold">Frecuencia Cardíaca:</div>
-                <div>{patientInfo.heartRate}</div>
-                <div className="font-semibold">Frecuencia Respiratoria:</div>
-                <div>{patientInfo.respiratoryRate}</div>
-              </div>
+          {/* Card de información del paciente */}
+          <div className="w-full py-4">
+            <Card className="border border-gray-300 shadow-md rounded-2xl overflow-hidden w-full">
+              <CardContent className="p-0">
+                <div className="text-center text-xl font-semibold text-gray-800 border-b px-8 py-5 bg-white">
+                  Nombre: <span className="font-bold">{patientInfo.name}</span>
+                </div>
 
-              {/* Columna derecha */}
-              <div className="grid grid-cols-[160px_1fr] gap-y-2 px-4 py-3">
-                <div className="font-semibold">Saturación Oxígeno:</div>
-                <div>{patientInfo.oxygenSaturation}</div>
-                <div className="font-semibold">Peso:</div>
-                <div>{patientInfo.weight}</div>
-                <div className="font-semibold">Altura:</div>
-                <div>{patientInfo.height}</div>
-                <div className="font-semibold">IMC:</div>
-                <div>{patientInfo.bmi}</div>
-              </div>
-            </div>
+                <div className="grid grid-cols-2 divide-x border-t text-base bg-white">
+                  <div className="grid grid-cols-[180px_1fr] gap-y-3 px-8 py-5">
+                    <div className="font-semibold">Presión Arterial:</div>
+                    <div>{patientInfo.bloodPressure}</div>
+                    <div className="font-semibold">Temperatura:</div>
+                    <div>{patientInfo.temperature}</div>
+                    <div className="font-semibold">Frecuencia Cardíaca:</div>
+                    <div>{patientInfo.heartRate}</div>
+                    <div className="font-semibold">Frecuencia Respiratoria:</div>
+                    <div>{patientInfo.respiratoryRate}</div>
+                  </div>
 
-            <div className="w-full bg-gradient-to-brtext-gray-800 shadow-lg space-x-12 p-4">
-              <Button
-                className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg"
-                onClick={handleTrabajoSocial}
-              >
-                Atender Paciente
-              </Button>
-              <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg">
-                Siguiente Paciente
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                  <div className="grid grid-cols-[180px_1fr] gap-y-3 px-8 py-5">
+                    <div className="font-semibold">Saturación Oxígeno:</div>
+                    <div>{patientInfo.oxygenSaturation}</div>
+                    <div className="font-semibold">Peso:</div>
+                    <div>{patientInfo.weight} kg</div>
+                    <div className="font-semibold">Altura:</div>
+                    <div>{patientInfo.height} m</div>
+                    <div className="font-semibold">IMC:</div>
+                    <div>{patientInfo.bmi}</div>
+                  </div>
+                </div>
+
+                <div className="flex justify-center gap-8 px-8 py-6 bg-white border-t">
+                  <Button
+                    className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-3 rounded-lg"
+                    onClick={handleTrabajoSocial}
+                  >
+                    Atender Paciente
+                  </Button>
+                  <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-3 rounded-lg">
+                    Siguiente Paciente
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          {/* Card de información del paciente */}
+          <div className="w-full py-4">
+            <Card className="border border-gray-300 shadow-md rounded-2xl overflow-hidden w-full">
+              <CardContent className="p-0">
+                <div className="text-center text-xl font-semibold text-gray-800 border-b px-8 py-5 bg-white">
+                  Nombre: <span className="font-bold">{patientInfo.name}</span>
+                </div>
+
+                <div className="grid grid-cols-2 divide-x border-t text-base bg-white">
+                  <div className="grid grid-cols-[180px_1fr] gap-y-3 px-8 py-5">
+                    <div className="font-semibold">Presión Arterial:</div>
+                    <div>{patientInfo.bloodPressure}</div>
+                    <div className="font-semibold">Temperatura:</div>
+                    <div>{patientInfo.temperature}</div>
+                    <div className="font-semibold">Frecuencia Cardíaca:</div>
+                    <div>{patientInfo.heartRate}</div>
+                    <div className="font-semibold">Frecuencia Respiratoria:</div>
+                    <div>{patientInfo.respiratoryRate}</div>
+                  </div>
+
+                  <div className="grid grid-cols-[180px_1fr] gap-y-3 px-8 py-5">
+                    <div className="font-semibold">Saturación Oxígeno:</div>
+                    <div>{patientInfo.oxygenSaturation}</div>
+                    <div className="font-semibold">Peso:</div>
+                    <div>{patientInfo.weight} kg</div>
+                    <div className="font-semibold">Altura:</div>
+                    <div>{patientInfo.height} m</div>
+                    <div className="font-semibold">IMC:</div>
+                    <div>{patientInfo.bmi}</div>
+                  </div>
+                </div>
+
+                <div className="flex justify-center gap-8 px-8 py-6 bg-white border-t">
+                  <Button
+                    className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-3 rounded-lg"
+                    onClick={handleTrabajoSocial}
+                  >
+                    Atender Paciente
+                  </Button>
+                  <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-3 rounded-lg">
+                    Siguiente Paciente
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

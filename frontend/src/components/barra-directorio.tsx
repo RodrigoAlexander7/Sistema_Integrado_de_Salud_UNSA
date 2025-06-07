@@ -10,6 +10,7 @@ interface BarraDirectorioProps {
   onEspecialidadChange: (value: string) => void;
   onDisponibilidadChange: (value: string) => void;
   onBuscar: () => void;
+  onLimpiar: () => void; // nuevo prop
 }
 
 export const BarraDirectorio: React.FC<BarraDirectorioProps> = ({
@@ -18,6 +19,7 @@ export const BarraDirectorio: React.FC<BarraDirectorioProps> = ({
   onEspecialidadChange,
   onDisponibilidadChange,
   onBuscar,
+  onLimpiar, // nuevo prop
 }) => {
   return (
     <div className="w-full max-w-[90rem] mx-auto mt-0">
@@ -69,9 +71,21 @@ export const BarraDirectorio: React.FC<BarraDirectorioProps> = ({
               </div>
             </div>
 
-            <Button type="submit" className="mt-4 px-10 py-2 bg-black text-white hover:bg-gray-800">
-              Buscar
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                type="submit"
+                className="mt-4 px-10 py-2 bg-black text-white hover:bg-gray-800"
+              >
+                Buscar
+              </Button>
+              <Button
+                type="button"
+                onClick={onLimpiar}
+                className="mt-4 px-10 py-2 bg-gray-500 text-white hover:bg-gray-700"
+              >
+                Limpiar
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

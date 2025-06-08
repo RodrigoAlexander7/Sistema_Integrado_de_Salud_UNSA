@@ -36,13 +36,16 @@ function App() {
           <Route path="/inicio" element={<Inicio />} />
           <Route path="/busqueda" element={<Busqueda />} />
           <Route path="/directorio" element={<Directorio />} />
-
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
+          <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
+          <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
           
         </Route>
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/pacientesEspera" element={<PacientesEspera />} />
+        <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
         <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
         <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
-        <Route path="/pacientesEspera" element={<PacientesEspera />} />
         <Route path="/triaje" element={<TriajePaciente />} />
         <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
         <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />

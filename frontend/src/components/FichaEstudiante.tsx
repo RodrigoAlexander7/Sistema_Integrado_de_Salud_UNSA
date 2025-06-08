@@ -2,7 +2,7 @@ import React from "react";
 
 const FichaEstudiante: React.FC = () => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 px-1">
         {/* Información personal */}
         <div className="md:col-span-2">
             <h2 className="text-xl font-semibold">Veronika Elizabeth, Rios Cuadros</h2>

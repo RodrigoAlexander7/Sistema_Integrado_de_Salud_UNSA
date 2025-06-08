@@ -30,9 +30,9 @@ const Pacientes_pendientes: React.FC = () => {
     <div className="w-full"> 
 
       {/* Main ajustado */}
-      <main className="flex-1 min-w-0 pl-8 pr-8 py-4"> {/* Cambios clave aquí */}
+      <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
         {/* Contenedor principal */}
-        <div className="w-full max-w-full"> {/* Aseguramos ancho completo */}
+        <div className="w-full max-w-full">
           
           {/* Título principal */}
           <div className="w-full mb-8">

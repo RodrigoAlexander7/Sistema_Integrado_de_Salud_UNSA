@@ -5,7 +5,6 @@ import {
   FilePlus,
   LogOut,
   KeyRound,
-  Clock,
   Settings,
   User,
   Book,
@@ -18,11 +17,10 @@ const Sidebar: React.FC = () => {
 
   const menuItems = [
     { label: "Inicio", icon: <Home size={22} />, path: "/inicio" },
-    { label: "Información Personal", icon: <User size={22} />, path: "/perfil" },
+    { label: "Perfil de Usuario", icon: <User size={22} />, path: "/perfil" },
     { label: "Búsqueda", icon: <Search size={22} />, path: "/busqueda" },
     { label: "Directorio", icon: <Book size={22} />, path: "/directorio" },
-    { label: "Crear Historia", icon: <FilePlus size={22} />, path: "/crear-historia" },
-    { label: "Pendientes", icon: <Clock size={22} />, path: "/pendientes" },
+    { label: "Crear Historia", icon: <FilePlus size={22} />, path: "/trabajo-social-diagnostico" },
     { label: "Configuración", icon: <Settings size={22} />, path: "/configuracion" },
     { label: "Cambiar Contraseña", icon: <KeyRound size={22} />, path: "/cambiar-contrasena" },
     { label: "Cerrar Sesión", icon: <LogOut size={22} />, path: "/logout" },

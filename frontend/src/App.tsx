@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Inicio from "@/pages/Doctor/Inicio"
+import Pacientes_pendientes from "@/pages/Doctor/pacientes_pendientes"
 import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
 import Perfil from "@/pages/Perfil";
@@ -12,6 +12,9 @@ import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
 import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
 import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
 import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
+import DiagnosticoOdontologia from "./pages/Doctor/odontologia"
+import InicioDoc from "./pages/Doctor/InicioDoctor"
+
 
 function App() {
   return (
@@ -28,7 +31,8 @@ function App() {
             </div>
           }
         />
-        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/Inicio/Doctor" element={<InicioDoc />} />
+        <Route path="/pacientes_pendientes" element={<Pacientes_pendientes />} />
         <Route path="/busqueda" element={<Busqueda />} />
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/directorio" element={<Directorio />} />
@@ -40,7 +44,7 @@ function App() {
         <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
         <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
         <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
-        
+        <Route path="/odontologia-diagnostico" element={<DiagnosticoOdontologia />} />
       </Routes>
       </div>
     </BrowserRouter>

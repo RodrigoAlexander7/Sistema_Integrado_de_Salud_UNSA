@@ -11,24 +11,18 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
-const InicioEnf: React.FC = () => {
+const InicioDoc: React.FC = () => {
     
     const navigate = useNavigate(); 
 
-    const handleHistoriaClinicaIngreso = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("abriendo Historia Clinica Ingreso") 
-        navigate("/HistoriaClinica-Ingreso");
-    }
-    const handleTriaje = (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log("abriendo el triaje para el nuevo episodio médico") 
-        navigate("/triaje");
-    }
     const handleBusqueda = (e: React.FormEvent) => {
-            e.preventDefault();
-            navigate("/busqueda");
+        e.preventDefault();
+        navigate("/busqueda");
     }
+    const handlePacientesPendientes = (e: React.FormEvent) => {
+        e.preventDefault();
+        navigate("/pacientes_pendientes");
+    } 
         
     return (
         <div className="w-full min-h-screen bg-white">
@@ -46,12 +40,12 @@ const InicioEnf: React.FC = () => {
                 
                 <p className="text-lg text-gray-700 mb-10">¿Qué acción deseas realizar?</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-5xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-5xl">
                     {/* Card 1 */}
                     <Card onClick={handleBusqueda} className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
                         <CardContent className="flex flex-col items-center">
-                            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ color: "#1c398e", scale: 4}} />
-                            <p className="text-md font-medium text-blue-950"><br /><br />Buscar un <br />Historial</p>
+                            <FontAwesomeIcon  icon={faMagnifyingGlass} style={{ color: "#1c398e", scale: 4}} />
+                            <p className="text-md font-medium text-blue-950"><br /><br />Búsqueda de<br />un paciente</p>
                         </CardContent>
                     </Card>
 
@@ -64,18 +58,10 @@ const InicioEnf: React.FC = () => {
                     </Card>
 
                     {/* Card 3 */}
-                    <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
-                        <CardContent className="flex flex-col items-center" onClick={handleHistoriaClinicaIngreso}>
-                            <FontAwesomeIcon icon={faUserPlus} style={{ color: "#1c398e", scale: 3.5 }} />
-                            <p className="text-md font-medium text-blue-950"><br /><br /><br />Nueva Historia</p>
-                        </CardContent>
-                    </Card>
-
-                    {/* Card 4 */}
-                    <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
-                        <CardContent className="flex flex-col items-center" onClick={handleTriaje}>
+                    <Card onClick={handlePacientesPendientes} className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
+                        <CardContent className="flex flex-col items-center" >
                             <FontAwesomeIcon icon={faUserCheck} style={{ color: "#1c398e", scale: 3.5 }} />
-                            <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
+                            <p className="text-md font-medium text-blue-950"><br /><br />Pacientes<br></br>Pendientes</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -84,4 +70,4 @@ const InicioEnf: React.FC = () => {
     );
 };
 
-export default InicioEnf;
+export default InicioDoc;

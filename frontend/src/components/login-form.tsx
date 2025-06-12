@@ -20,10 +20,11 @@ export function LoginForm({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault(); 
-    navigate("/Inicio"); 
+    //navigate("/pacientes_pendientes"); 
     //navigate("/Inicio-Enfermeria");
     //navigate("/busqueda")
     //navigate("/directorio")
+    navigate("/Inicio/Doctor")
   };
 
   return (

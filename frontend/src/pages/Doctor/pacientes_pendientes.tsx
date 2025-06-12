@@ -4,7 +4,7 @@ import BarraOpciones from "../../components/barra-opciones-doctor";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-const Inicio: React.FC = () => {
+const Pacientes_pendientes: React.FC = () => {
   const navigate = useNavigate();
 
   const patientInfo = {
@@ -21,9 +21,10 @@ const Inicio: React.FC = () => {
 
   const handleTrabajoSocial = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/trabajo-social-diagnostico");
+    //navigate("/trabajo-social-diagnostico");
     //navigate("/psicologia-diagnostico");
-    //navigate("/oftalmologia-diagnostico");
+    navigate("/oftalmologia-diagnostico");
+    //navigate("/odontologia-diagnostico");
   };
 
   return (
@@ -89,4 +90,4 @@ const Inicio: React.FC = () => {
   );
 };
 
-export default Inicio;
+export default Pacientes_pendientes;

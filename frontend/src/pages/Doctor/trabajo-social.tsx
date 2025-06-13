@@ -1,55 +1,102 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import FichaEstudiante from "@/components/FichaEstudiante";
 import SeleccionDiagnostico from "@/components/diagnostico-primario-secundario";
+import TitleCard from "@/components/TitleCard";
+import { File } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";
+import { Button } from "@/components/ui/button";
 
 const DiagnosticoTrabSoc: React.FC = () => {
+  const { theme } = useTheme();
+
   return (
     <div className="w-full">
-      {/* Título principal */}
+      {/* Main ajustado */}
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
+        {/* Contenedor principal */}
         <div className="w-full max-w-full">
-          <div className="w-full mb-8">
-            <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg rounded-xl border-none">
-              <CardContent className="w-full flex flex-col items-center gap-4 py-6 px-0">
-                <CardTitle className="text-4xl font-bold text-center text-blue-950">
-                  Trabajo Social
-                </CardTitle>
-              </CardContent>
-            </Card>
-          </div>
+          <TitleCard 
+            title="Trabajo Social" 
+            icon={<File className="h-8 w-8" />} 
+          />
         </div>
       </main>
 
       {/* Contenido */}
       <div className="w-full px-8">
-        <div className="w-full max-w-6xl border border-gray-300 rounded-xl shadow-sm p-6 bg-white">
+        <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
+          theme === 'dark' 
+            ? 'bg-gray-800 border-gray-700' 
+            : 'bg-white border-gray-300'
+        }`}>
           <FichaEstudiante />
 
           {/* Evaluaciones */}
-          <div className="grid gap-4 mt-6">
-            {[
-              "Evaluación Socioeconómica",
-              "Dinámica Familiar",
-              "Redes de Apoyo",
-              "Intervención y seguimiento de caso",
-            ].map((titulo, idx) => (
-              <Card key={idx} className="p-4 border border-slate-300 rounded-md shadow-sm bg-white">
-                <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-                  <p className="font-semibold text-blue-900 text-lg">{titulo}</p>
-                  <Input
-                    type="text"
-                    placeholder="Completar aquí"
-                    className="flex-1 border-none outline-none bg-transparent text-gray-700 placeholder-gray-400"
-                  />
-                </div>
-              </Card>
-            ))}
-          </div>
+          <Card className="p-6 mb-6">
+            <div className="grid gap-4">
+              {[
+                "Evaluación Socioeconómica",
+                "Dinámica Familiar",
+                "Redes de Apoyo",
+                "Intervención y seguimiento de caso",
+              ].map((titulo, idx) => (
+                <Card 
+                  key={idx} 
+                  className={`p-4 border rounded-md shadow-sm ${
+                    theme === 'dark' 
+                      ? 'bg-gray-700 border-gray-600' 
+                      : 'bg-white border-slate-300'
+                  }`}
+                >
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                    <p className={`font-semibold text-lg ${
+                      theme === 'dark' ? 'text-blue-400' : 'text-blue-900'
+                    }`}>
+                      {titulo}
+                    </p>
+                    <Input
+                      type="text"
+                      placeholder="Completar aquí"
+                      className={`flex-1 border-none outline-none ${
+                        theme === 'dark' 
+                          ? 'bg-gray-700 text-white placeholder-gray-400' 
+                          : 'bg-transparent text-gray-700 placeholder-gray-400'
+                      }`}
+                    />
+                  </div>
+                </Card>
+              ))}
+            </div>
+            {/* Diagnóstico */}
+            <SeleccionDiagnostico />
+          </Card>
 
-          {/* Diagnóstico */}
-          <SeleccionDiagnostico />
+          {/* Botones de acción */}
+            <div className="flex justify-end gap-4 mt-6">
+              <Button 
+                type="button" 
+                variant="outline"
+                className={`${
+                  theme === 'dark' 
+                    ? 'border-gray-600 hover:bg-gray-700' 
+                    : 'border-gray-300 hover:bg-gray-100'
+                }`}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                type="submit"
+                className={`${
+                  theme === 'dark' 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+              >
+                Guardar Diagnóstico
+              </Button>
+            </div>
         </div>
       </div>
     </div>

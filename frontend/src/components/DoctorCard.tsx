@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useTheme } from "@/context/ThemeContext";
 
-// Tipo para la versión informativa
 interface DoctorInfo {
   name: string;
   specialty: string;
@@ -16,47 +14,57 @@ interface DoctorCardProps {
   onSpecialtyChange?: (value: string) => void;
 }
 
-const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onSpecialtyChange }) => {
+const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
+  const { theme } = useTheme();
+
   return (
     <div className="w-full py-4">
-      <Card className="border border-gray-300 shadow-md rounded-2xl overflow-hidden w-full py-0">
+      <Card className={`shadow-md rounded-2xl overflow-hidden w-full py-0 ${
+        theme === 'dark' 
+          ? 'border-gray-600 bg-gray-800' 
+          : 'border-gray-300 bg-white'
+      }`}>
         <CardContent className="p-0">
-          <div className="text-center text-xl font-bold text-gray-800 border-b px-8 py-5 bg-white">
+          <div className={`text-center text-xl font-bold border-b px-8 py-5 ${
+            theme === 'dark' 
+              ? 'bg-gray-700 text-gray-100 border-gray-600' 
+              : 'bg-white text-gray-800 border-gray-200'
+          }`}>
             Información Personal
           </div>
 
-          {/* Versión Final */}
-          
-          <div className="grid grid-cols-2 gap-y-3 gap-x-8 px-8 py-5 text-base bg-white">
-            <div><span className="font-semibold">Nombre:</span> {doctor?.name}</div>
-            <div><span className="font-semibold">Especialidad:</span> {doctor?.specialty}</div>
-            <div><span className="font-semibold">Correo:</span> {doctor?.email}</div>
-            <div><span className="font-semibold">Sede:</span> {doctor?.location}</div>
-          </div>
-
-          {/* ✅ VERSIÓN 2: Editable */}
-          {/*
-          <div className="grid grid-cols-2 gap-y-3 gap-x-8 px-8 py-5 text-base bg-white">
-            <div><span className="font-semibold">Nombre:</span> Veronika Elizabeth Rios Cuadros</div>
-            <div className="flex flex-col">
-              <Label className="font-semibold mb-1">Especialidad:</Label>
-              <Select onValueChange={onSpecialtyChange}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Seleccione especialidad" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Psicología">Psicología</SelectItem>
-                  <SelectItem value="Odontología">Odontología</SelectItem>
-                  <SelectItem value="Oftalmología">Oftalmología</SelectItem>
-                  <SelectItem value="Nutrición">Nutrición</SelectItem>
-                  <SelectItem value="Trabajo Social">Trabajo Social</SelectItem>
-                </SelectContent>
-              </Select>
+          <div className={`grid grid-cols-2 gap-y-3 gap-x-8 px-8 py-5 text-base ${
+            theme === 'dark' ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'
+          }`}>
+            <div>
+              <span className={`font-semibold ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Nombre:
+              </span> {doctor?.name}
             </div>
-            <div><span className="font-semibold">Correo:</span> vrioscua@unsa.edu.pe</div>
-            <div><span className="font-semibold">Sede:</span> Ingenierías</div>
+            <div>
+              <span className={`font-semibold ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Especialidad:
+              </span> {doctor?.specialty}
+            </div>
+            <div>
+              <span className={`font-semibold ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Correo:
+              </span> {doctor?.email}
+            </div>
+            <div>
+              <span className={`font-semibold ${
+                theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                Sede:
+              </span> {doctor?.location}
+            </div>
           </div>
-          */}
         </CardContent>
       </Card>
     </div>

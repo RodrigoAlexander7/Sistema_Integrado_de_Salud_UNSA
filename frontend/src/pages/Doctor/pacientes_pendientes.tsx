@@ -1,7 +1,8 @@
 import React from "react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import PatientCard from "@/components/PatientCard";
 import { useNavigate } from "react-router-dom";
+import TitleCard from "@/components/TitleCard";
+import { UserPlus } from "lucide-react";
 
 const Pacientes_pendientes: React.FC = () => {
   const navigate = useNavigate();
@@ -34,16 +35,10 @@ const Pacientes_pendientes: React.FC = () => {
         {/* Contenedor principal */}
         <div className="w-full max-w-full">
           
-          {/* Título principal */}
-          <div className="w-full mb-8">
-            <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg rounded-xl border-none">
-              <CardContent className="w-full flex flex-col items-center gap-4 py-6 px-0">
-                <CardTitle className="text-4xl font-bold text-center text-blue-950">
-                  Nuevo Paciente
-                </CardTitle>
-              </CardContent>
-            </Card>
-          </div>
+          <TitleCard 
+            title="Nuevo Paciente" 
+            icon={<UserPlus className="h-8 w-8" />} 
+          />
 
           <PatientCard
             patient={patientInfo}

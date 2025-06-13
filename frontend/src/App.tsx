@@ -13,47 +13,49 @@ import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
 import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
 import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
 import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
-import DiagnosticoOdontologia from "./pages/Doctor/odontologia"
-import InicioDoc from "./pages/Doctor/InicioDoctor"
-
+import CambiarContrasena from "./pages/cambiarContrasena";
+import ConfiguracionPage from "./pages/Configuracion";
+import Odontograma from "./pages/Doctor/odontologia";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-     <BrowserRouter>
-      <Routes>
-        {/* Ruta de login - sin layout */}
-        <Route
-          path="/"
-          element={
-            <div className="flex min-h-screen w-full items-center justify-center p-6">
-              <LoginForm />
-            </div>
-          }
-        />
-        
-        {/* Rutas CON sidebar */}
-        <Route element={<LayoutWithSidebar />}>
-          <Route path="/inicio" element={<Inicio />} />
-          <Route path="/busqueda" element={<Busqueda />} />
-          <Route path="/directorio" element={<Directorio />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
-          <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
-          <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Ruta de login - sin layout */}
+          <Route
+            path="/"
+            element={
+              <div className="flex min-h-screen w-full items-center justify-center p-6">
+                <LoginForm />
+              </div>
+            }
+          />
           
-        </Route>
-        <Route path="/pacientesEspera" element={<PacientesEspera />} />
-        <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
-        <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
-        <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
-        <Route path="/triaje" element={<TriajePaciente />} />
-        <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
-        <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
-        <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
-        <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
-        <Route path="/odontologia-diagnostico" element={<DiagnosticoOdontologia />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Rutas CON sidebar */}
+          <Route element={<LayoutWithSidebar />}>
+            <Route path="/inicio" element={<Inicio />} />
+            <Route path="/busqueda" element={<Busqueda />} />
+            <Route path="/directorio" element={<Directorio />} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route path="/psicologia-diagnostico" element={<DiagnosticoPsicologia />} />
+            <Route path="/oftalmologia-diagnostico" element={<DiagnosticoOftalmologia />} />
+            <Route path="/trabajo-social-diagnostico" element={<DiagnosticoTrabSoc />} />
+            <Route path="/cambiar-contrasena" element={<CambiarContrasena />} />
+            <Route path="/configuracion" element={<ConfiguracionPage />} />
+            <Route path="/odontologia-diagnostico" element={<Odontograma />} />
+            
+          </Route>
+          <Route path="/pacientesEspera" element={<PacientesEspera />} />
+          <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
+          <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
+          <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
+          <Route path="/triaje" element={<TriajePaciente />} />
+          
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

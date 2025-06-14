@@ -32,7 +32,7 @@ export const config = {
   }
 };
 
-// Validar variables de entorno
+// Validar variables de entorno requeridas
 const requiredEnvVars = [
   'DATABASE_URL',
   'AUTH0_DOMAIN',

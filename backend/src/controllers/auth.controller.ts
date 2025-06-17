@@ -2,358 +2,280 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
 import { UsuarioService } from '../services/usuario.service';
-import { ResponseUtil } from '../utils/response';
+import { TipoUsuario } from '../generated/prisma';
 import { logger } from '../utils/logger';
-import { RegisterDto, LoginDto } from '../models/dto/auth.dto';
-import { AuthenticatedRequest } from '../models/interfaces/auth.interface';
-import { body, validationResult } from 'express-validator';
+
+export interface RegisterRequest {
+  email: string;
+  password?: string;
+  nombreUsuario: string;
+  tipoUsuario: TipoUsuario;
+  // Datos del perfil profesional
+  nombres?: string;
+  apellidos?: string;
+  tipoDocumento?: string;
+  numDocumento?: string;
+  numLicencia?: string;
+  telefono?: string;
+}
 
 export class AuthController {
   constructor(
     private authService: AuthService,
     private usuarioService: UsuarioService
-  ) {}
-
-  // Validadores para los endpoints
-  public static getRegisterValidators() {
-    return [
-      body('email')
-        .isEmail()
-        .normalizeEmail()
-        .withMessage('Email debe ser válido'),
-      
-      body('password')
-        .isLength({ min: 8 })
-        .withMessage('La contraseña debe tener al menos 8 caracteres')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
-        .withMessage('La contraseña debe contener al menos: 1 minúscula, 1 mayúscula, 1 número y 1 carácter especial'),
-      
-      body('nombreUsuario')
-        .isLength({ min: 3, max: 50 })
-        .withMessage('El nombre de usuario debe tener entre 3 y 50 caracteres')
-        .matches(/^[a-zA-Z0-9_]+$/)
-        .withMessage('El nombre de usuario solo puede contener letras, números y guiones bajos'),
-      
-      body('tipoUsuario')
-        .isIn(['MEDICO', 'ENFERMERA'])
-        .withMessage('Tipo de usuario debe ser MEDICO o ENFERMERA'),
-      
-      body('nombres')
-        .isLength({ min: 2, max: 100 })
-        .withMessage('Los nombres deben tener entre 2 y 100 caracteres')
-        .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
-        .withMessage('Los nombres solo pueden contener letras y espacios'),
-      
-      body('apellidos')
-        .isLength({ min: 2, max: 100 })
-        .withMessage('Los apellidos deben tener entre 2 y 100 caracteres')
-        .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
-        .withMessage('Los apellidos solo pueden contener letras y espacios'),
-      
-      body('tipoDocumento')
-        .isIn(['DNI', 'CE', 'PASAPORTE'])
-        .withMessage('Tipo de documento debe ser DNI, CE o PASAPORTE'),
-      
-      body('numDocumento')
-        .isLength({ min: 8, max: 20 })
-        .withMessage('El número de documento debe tener entre 8 y 20 caracteres')
-        .matches(/^[a-zA-Z0-9]+$/)
-        .withMessage('El número de documento solo puede contener letras y números'),
-      
-      body('numLicencia')
-        .isLength({ min: 5, max: 20 })
-        .withMessage('El número de licencia debe tener entre 5 y 20 caracteres'),
-      
-      body('telefono')
-        .optional()
-        .isMobilePhone('es-PE')
-        .withMessage('El teléfono debe ser un número válido de Perú')
-    ];
+  ) {
+    // Bind de métodos para mantener el contexto
+    this.register = this.register.bind(this);
+    this.login = this.login.bind(this);
+    this.refreshToken = this.refreshToken.bind(this);
+    this.logout = this.logout.bind(this);
+    this.profile = this.profile.bind(this);
   }
 
-  public static getLoginValidators() {
-    return [
-      body('email')
-        .isEmail()
-        .normalizeEmail()
-        .withMessage('Email debe ser válido'),
-      
-      body('password')
-        .notEmpty()
-        .withMessage('La contraseña es requerida')
-    ];
+  async register(req: Request, res: Response): Promise<void> {
+    try {
+      // Log de datos recibidos para debugging
+      logger.info('Datos recibidos en register:', {
+        body: req.body,
+        email: req.body?.email,
+        tipoUsuario: req.body?.tipoUsuario
+      });
+
+      const {
+        email,
+        password,
+        nombreUsuario,
+        tipoUsuario,
+        nombres,
+        apellidos,
+        tipoDocumento,
+        numDocumento,
+        numLicencia,
+        telefono
+      }: RegisterRequest = req.body;
+
+      // Validaciones básicas
+      if (!email) {
+        res.status(400).json({
+          success: false,
+          message: 'El email es requerido'
+        });
+        return;
+      }
+
+      if (!nombreUsuario) {
+        res.status(400).json({
+          success: false,
+          message: 'El nombre de usuario es requerido'
+        });
+        return;
+      }
+
+      if (!tipoUsuario) {
+        res.status(400).json({
+          success: false,
+          message: 'El tipo de usuario es requerido'
+        });
+        return;
+      }
+
+      if (!['MEDICO', 'ENFERMERA'].includes(tipoUsuario)) {
+        res.status(400).json({
+          success: false,
+          message: 'Tipo de usuario inválido'
+        });
+        return;
+      }
+
+      // Para médicos y enfermeras, validar datos profesionales
+      if (tipoUsuario === 'MEDICO' || tipoUsuario === 'ENFERMERA') {
+        if (!nombres || !apellidos || !tipoDocumento || !numDocumento || !numLicencia) {
+          res.status(400).json({
+            success: false,
+            message: 'Los datos profesionales son requeridos para médicos y enfermeras'
+          });
+          return;
+        }
+      }
+
+      logger.info(`Intento de registro para: ${email}, tipo: ${tipoUsuario}`);
+
+      // Registrar usuario
+      const result = await this.authService.register({
+        email,
+        password,
+        nombreUsuario,
+        tipoUsuario,
+        nombres,
+        apellidos,
+        tipoDocumento,
+        numDocumento,
+        numLicencia,
+        telefono
+      });
+
+      logger.info(`Usuario registrado exitosamente: ${email}`);
+
+      res.status(201).json({
+        success: true,
+        message: 'Usuario registrado exitosamente',
+        data: {
+          user: {
+            id: result.usuario.id,
+            email: result.usuario.email,
+            nombreUsuario: result.usuario.nombreUsuario,
+            tipoUsuario: result.usuario.tipoUsuario,
+            activo: result.usuario.activo
+          },
+          profile: result.profile
+        }
+      });
+
+    } catch (error: any) {
+      logger.error('Error en registro:', { 
+        error: error.message,
+        stack: error.stack 
+      });
+
+      // Determinar el código de estado basado en el tipo de error
+      let statusCode = 500;
+      if (error.message.includes('ya está registrado') || 
+          error.message.includes('ya está en uso') ||
+          error.message.includes('ya existe')) {
+        statusCode = 409; // Conflict
+      } else if (error.message.includes('requerido') || 
+                 error.message.includes('inválido')) {
+        statusCode = 400; // Bad Request
+      }
+
+      res.status(statusCode).json({
+        success: false,
+        message: error.message || 'Error en el registro',
+        timestamp: new Date().toISOString()
+      });
+    }
   }
 
-  // Endpoint de registro
-  register = async (req: Request, res: Response): Promise<Response> => {
+  async login(req: Request, res: Response): Promise<void> {
     try {
-      // Validar entrada
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return ResponseUtil.badRequest(
-          res, 
-          'Datos de entrada inválidos', 
-          JSON.stringify(errors.array())
-        );
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        res.status(400).json({
+          success: false,
+          message: 'Email y contraseña son requeridos'
+        });
+        return;
       }
 
-      const registerData: RegisterDto = req.body;
-      
-      // Log del intento de registro (sin contraseña)
-      logger.info(`Intento de registro para: ${registerData.email}, tipo: ${registerData.tipoUsuario}`);
-      
-      const result = await this.authService.register(registerData);
-      
-      logger.info(`Usuario registrado exitosamente: ${registerData.email} (ID: ${result.user.id})`);
-      
-      return ResponseUtil.success(
-        res, 
-        {
-          user: result.user,
-          accessToken: result.accessToken,
-          // No devolver refreshToken en la respuesta por seguridad
-        }, 
-        'Usuario registrado exitosamente', 
-        201
-      );
-      
-    } catch (error: any) {
-      logger.error('Error en registro:', {
-        error: error.message,
-        stack: error.stack,
-        email: req.body?.email
+      logger.info(`Intento de login para: ${email}`);
+
+      const result = await this.authService.login(email, password);
+
+      logger.info(`Login exitoso para: ${email}`);
+
+      res.json({
+        success: true,
+        message: 'Login exitoso',
+        data: result
       });
 
-      // Diferentes tipos de errores
-      if (error.message.includes('ya existe')) {
-        return ResponseUtil.badRequest(res, error.message);
-      }
-      
-      if (error.message.includes('Auth0')) {
-        return ResponseUtil.error(res, 'Error en el servicio de autenticación', 502);
-      }
-      
-      return ResponseUtil.error(res, 'Error interno al registrar usuario', 500);
-    }
-  };
-
-  // Endpoint de login
-  login = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      // Validar entrada
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return ResponseUtil.badRequest(
-          res, 
-          'Datos de entrada inválidos', 
-          JSON.stringify(errors.array())
-        );
-      }
-
-      const loginData: LoginDto = req.body;
-      
-      logger.info(`Intento de login para: ${loginData.email}`);
-      
-      const result = await this.authService.login(loginData);
-      
-      logger.info(`Login exitoso para: ${loginData.email} (ID: ${result.user.id})`);
-      
-      return ResponseUtil.success(
-        res, 
-        {
-          user: result.user,
-          accessToken: result.accessToken,
-          expiresIn: '24h' // Información útil para el frontend
-        }, 
-        'Login exitoso'
-      );
-      
     } catch (error: any) {
-      logger.error('Error en login:', {
-        error: error.message,
-        email: req.body?.email
+      logger.error('Error en login:', error);
+
+      let statusCode = 500;
+      if (error.message.includes('credenciales') || 
+          error.message.includes('contraseña') ||
+          error.message.includes('no encontrado')) {
+        statusCode = 401; // Unauthorized
+      }
+
+      res.status(statusCode).json({
+        success: false,
+        message: error.message || 'Error en el login'
       });
-
-      if (error.message.includes('Credenciales') || error.message.includes('inválidas')) {
-        return ResponseUtil.unauthorized(res, 'Credenciales inválidas');
-      }
-      
-      if (error.message.includes('inactivo')) {
-        return ResponseUtil.forbidden(res, 'Usuario inactivo. Contacta al administrador');
-      }
-      
-      if (error.message.includes('no encontrado')) {
-        return ResponseUtil.unauthorized(res, 'Usuario no encontrado');
-      }
-      
-      return ResponseUtil.error(res, 'Error interno en autenticación', 500);
     }
-  };
+  }
 
-  // Endpoint para refrescar token
-  refreshToken = async (req: Request, res: Response): Promise<Response> => {
+  async refreshToken(req: Request, res: Response): Promise<void> {
     try {
       const { refreshToken } = req.body;
-      
+
       if (!refreshToken) {
-        return ResponseUtil.badRequest(res, 'Refresh token requerido');
+        res.status(400).json({
+          success: false,
+          message: 'Refresh token es requerido'
+        });
+        return;
       }
-      
-      logger.info('Intento de refresh token');
-      
+
       const result = await this.authService.refreshToken(refreshToken);
-      
-      logger.info('Token refrescado exitosamente');
-      
-      return ResponseUtil.success(
-        res, 
-        {
-          accessToken: result.accessToken,
-          expiresIn: '24h'
-        }, 
-        'Token refrescado exitosamente'
-      );
-      
-    } catch (error: any) {
-      logger.error('Error al refrescar token:', error);
-      
-      if (error.message.includes('inválido') || error.message.includes('expirado')) {
-        return ResponseUtil.unauthorized(res, 'Refresh token inválido o expirado');
-      }
-      
-      return ResponseUtil.error(res, 'Error interno al refrescar token', 500);
-    }
-  };
 
-  // Endpoint de logout
-  logout = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
-    try {
-      if (!req.auth?.userId) {
-        return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
-      }
-      
-      logger.info(`Logout para usuario ID: ${req.auth.userId}`);
-      
-      await this.authService.logout(req.auth.userId);
-      
-      logger.info(`Logout exitoso para usuario ID: ${req.auth.userId}`);
-      
-      return ResponseUtil.success(res, null, 'Logout exitoso');
-      
-    } catch (error: any) {
-      logger.error('Error en logout:', {
-        error: error.message,
-        userId: req.auth?.userId
-      });
-      
-      return ResponseUtil.error(res, 'Error al cerrar sesión', 500);
-    }
-  };
-
-  // Endpoint para obtener perfil del usuario autenticado
-  profile = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
-    try {
-      if (!req.auth?.userId) {
-        return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
-      }
-      
-      logger.info(`Solicitud de perfil para usuario ID: ${req.auth.userId}`);
-      
-      const usuario = await this.usuarioService.findByIdWithProfile(req.auth.userId);
-      
-      if (!usuario) {
-        return ResponseUtil.notFound(res, 'Usuario no encontrado');
-      }
-      
-      // Construir respuesta del perfil
-      const userProfile = {
-        id: usuario.id,
-        nombreUsuario: usuario.nombreUsuario,
-        email: usuario.email,
-        tipoUsuario: usuario.tipoUsuario,
-        activo: usuario.activo,
-        fechaRegistro: usuario.fechaRegistro,
-        ultimoAcceso: usuario.ultimoAcceso,
-        profile: usuario.medico || usuario.enfermera || null
-      };
-      
-      return ResponseUtil.success(res, userProfile, 'Perfil obtenido exitosamente');
-      
-    } catch (error: any) {
-      logger.error('Error al obtener perfil:', {
-        error: error.message,
-        userId: req.auth?.userId
-      });
-      
-      return ResponseUtil.error(res, 'Error al obtener perfil', 500);
-    }
-  };
-
-  // Endpoint para cambiar contraseña (opcional, para casos sin Auth0)
-  changePassword = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
-    try {
-      if (!req.auth?.userId) {
-        return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
-      }
-
-      const { currentPassword, newPassword } = req.body;
-
-      if (!currentPassword || !newPassword) {
-        return ResponseUtil.badRequest(res, 'Contraseña actual y nueva contraseña son requeridas');
-      }
-
-      // Validar nueva contraseña
-      if (newPassword.length < 8) {
-        return ResponseUtil.badRequest(res, 'La nueva contraseña debe tener al menos 8 caracteres');
-      }
-
-      logger.info(`Cambio de contraseña para usuario ID: ${req.auth.userId}`);
-
-      // Implementar lógica de cambio de contraseña
-      // await this.usuarioService.changePassword(req.auth.userId, currentPassword, newPassword);
-
-      return ResponseUtil.success(res, null, 'Contraseña cambiada exitosamente');
-
-    } catch (error: any) {
-      logger.error('Error al cambiar contraseña:', {
-        error: error.message,
-        userId: req.auth?.userId
+      res.json({
+        success: true,
+        message: 'Token renovado exitosamente',
+        data: result
       });
 
-      if (error.message.includes('incorrecta')) {
-        return ResponseUtil.badRequest(res, 'Contraseña actual incorrecta');
-      }
+    } catch (error: any) {
+      logger.error('Error en refresh token:', error);
 
-      return ResponseUtil.error(res, 'Error al cambiar contraseña', 500);
+      res.status(401).json({
+        success: false,
+        message: error.message || 'Error al renovar token'
+      });
     }
-  };
+  }
 
-  // Endpoint para verificar estado del usuario
-  healthCheck = async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
+  async logout(req: Request, res: Response): Promise<void> {
     try {
-      if (!req.auth?.userId) {
-        return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
+      // En el middleware ya se carga la información del usuario
+      const userInfo = (req as any).auth;
+
+      if (userInfo?.userId) {
+        await this.authService.logout(userInfo.userId);
       }
 
-      const usuario = await this.usuarioService.findById(req.auth.userId);
-      
-      if (!usuario) {
-        return ResponseUtil.notFound(res, 'Usuario no encontrado');
-      }
-
-      if (!usuario.activo) {
-        return ResponseUtil.forbidden(res, 'Usuario inactivo');
-      }
-
-      return ResponseUtil.success(res, {
-        userId: usuario.id,
-        active: usuario.activo,
-        lastAccess: usuario.ultimoAcceso
-      }, 'Usuario activo');
+      res.json({
+        success: true,
+        message: 'Logout exitoso'
+      });
 
     } catch (error: any) {
-      logger.error('Error en health check:', error);
-      return ResponseUtil.error(res, 'Error en verificación de estado', 500);
+      logger.error('Error en logout:', error);
+
+      res.status(500).json({
+        success: false,
+        message: 'Error en logout'
+      });
     }
-  };
+  }
+
+  async profile(req: Request, res: Response): Promise<void> {
+    try {
+      // En el middleware ya se carga la información del usuario
+      const userInfo = (req as any).auth;
+
+      if (!userInfo) {
+        res.status(401).json({
+          success: false,
+          message: 'Usuario no autenticado'
+        });
+        return;
+      }
+
+      res.json({
+        success: true,
+        data: userInfo
+      });
+
+    } catch (error: any) {
+      logger.error('Error al obtener perfil:', error);
+
+      res.status(500).json({
+        success: false,
+        message: 'Error al obtener perfil'
+      });
+    }
+  }
 }

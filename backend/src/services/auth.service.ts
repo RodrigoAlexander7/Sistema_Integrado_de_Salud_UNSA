@@ -1,186 +1,193 @@
 // src/services/auth.service.ts
-import { ManagementClient, AuthenticationClient } from 'auth0';
-import { config } from '../config/environment';
+import { Usuario, Medico, Enfermera, TipoUsuario } from '../generated/prisma';
 import { UsuarioService } from './usuario.service';
-import { RegisterDto, AuthResponseDto, LoginDto } from '../models/dto/auth.dto';
 import { logger } from '../utils/logger';
-import bcrypt from 'bcryptjs';
+
+export interface RegisterData {
+  email: string;
+  password?: string;
+  nombreUsuario: string;
+  tipoUsuario: TipoUsuario;
+  // Datos del perfil profesional
+  nombres?: string;
+  apellidos?: string;
+  tipoDocumento?: string;
+  numDocumento?: string;
+  numLicencia?: string;
+  telefono?: string;
+}
+
+export interface RegisterResult {
+  usuario: Usuario;
+  profile?: Medico | Enfermera;
+}
+
+export interface LoginResult {
+  user: Usuario & { 
+    medico?: Medico | null; 
+    enfermera?: Enfermera | null 
+  };
+  accessToken?: string;
+  refreshToken?: string;
+}
 
 export class AuthService {
-  private managementClient: ManagementClient;
-  private authClient: AuthenticationClient;
+  constructor(private usuarioService: UsuarioService) {}
 
-  constructor(private usuarioService: UsuarioService) {
-    this.managementClient = new ManagementClient({
-      domain: config.auth0.domain,
-      clientId: config.auth0.clientId,
-      clientSecret: config.auth0.clientSecret,
-    });
-
-    this.authClient = new AuthenticationClient({
-      domain: config.auth0.domain,
-      clientId: config.auth0.clientId,
-      clientSecret: config.auth0.clientSecret,
-    });
-  }
-
-  async register(registerData: RegisterDto): Promise<AuthResponseDto> {
+  async register(data: RegisterData): Promise<RegisterResult> {
     try {
-      // 1. Verificar que el usuario no exista
-      const existingUser = await this.usuarioService.findByEmail(registerData.email);
-      if (existingUser) {
-        throw new Error('El usuario ya existe');
-      }
+      logger.info(`Iniciando registro para: ${data.email}, tipo: ${data.tipoUsuario}`);
 
-      // 2. Crear usuario en Auth0
-      const auth0User = await this.managementClient.users.create({
-        connection: 'Username-Password-Authentication',
-        email: registerData.email,
-        password: registerData.password,
-        user_metadata: {
-          nombreUsuario: registerData.nombreUsuario,
-          tipoUsuario: registerData.tipoUsuario
-        }
-      });
-
-      if (!auth0User.data.user_id) {
-        throw new Error('Error al crear usuario en Auth0');
-      }
-
-      // 3. Hash de la contraseña para almacenar localmente (backup)
-      const hashedPassword = await bcrypt.hash(registerData.password, 12);
-
-      // 4. Crear usuario en la base de datos local
+      // 1. Crear el usuario base
       const usuario = await this.usuarioService.create({
-        nombreUsuario: registerData.nombreUsuario,
-        email: registerData.email,
-        contrasena: hashedPassword,
-        tipoUsuario: registerData.tipoUsuario,
+        nombreUsuario: data.nombreUsuario,
+        email: data.email,
+        contrasena: data.password,
+        tipoUsuario: data.tipoUsuario,
         activo: true
       });
 
-      // 5. Crear perfil según el tipo de usuario
-      if (registerData.tipoUsuario === 'MEDICO') {
-        await this.usuarioService.createMedicoProfile(usuario.id, {
-          nombres: registerData.nombres,
-          apellidos: registerData.apellidos,
-          tipoDocumento: registerData.tipoDocumento,
-          numDocumento: registerData.numDocumento,
-          numLicencia: registerData.numLicencia,
-          telefono: registerData.telefono,
-          correo: registerData.email
+      logger.info(`Usuario base creado: ${usuario.id}`);
+
+      let profile: Medico | Enfermera | undefined;
+
+      // 2. Crear el perfil profesional según el tipo
+      if (data.tipoUsuario === 'MEDICO' && data.nombres && data.apellidos && 
+          data.tipoDocumento && data.numDocumento && data.numLicencia) {
+        
+        profile = await this.usuarioService.createMedicoProfile(usuario.id, {
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          tipoDocumento: data.tipoDocumento,
+          numDocumento: data.numDocumento,
+          numLicencia: data.numLicencia,
+          telefono: data.telefono,
+          correo: data.email // Usar el mismo email del usuario
         });
-      } else {
-        await this.usuarioService.createEnfermeraProfile(usuario.id, {
-          nombres: registerData.nombres,
-          apellidos: registerData.apellidos,
-          tipoDocumento: registerData.tipoDocumento,
-          numDocumento: registerData.numDocumento,
-          numLicencia: registerData.numLicencia,
-          telefono: registerData.telefono,
-          correo: registerData.email
+
+        logger.info(`Perfil de médico creado para usuario: ${usuario.id}`);
+
+      } else if (data.tipoUsuario === 'ENFERMERA' && data.nombres && data.apellidos && 
+                 data.tipoDocumento && data.numDocumento && data.numLicencia) {
+        
+        profile = await this.usuarioService.createEnfermeraProfile(usuario.id, {
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          tipoDocumento: data.tipoDocumento,
+          numDocumento: data.numDocumento,
+          numLicencia: data.numLicencia,
+          telefono: data.telefono,
+          correo: data.email // Usar el mismo email del usuario
         });
+
+        logger.info(`Perfil de enfermera creado para usuario: ${usuario.id}`);
       }
 
-      // 6. Obtener token de acceso
-      const tokenResponse = await this.authClient.oauth.passwordGrant({
-        username: registerData.email,
-        password: registerData.password,
-        audience: config.auth0.audience
-      });
-
-      // 7. Obtener usuario completo
-      const fullUser = await this.usuarioService.findByEmailWithProfile(registerData.email);
-
       return {
-        accessToken: tokenResponse.data.access_token!,
-        refreshToken: tokenResponse.data.refresh_token,
-        user: {
-          id: fullUser!.id,
-          nombreUsuario: fullUser!.nombreUsuario,
-          email: fullUser!.email,
-          tipoUsuario: fullUser!.tipoUsuario,
-          activo: fullUser!.activo,
-          profile: fullUser!.medico || fullUser!.enfermera || undefined
-        }
+        usuario,
+        profile
       };
 
-    } catch (error) {
-      logger.error('Error en registro:', error);
+    } catch (error: any) {
+      logger.error('Error en AuthService.register:', {
+        email: data.email,
+        error: error.message,
+        stack: error.stack
+      });
+      
+      // Re-lanzar el error para que lo maneje el controlador
       throw error;
     }
   }
 
-  async login(loginData: LoginDto): Promise<AuthResponseDto> {
+  async login(email: string, password: string): Promise<LoginResult> {
     try {
-      // 1. Autenticar con Auth0
-      const tokenResponse = await this.authClient.oauth.passwordGrant({
-        username: loginData.email,
-        password: loginData.password,
-        audience: config.auth0.audience
-      });
+      logger.info(`Intento de login para: ${email}`);
 
-      if (!tokenResponse.data.access_token) {
-        throw new Error('Credenciales inválidas');
-      }
-
-      // 2. Obtener usuario de la base de datos
-      const usuario = await this.usuarioService.findByEmailWithProfile(loginData.email);
+      // Buscar usuario con perfil
+      const user = await this.usuarioService.findByEmailWithProfile(email);
       
-      if (!usuario) {
+      if (!user) {
         throw new Error('Usuario no encontrado');
       }
 
-      if (!usuario.activo) {
+      if (!user.activo) {
         throw new Error('Usuario inactivo');
       }
 
-      // 3. Actualizar último acceso
-      await this.usuarioService.updateLastAccess(usuario.id);
-
-      return {
-        accessToken: tokenResponse.data.access_token,
-        refreshToken: tokenResponse.data.refresh_token,
-        user: {
-          id: usuario.id,
-          nombreUsuario: usuario.nombreUsuario,
-          email: usuario.email,
-          tipoUsuario: usuario.tipoUsuario,
-          activo: usuario.activo,
-          profile: usuario.medico ?? usuario.enfermera ?? undefined
+      // Validar contraseña (solo si no usa Auth0)
+      if (password) {
+        const isValidPassword = await this.usuarioService.validatePassword(email, password);
+        if (!isValidPassword) {
+          throw new Error('Credenciales inválidas');
         }
+      }
+
+      // Actualizar último acceso
+      await this.usuarioService.updateLastAccess(user.id);
+
+      logger.info(`Login exitoso para: ${email}`);
+
+      // En un sistema real con Auth0, aquí generarías los tokens
+      // Por ahora solo retornamos los datos del usuario
+      return {
+        user,
+        // accessToken: 'generated_access_token',
+        // refreshToken: 'generated_refresh_token'
       };
 
-    } catch (error) {
+    } catch (error: any) {
       logger.error('Error en login:', error);
       throw error;
     }
   }
 
-  async refreshToken(refreshToken: string): Promise<{ accessToken: string }> {
+  async refreshToken(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     try {
-      const tokenResponse = await this.authClient.oauth.refreshTokenGrant({
-        refresh_token: refreshToken
-      });
+      // Implementar lógica de refresh token
+      // Por ahora solo simular
+      
+      logger.info('Token refresh solicitado');
 
       return {
-        accessToken: tokenResponse.data.access_token!
+        accessToken: 'new_access_token',
+        refreshToken: 'new_refresh_token'
       };
-    } catch (error) {
-      logger.error('Error al refrescar token:', error);
-      throw new Error('Token de refresh inválido');
+
+    } catch (error: any) {
+      logger.error('Error en refresh token:', error);
+      throw new Error('Token inválido o expirado');
     }
   }
 
   async logout(userId: number): Promise<void> {
     try {
-      // Aquí podrías implementar lógica adicional como:
-      // - Invalidar tokens en una blacklist
-      // - Registrar el logout en auditoría
-      logger.info(`Usuario ${userId} cerró sesión`);
-    } catch (error) {
+      logger.info(`Logout para usuario: ${userId}`);
+      
+      // Aquí podrías invalidar tokens, limpiar sesiones, etc.
+      // Por ahora solo actualizar último acceso
+      await this.usuarioService.updateLastAccess(userId);
+
+    } catch (error: any) {
       logger.error('Error en logout:', error);
       throw error;
+    }
+  }
+
+  async validateAuth0Token(token: string): Promise<any> {
+    try {
+      // Implementar validación de token Auth0
+      // Por ahora solo simular
+      
+      return {
+        sub: 'auth0|123456789',
+        email: 'user@example.com',
+        email_verified: true
+      };
+
+    } catch (error: any) {
+      logger.error('Error al validar token Auth0:', error);
+      throw new Error('Token inválido');
     }
   }
 }

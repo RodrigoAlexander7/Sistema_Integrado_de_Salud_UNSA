@@ -27,18 +27,34 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json({ limit: '10mb' }));
+// IMPORTANTE: Middleware de parsing JSON ANTES de cualquier ruta
+app.use(express.json({ 
+  limit: '10mb'
+}));
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware de debug para inspeccionar requests (DESPUÉS del parsing)
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.path} - ${req.ip}`);
+  
+  // Debug: Log del body en rutas de auth (ahora el body ya está parseado)
+  if (req.path.includes('/auth/')) {
+    logger.info('Request body after parsing:', {
+      hasBody: !!req.body,
+      bodyType: typeof req.body,
+      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
+      contentType: req.get('content-type'),
+      contentLength: req.get('content-length'),
+      body: req.body
+    });
+  }
+  
+  next();
+});
 
 // Rate limiting
 const limiter = rateLimit(config.rateLimit);
 app.use(limiter);
-
-// Logging de requests
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.path} - ${req.ip}`);
-  next();
-});
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -46,6 +62,22 @@ app.get('/health', (req, res) => {
     status: 'OK', 
     timestamp: new Date().toISOString(),
     environment: config.nodeEnv
+  });
+});
+
+// Endpoint de test para verificar el parsing
+app.post('/api/test-body', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Test body parsing',
+    data: {
+      hasBody: !!req.body,
+      bodyType: typeof req.body,
+      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
+      contentType: req.get('content-type'),
+      contentLength: req.get('content-length'),
+      body: req.body
+    }
   });
 });
 
@@ -98,7 +130,13 @@ app.use('*', (req, res) => {
 
 // Manejo global de errores
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  logger.error('Error no manejado:', err);
+  logger.error('Error no manejado:', {
+    error: err.message,
+    stack: err.stack,
+    url: req.url,
+    method: req.method
+  });
+  
   res.status(500).json({
     success: false,
     message: 'Error interno del servidor',

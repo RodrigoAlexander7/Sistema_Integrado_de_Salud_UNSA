@@ -8,7 +8,7 @@ export interface AuthenticatedRequest extends Request {
   };
   auth?: {
     userId: number;
-    tipoUsuario: 'MEDICO' | 'ENFERMERA';
+    tipoUsuario: 'MEDICO' | 'ENFERMERA' | 'ADMINISTRADOR';
     [key: string]: any;
   };
 }

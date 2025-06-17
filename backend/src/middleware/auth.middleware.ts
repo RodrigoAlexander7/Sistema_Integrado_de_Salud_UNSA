@@ -4,6 +4,7 @@ import { AuthenticatedRequest } from '../models/interfaces/auth.interface';
 import { UsuarioService } from '../services/usuario.service';
 import { ResponseUtil } from '../utils/response';
 import { logger } from '../utils/logger';
+import { TipoUsuario } from '../generated/prisma';
 
 export class AuthMiddleware {
   constructor(private usuarioService: UsuarioService) {}
@@ -44,7 +45,7 @@ export class AuthMiddleware {
   };
 
   // Middleware para verificar roles
-  public requireRole = (roles: ('MEDICO' | 'ENFERMERA')[]) => {
+  public requireRole = (roles: TipoUsuario[]) => {
     return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
       if (!req.auth?.tipoUsuario) {
         return ResponseUtil.unauthorized(res, 'Usuario no autenticado');

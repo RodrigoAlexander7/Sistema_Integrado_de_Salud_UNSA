@@ -159,6 +159,19 @@ exports.Prisma.EnfermeraScalarFieldEnum = {
   activo: 'activo'
 };
 
+exports.Prisma.AdministradorScalarFieldEnum = {
+  id: 'id',
+  usuarioId: 'usuarioId',
+  tipoDocumento: 'tipoDocumento',
+  numDocumento: 'numDocumento',
+  nombres: 'nombres',
+  apellidos: 'apellidos',
+  telefono: 'telefono',
+  correo: 'correo',
+  fechaRegistro: 'fechaRegistro',
+  activo: 'activo'
+};
+
 exports.Prisma.FacultadScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
@@ -420,6 +433,7 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Medico: 'Medico',
   Enfermera: 'Enfermera',
+  Administrador: 'Administrador',
   Facultad: 'Facultad',
   ProgramaAcademico: 'ProgramaAcademico',
   Sede: 'Sede',

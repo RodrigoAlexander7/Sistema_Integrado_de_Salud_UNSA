@@ -26,6 +26,7 @@ model Usuario {
   fechaRegistro   DateTime          @default(now()) @map("fecha_registro")
   medico          Medico?
   enfermera       Enfermera?
+  administrador   Administrador?
   auditorias      AuditoriaHistoria[]
 
   @@map("usuarios")
@@ -75,6 +76,23 @@ model Enfermera {
 
   @@unique([tipoDocumento, numDocumento])
   @@map("enfermeras")
+}
+
+model Administrador {
+  id                Int       @id @default(autoincrement())
+  usuario           Usuario   @relation(fields: [usuarioId], references: [id])
+  usuarioId         Int       @unique @map("usuario_id")
+  tipoDocumento     String    @map("tipo_documento")
+  numDocumento      String    @map("num_documento")
+  nombres           String
+  apellidos         String
+  telefono          String?
+  correo            String?
+  fechaRegistro     DateTime  @default(now()) @map("fecha_registro")
+  activo            Boolean   @default(true)
+
+  @@unique([tipoDocumento, numDocumento])
+  @@map("administradores")
 }
 
 // University Structure

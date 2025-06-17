@@ -29,6 +29,11 @@ export type Medico = $Result.DefaultSelection<Prisma.$MedicoPayload>
  */
 export type Enfermera = $Result.DefaultSelection<Prisma.$EnfermeraPayload>
 /**
+ * Model Administrador
+ * 
+ */
+export type Administrador = $Result.DefaultSelection<Prisma.$AdministradorPayload>
+/**
  * Model Facultad
  * 
  */
@@ -318,6 +323,16 @@ export class PrismaClient<
     * ```
     */
   get enfermera(): Prisma.EnfermeraDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.administrador`: Exposes CRUD operations for the **Administrador** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Administradors
+    * const administradors = await prisma.administrador.findMany()
+    * ```
+    */
+  get administrador(): Prisma.AdministradorDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.facultad`: Exposes CRUD operations for the **Facultad** model.
@@ -971,6 +986,7 @@ export namespace Prisma {
     Usuario: 'Usuario',
     Medico: 'Medico',
     Enfermera: 'Enfermera',
+    Administrador: 'Administrador',
     Facultad: 'Facultad',
     ProgramaAcademico: 'ProgramaAcademico',
     Sede: 'Sede',
@@ -1010,7 +1026,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "medico" | "enfermera" | "facultad" | "programaAcademico" | "sede" | "consultorio" | "especialidad" | "medicoEspecialidad" | "paciente" | "contactoEmergencia" | "historiaClinica" | "episodioClinco" | "signosVitales" | "codigoCIE10" | "diagnostico" | "prescripcion" | "documentoClinico" | "consentimientoInformado" | "odontologiaDetalle" | "oftalmologiaDetalle" | "psicologiaDetalle" | "trabajoSocialDetalle" | "auditoriaHistoria"
+      modelProps: "usuario" | "medico" | "enfermera" | "administrador" | "facultad" | "programaAcademico" | "sede" | "consultorio" | "especialidad" | "medicoEspecialidad" | "paciente" | "contactoEmergencia" | "historiaClinica" | "episodioClinco" | "signosVitales" | "codigoCIE10" | "diagnostico" | "prescripcion" | "documentoClinico" | "consentimientoInformado" | "odontologiaDetalle" | "oftalmologiaDetalle" | "psicologiaDetalle" | "trabajoSocialDetalle" | "auditoriaHistoria"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1233,6 +1249,80 @@ export namespace Prisma {
           count: {
             args: Prisma.EnfermeraCountArgs<ExtArgs>
             result: $Utils.Optional<EnfermeraCountAggregateOutputType> | number
+          }
+        }
+      }
+      Administrador: {
+        payload: Prisma.$AdministradorPayload<ExtArgs>
+        fields: Prisma.AdministradorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AdministradorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AdministradorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          findFirst: {
+            args: Prisma.AdministradorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AdministradorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          findMany: {
+            args: Prisma.AdministradorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>[]
+          }
+          create: {
+            args: Prisma.AdministradorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          createMany: {
+            args: Prisma.AdministradorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdministradorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>[]
+          }
+          delete: {
+            args: Prisma.AdministradorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          update: {
+            args: Prisma.AdministradorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          deleteMany: {
+            args: Prisma.AdministradorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AdministradorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AdministradorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>[]
+          }
+          upsert: {
+            args: Prisma.AdministradorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdministradorPayload>
+          }
+          aggregate: {
+            args: Prisma.AdministradorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAdministrador>
+          }
+          groupBy: {
+            args: Prisma.AdministradorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AdministradorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AdministradorCountArgs<ExtArgs>
+            result: $Utils.Optional<AdministradorCountAggregateOutputType> | number
           }
         }
       }
@@ -2877,6 +2967,7 @@ export namespace Prisma {
     usuario?: UsuarioOmit
     medico?: MedicoOmit
     enfermera?: EnfermeraOmit
+    administrador?: AdministradorOmit
     facultad?: FacultadOmit
     programaAcademico?: ProgramaAcademicoOmit
     sede?: SedeOmit
@@ -3668,6 +3759,7 @@ export namespace Prisma {
     fechaRegistro?: boolean
     medico?: boolean | Usuario$medicoArgs<ExtArgs>
     enfermera?: boolean | Usuario$enfermeraArgs<ExtArgs>
+    administrador?: boolean | Usuario$administradorArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
@@ -3709,6 +3801,7 @@ export namespace Prisma {
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     medico?: boolean | Usuario$medicoArgs<ExtArgs>
     enfermera?: boolean | Usuario$enfermeraArgs<ExtArgs>
+    administrador?: boolean | Usuario$administradorArgs<ExtArgs>
     auditorias?: boolean | Usuario$auditoriasArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3720,6 +3813,7 @@ export namespace Prisma {
     objects: {
       medico: Prisma.$MedicoPayload<ExtArgs> | null
       enfermera: Prisma.$EnfermeraPayload<ExtArgs> | null
+      administrador: Prisma.$AdministradorPayload<ExtArgs> | null
       auditorias: Prisma.$AuditoriaHistoriaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4127,6 +4221,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     medico<T extends Usuario$medicoArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$medicoArgs<ExtArgs>>): Prisma__MedicoClient<$Result.GetResult<Prisma.$MedicoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     enfermera<T extends Usuario$enfermeraArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$enfermeraArgs<ExtArgs>>): Prisma__EnfermeraClient<$Result.GetResult<Prisma.$EnfermeraPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    administrador<T extends Usuario$administradorArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$administradorArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     auditorias<T extends Usuario$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaHistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4588,6 +4683,25 @@ export namespace Prisma {
      */
     include?: EnfermeraInclude<ExtArgs> | null
     where?: EnfermeraWhereInput
+  }
+
+  /**
+   * Usuario.administrador
+   */
+  export type Usuario$administradorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    where?: AdministradorWhereInput
   }
 
   /**
@@ -7066,6 +7180,1167 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: EnfermeraInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Administrador
+   */
+
+  export type AggregateAdministrador = {
+    _count: AdministradorCountAggregateOutputType | null
+    _avg: AdministradorAvgAggregateOutputType | null
+    _sum: AdministradorSumAggregateOutputType | null
+    _min: AdministradorMinAggregateOutputType | null
+    _max: AdministradorMaxAggregateOutputType | null
+  }
+
+  export type AdministradorAvgAggregateOutputType = {
+    id: number | null
+    usuarioId: number | null
+  }
+
+  export type AdministradorSumAggregateOutputType = {
+    id: number | null
+    usuarioId: number | null
+  }
+
+  export type AdministradorMinAggregateOutputType = {
+    id: number | null
+    usuarioId: number | null
+    tipoDocumento: string | null
+    numDocumento: string | null
+    nombres: string | null
+    apellidos: string | null
+    telefono: string | null
+    correo: string | null
+    fechaRegistro: Date | null
+    activo: boolean | null
+  }
+
+  export type AdministradorMaxAggregateOutputType = {
+    id: number | null
+    usuarioId: number | null
+    tipoDocumento: string | null
+    numDocumento: string | null
+    nombres: string | null
+    apellidos: string | null
+    telefono: string | null
+    correo: string | null
+    fechaRegistro: Date | null
+    activo: boolean | null
+  }
+
+  export type AdministradorCountAggregateOutputType = {
+    id: number
+    usuarioId: number
+    tipoDocumento: number
+    numDocumento: number
+    nombres: number
+    apellidos: number
+    telefono: number
+    correo: number
+    fechaRegistro: number
+    activo: number
+    _all: number
+  }
+
+
+  export type AdministradorAvgAggregateInputType = {
+    id?: true
+    usuarioId?: true
+  }
+
+  export type AdministradorSumAggregateInputType = {
+    id?: true
+    usuarioId?: true
+  }
+
+  export type AdministradorMinAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipoDocumento?: true
+    numDocumento?: true
+    nombres?: true
+    apellidos?: true
+    telefono?: true
+    correo?: true
+    fechaRegistro?: true
+    activo?: true
+  }
+
+  export type AdministradorMaxAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipoDocumento?: true
+    numDocumento?: true
+    nombres?: true
+    apellidos?: true
+    telefono?: true
+    correo?: true
+    fechaRegistro?: true
+    activo?: true
+  }
+
+  export type AdministradorCountAggregateInputType = {
+    id?: true
+    usuarioId?: true
+    tipoDocumento?: true
+    numDocumento?: true
+    nombres?: true
+    apellidos?: true
+    telefono?: true
+    correo?: true
+    fechaRegistro?: true
+    activo?: true
+    _all?: true
+  }
+
+  export type AdministradorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Administrador to aggregate.
+     */
+    where?: AdministradorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Administradors to fetch.
+     */
+    orderBy?: AdministradorOrderByWithRelationInput | AdministradorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdministradorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Administradors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Administradors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Administradors
+    **/
+    _count?: true | AdministradorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AdministradorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AdministradorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdministradorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdministradorMaxAggregateInputType
+  }
+
+  export type GetAdministradorAggregateType<T extends AdministradorAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdministrador]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdministrador[P]>
+      : GetScalarType<T[P], AggregateAdministrador[P]>
+  }
+
+
+
+
+  export type AdministradorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdministradorWhereInput
+    orderBy?: AdministradorOrderByWithAggregationInput | AdministradorOrderByWithAggregationInput[]
+    by: AdministradorScalarFieldEnum[] | AdministradorScalarFieldEnum
+    having?: AdministradorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdministradorCountAggregateInputType | true
+    _avg?: AdministradorAvgAggregateInputType
+    _sum?: AdministradorSumAggregateInputType
+    _min?: AdministradorMinAggregateInputType
+    _max?: AdministradorMaxAggregateInputType
+  }
+
+  export type AdministradorGroupByOutputType = {
+    id: number
+    usuarioId: number
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono: string | null
+    correo: string | null
+    fechaRegistro: Date
+    activo: boolean
+    _count: AdministradorCountAggregateOutputType | null
+    _avg: AdministradorAvgAggregateOutputType | null
+    _sum: AdministradorSumAggregateOutputType | null
+    _min: AdministradorMinAggregateOutputType | null
+    _max: AdministradorMaxAggregateOutputType | null
+  }
+
+  type GetAdministradorGroupByPayload<T extends AdministradorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AdministradorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdministradorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdministradorGroupByOutputType[P]>
+            : GetScalarType<T[P], AdministradorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdministradorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipoDocumento?: boolean
+    numDocumento?: boolean
+    nombres?: boolean
+    apellidos?: boolean
+    telefono?: boolean
+    correo?: boolean
+    fechaRegistro?: boolean
+    activo?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["administrador"]>
+
+  export type AdministradorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipoDocumento?: boolean
+    numDocumento?: boolean
+    nombres?: boolean
+    apellidos?: boolean
+    telefono?: boolean
+    correo?: boolean
+    fechaRegistro?: boolean
+    activo?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["administrador"]>
+
+  export type AdministradorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    usuarioId?: boolean
+    tipoDocumento?: boolean
+    numDocumento?: boolean
+    nombres?: boolean
+    apellidos?: boolean
+    telefono?: boolean
+    correo?: boolean
+    fechaRegistro?: boolean
+    activo?: boolean
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["administrador"]>
+
+  export type AdministradorSelectScalar = {
+    id?: boolean
+    usuarioId?: boolean
+    tipoDocumento?: boolean
+    numDocumento?: boolean
+    nombres?: boolean
+    apellidos?: boolean
+    telefono?: boolean
+    correo?: boolean
+    fechaRegistro?: boolean
+    activo?: boolean
+  }
+
+  export type AdministradorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "usuarioId" | "tipoDocumento" | "numDocumento" | "nombres" | "apellidos" | "telefono" | "correo" | "fechaRegistro" | "activo", ExtArgs["result"]["administrador"]>
+  export type AdministradorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type AdministradorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type AdministradorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $AdministradorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Administrador"
+    objects: {
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      usuarioId: number
+      tipoDocumento: string
+      numDocumento: string
+      nombres: string
+      apellidos: string
+      telefono: string | null
+      correo: string | null
+      fechaRegistro: Date
+      activo: boolean
+    }, ExtArgs["result"]["administrador"]>
+    composites: {}
+  }
+
+  type AdministradorGetPayload<S extends boolean | null | undefined | AdministradorDefaultArgs> = $Result.GetResult<Prisma.$AdministradorPayload, S>
+
+  type AdministradorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AdministradorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AdministradorCountAggregateInputType | true
+    }
+
+  export interface AdministradorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Administrador'], meta: { name: 'Administrador' } }
+    /**
+     * Find zero or one Administrador that matches the filter.
+     * @param {AdministradorFindUniqueArgs} args - Arguments to find a Administrador
+     * @example
+     * // Get one Administrador
+     * const administrador = await prisma.administrador.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AdministradorFindUniqueArgs>(args: SelectSubset<T, AdministradorFindUniqueArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Administrador that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AdministradorFindUniqueOrThrowArgs} args - Arguments to find a Administrador
+     * @example
+     * // Get one Administrador
+     * const administrador = await prisma.administrador.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AdministradorFindUniqueOrThrowArgs>(args: SelectSubset<T, AdministradorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Administrador that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorFindFirstArgs} args - Arguments to find a Administrador
+     * @example
+     * // Get one Administrador
+     * const administrador = await prisma.administrador.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AdministradorFindFirstArgs>(args?: SelectSubset<T, AdministradorFindFirstArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Administrador that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorFindFirstOrThrowArgs} args - Arguments to find a Administrador
+     * @example
+     * // Get one Administrador
+     * const administrador = await prisma.administrador.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AdministradorFindFirstOrThrowArgs>(args?: SelectSubset<T, AdministradorFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Administradors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Administradors
+     * const administradors = await prisma.administrador.findMany()
+     * 
+     * // Get first 10 Administradors
+     * const administradors = await prisma.administrador.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const administradorWithIdOnly = await prisma.administrador.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AdministradorFindManyArgs>(args?: SelectSubset<T, AdministradorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Administrador.
+     * @param {AdministradorCreateArgs} args - Arguments to create a Administrador.
+     * @example
+     * // Create one Administrador
+     * const Administrador = await prisma.administrador.create({
+     *   data: {
+     *     // ... data to create a Administrador
+     *   }
+     * })
+     * 
+     */
+    create<T extends AdministradorCreateArgs>(args: SelectSubset<T, AdministradorCreateArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Administradors.
+     * @param {AdministradorCreateManyArgs} args - Arguments to create many Administradors.
+     * @example
+     * // Create many Administradors
+     * const administrador = await prisma.administrador.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AdministradorCreateManyArgs>(args?: SelectSubset<T, AdministradorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Administradors and returns the data saved in the database.
+     * @param {AdministradorCreateManyAndReturnArgs} args - Arguments to create many Administradors.
+     * @example
+     * // Create many Administradors
+     * const administrador = await prisma.administrador.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Administradors and only return the `id`
+     * const administradorWithIdOnly = await prisma.administrador.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AdministradorCreateManyAndReturnArgs>(args?: SelectSubset<T, AdministradorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Administrador.
+     * @param {AdministradorDeleteArgs} args - Arguments to delete one Administrador.
+     * @example
+     * // Delete one Administrador
+     * const Administrador = await prisma.administrador.delete({
+     *   where: {
+     *     // ... filter to delete one Administrador
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AdministradorDeleteArgs>(args: SelectSubset<T, AdministradorDeleteArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Administrador.
+     * @param {AdministradorUpdateArgs} args - Arguments to update one Administrador.
+     * @example
+     * // Update one Administrador
+     * const administrador = await prisma.administrador.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AdministradorUpdateArgs>(args: SelectSubset<T, AdministradorUpdateArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Administradors.
+     * @param {AdministradorDeleteManyArgs} args - Arguments to filter Administradors to delete.
+     * @example
+     * // Delete a few Administradors
+     * const { count } = await prisma.administrador.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AdministradorDeleteManyArgs>(args?: SelectSubset<T, AdministradorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Administradors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Administradors
+     * const administrador = await prisma.administrador.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AdministradorUpdateManyArgs>(args: SelectSubset<T, AdministradorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Administradors and returns the data updated in the database.
+     * @param {AdministradorUpdateManyAndReturnArgs} args - Arguments to update many Administradors.
+     * @example
+     * // Update many Administradors
+     * const administrador = await prisma.administrador.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Administradors and only return the `id`
+     * const administradorWithIdOnly = await prisma.administrador.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AdministradorUpdateManyAndReturnArgs>(args: SelectSubset<T, AdministradorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Administrador.
+     * @param {AdministradorUpsertArgs} args - Arguments to update or create a Administrador.
+     * @example
+     * // Update or create a Administrador
+     * const administrador = await prisma.administrador.upsert({
+     *   create: {
+     *     // ... data to create a Administrador
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Administrador we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AdministradorUpsertArgs>(args: SelectSubset<T, AdministradorUpsertArgs<ExtArgs>>): Prisma__AdministradorClient<$Result.GetResult<Prisma.$AdministradorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Administradors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorCountArgs} args - Arguments to filter Administradors to count.
+     * @example
+     * // Count the number of Administradors
+     * const count = await prisma.administrador.count({
+     *   where: {
+     *     // ... the filter for the Administradors we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdministradorCountArgs>(
+      args?: Subset<T, AdministradorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdministradorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Administrador.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdministradorAggregateArgs>(args: Subset<T, AdministradorAggregateArgs>): Prisma.PrismaPromise<GetAdministradorAggregateType<T>>
+
+    /**
+     * Group by Administrador.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdministradorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdministradorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdministradorGroupByArgs['orderBy'] }
+        : { orderBy?: AdministradorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdministradorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdministradorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Administrador model
+   */
+  readonly fields: AdministradorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Administrador.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AdministradorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Administrador model
+   */
+  interface AdministradorFieldRefs {
+    readonly id: FieldRef<"Administrador", 'Int'>
+    readonly usuarioId: FieldRef<"Administrador", 'Int'>
+    readonly tipoDocumento: FieldRef<"Administrador", 'String'>
+    readonly numDocumento: FieldRef<"Administrador", 'String'>
+    readonly nombres: FieldRef<"Administrador", 'String'>
+    readonly apellidos: FieldRef<"Administrador", 'String'>
+    readonly telefono: FieldRef<"Administrador", 'String'>
+    readonly correo: FieldRef<"Administrador", 'String'>
+    readonly fechaRegistro: FieldRef<"Administrador", 'DateTime'>
+    readonly activo: FieldRef<"Administrador", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Administrador findUnique
+   */
+  export type AdministradorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter, which Administrador to fetch.
+     */
+    where: AdministradorWhereUniqueInput
+  }
+
+  /**
+   * Administrador findUniqueOrThrow
+   */
+  export type AdministradorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter, which Administrador to fetch.
+     */
+    where: AdministradorWhereUniqueInput
+  }
+
+  /**
+   * Administrador findFirst
+   */
+  export type AdministradorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter, which Administrador to fetch.
+     */
+    where?: AdministradorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Administradors to fetch.
+     */
+    orderBy?: AdministradorOrderByWithRelationInput | AdministradorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Administradors.
+     */
+    cursor?: AdministradorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Administradors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Administradors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Administradors.
+     */
+    distinct?: AdministradorScalarFieldEnum | AdministradorScalarFieldEnum[]
+  }
+
+  /**
+   * Administrador findFirstOrThrow
+   */
+  export type AdministradorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter, which Administrador to fetch.
+     */
+    where?: AdministradorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Administradors to fetch.
+     */
+    orderBy?: AdministradorOrderByWithRelationInput | AdministradorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Administradors.
+     */
+    cursor?: AdministradorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Administradors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Administradors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Administradors.
+     */
+    distinct?: AdministradorScalarFieldEnum | AdministradorScalarFieldEnum[]
+  }
+
+  /**
+   * Administrador findMany
+   */
+  export type AdministradorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter, which Administradors to fetch.
+     */
+    where?: AdministradorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Administradors to fetch.
+     */
+    orderBy?: AdministradorOrderByWithRelationInput | AdministradorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Administradors.
+     */
+    cursor?: AdministradorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Administradors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Administradors.
+     */
+    skip?: number
+    distinct?: AdministradorScalarFieldEnum | AdministradorScalarFieldEnum[]
+  }
+
+  /**
+   * Administrador create
+   */
+  export type AdministradorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Administrador.
+     */
+    data: XOR<AdministradorCreateInput, AdministradorUncheckedCreateInput>
+  }
+
+  /**
+   * Administrador createMany
+   */
+  export type AdministradorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Administradors.
+     */
+    data: AdministradorCreateManyInput | AdministradorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Administrador createManyAndReturn
+   */
+  export type AdministradorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * The data used to create many Administradors.
+     */
+    data: AdministradorCreateManyInput | AdministradorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Administrador update
+   */
+  export type AdministradorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Administrador.
+     */
+    data: XOR<AdministradorUpdateInput, AdministradorUncheckedUpdateInput>
+    /**
+     * Choose, which Administrador to update.
+     */
+    where: AdministradorWhereUniqueInput
+  }
+
+  /**
+   * Administrador updateMany
+   */
+  export type AdministradorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Administradors.
+     */
+    data: XOR<AdministradorUpdateManyMutationInput, AdministradorUncheckedUpdateManyInput>
+    /**
+     * Filter which Administradors to update
+     */
+    where?: AdministradorWhereInput
+    /**
+     * Limit how many Administradors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Administrador updateManyAndReturn
+   */
+  export type AdministradorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * The data used to update Administradors.
+     */
+    data: XOR<AdministradorUpdateManyMutationInput, AdministradorUncheckedUpdateManyInput>
+    /**
+     * Filter which Administradors to update
+     */
+    where?: AdministradorWhereInput
+    /**
+     * Limit how many Administradors to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Administrador upsert
+   */
+  export type AdministradorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Administrador to update in case it exists.
+     */
+    where: AdministradorWhereUniqueInput
+    /**
+     * In case the Administrador found by the `where` argument doesn't exist, create a new Administrador with this data.
+     */
+    create: XOR<AdministradorCreateInput, AdministradorUncheckedCreateInput>
+    /**
+     * In case the Administrador was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdministradorUpdateInput, AdministradorUncheckedUpdateInput>
+  }
+
+  /**
+   * Administrador delete
+   */
+  export type AdministradorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
+    /**
+     * Filter which Administrador to delete.
+     */
+    where: AdministradorWhereUniqueInput
+  }
+
+  /**
+   * Administrador deleteMany
+   */
+  export type AdministradorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Administradors to delete
+     */
+    where?: AdministradorWhereInput
+    /**
+     * Limit how many Administradors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Administrador without action
+   */
+  export type AdministradorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Administrador
+     */
+    select?: AdministradorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Administrador
+     */
+    omit?: AdministradorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdministradorInclude<ExtArgs> | null
   }
 
 
@@ -31636,6 +32911,22 @@ export namespace Prisma {
   export type EnfermeraScalarFieldEnum = (typeof EnfermeraScalarFieldEnum)[keyof typeof EnfermeraScalarFieldEnum]
 
 
+  export const AdministradorScalarFieldEnum: {
+    id: 'id',
+    usuarioId: 'usuarioId',
+    tipoDocumento: 'tipoDocumento',
+    numDocumento: 'numDocumento',
+    nombres: 'nombres',
+    apellidos: 'apellidos',
+    telefono: 'telefono',
+    correo: 'correo',
+    fechaRegistro: 'fechaRegistro',
+    activo: 'activo'
+  };
+
+  export type AdministradorScalarFieldEnum = (typeof AdministradorScalarFieldEnum)[keyof typeof AdministradorScalarFieldEnum]
+
+
   export const FacultadScalarFieldEnum: {
     id: 'id',
     nombre: 'nombre',
@@ -32096,6 +33387,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFilter<"Usuario"> | Date | string
     medico?: XOR<MedicoNullableScalarRelationFilter, MedicoWhereInput> | null
     enfermera?: XOR<EnfermeraNullableScalarRelationFilter, EnfermeraWhereInput> | null
+    administrador?: XOR<AdministradorNullableScalarRelationFilter, AdministradorWhereInput> | null
     auditorias?: AuditoriaHistoriaListRelationFilter
   }
 
@@ -32110,6 +33402,7 @@ export namespace Prisma {
     fechaRegistro?: SortOrder
     medico?: MedicoOrderByWithRelationInput
     enfermera?: EnfermeraOrderByWithRelationInput
+    administrador?: AdministradorOrderByWithRelationInput
     auditorias?: AuditoriaHistoriaOrderByRelationAggregateInput
   }
 
@@ -32127,6 +33420,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFilter<"Usuario"> | Date | string
     medico?: XOR<MedicoNullableScalarRelationFilter, MedicoWhereInput> | null
     enfermera?: XOR<EnfermeraNullableScalarRelationFilter, EnfermeraWhereInput> | null
+    administrador?: XOR<AdministradorNullableScalarRelationFilter, AdministradorWhereInput> | null
     auditorias?: AuditoriaHistoriaListRelationFilter
   }, "id" | "nombreUsuario" | "email">
 
@@ -32343,6 +33637,89 @@ export namespace Prisma {
     correo?: StringNullableWithAggregatesFilter<"Enfermera"> | string | null
     fechaRegistro?: DateTimeWithAggregatesFilter<"Enfermera"> | Date | string
     activo?: BoolWithAggregatesFilter<"Enfermera"> | boolean
+  }
+
+  export type AdministradorWhereInput = {
+    AND?: AdministradorWhereInput | AdministradorWhereInput[]
+    OR?: AdministradorWhereInput[]
+    NOT?: AdministradorWhereInput | AdministradorWhereInput[]
+    id?: IntFilter<"Administrador"> | number
+    usuarioId?: IntFilter<"Administrador"> | number
+    tipoDocumento?: StringFilter<"Administrador"> | string
+    numDocumento?: StringFilter<"Administrador"> | string
+    nombres?: StringFilter<"Administrador"> | string
+    apellidos?: StringFilter<"Administrador"> | string
+    telefono?: StringNullableFilter<"Administrador"> | string | null
+    correo?: StringNullableFilter<"Administrador"> | string | null
+    fechaRegistro?: DateTimeFilter<"Administrador"> | Date | string
+    activo?: BoolFilter<"Administrador"> | boolean
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type AdministradorOrderByWithRelationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipoDocumento?: SortOrder
+    numDocumento?: SortOrder
+    nombres?: SortOrder
+    apellidos?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    correo?: SortOrderInput | SortOrder
+    fechaRegistro?: SortOrder
+    activo?: SortOrder
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type AdministradorWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    usuarioId?: number
+    tipoDocumento_numDocumento?: AdministradorTipoDocumentoNumDocumentoCompoundUniqueInput
+    AND?: AdministradorWhereInput | AdministradorWhereInput[]
+    OR?: AdministradorWhereInput[]
+    NOT?: AdministradorWhereInput | AdministradorWhereInput[]
+    tipoDocumento?: StringFilter<"Administrador"> | string
+    numDocumento?: StringFilter<"Administrador"> | string
+    nombres?: StringFilter<"Administrador"> | string
+    apellidos?: StringFilter<"Administrador"> | string
+    telefono?: StringNullableFilter<"Administrador"> | string | null
+    correo?: StringNullableFilter<"Administrador"> | string | null
+    fechaRegistro?: DateTimeFilter<"Administrador"> | Date | string
+    activo?: BoolFilter<"Administrador"> | boolean
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id" | "usuarioId" | "tipoDocumento_numDocumento">
+
+  export type AdministradorOrderByWithAggregationInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipoDocumento?: SortOrder
+    numDocumento?: SortOrder
+    nombres?: SortOrder
+    apellidos?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    correo?: SortOrderInput | SortOrder
+    fechaRegistro?: SortOrder
+    activo?: SortOrder
+    _count?: AdministradorCountOrderByAggregateInput
+    _avg?: AdministradorAvgOrderByAggregateInput
+    _max?: AdministradorMaxOrderByAggregateInput
+    _min?: AdministradorMinOrderByAggregateInput
+    _sum?: AdministradorSumOrderByAggregateInput
+  }
+
+  export type AdministradorScalarWhereWithAggregatesInput = {
+    AND?: AdministradorScalarWhereWithAggregatesInput | AdministradorScalarWhereWithAggregatesInput[]
+    OR?: AdministradorScalarWhereWithAggregatesInput[]
+    NOT?: AdministradorScalarWhereWithAggregatesInput | AdministradorScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Administrador"> | number
+    usuarioId?: IntWithAggregatesFilter<"Administrador"> | number
+    tipoDocumento?: StringWithAggregatesFilter<"Administrador"> | string
+    numDocumento?: StringWithAggregatesFilter<"Administrador"> | string
+    nombres?: StringWithAggregatesFilter<"Administrador"> | string
+    apellidos?: StringWithAggregatesFilter<"Administrador"> | string
+    telefono?: StringNullableWithAggregatesFilter<"Administrador"> | string | null
+    correo?: StringNullableWithAggregatesFilter<"Administrador"> | string | null
+    fechaRegistro?: DateTimeWithAggregatesFilter<"Administrador"> | Date | string
+    activo?: BoolWithAggregatesFilter<"Administrador"> | boolean
   }
 
   export type FacultadWhereInput = {
@@ -33948,6 +35325,7 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     medico?: MedicoCreateNestedOneWithoutUsuarioInput
     enfermera?: EnfermeraCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutUsuarioInput
   }
 
@@ -33962,6 +35340,7 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     medico?: MedicoUncheckedCreateNestedOneWithoutUsuarioInput
     enfermera?: EnfermeraUncheckedCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorUncheckedCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -33975,6 +35354,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUpdateOneWithoutUsuarioNestedInput
     enfermera?: EnfermeraUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -33989,6 +35369,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUncheckedUpdateOneWithoutUsuarioNestedInput
     enfermera?: EnfermeraUncheckedUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUncheckedUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -34218,6 +35599,93 @@ export namespace Prisma {
     nombres?: StringFieldUpdateOperationsInput | string
     apellidos?: StringFieldUpdateOperationsInput | string
     numLicencia?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AdministradorCreateInput = {
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono?: string | null
+    correo?: string | null
+    fechaRegistro?: Date | string
+    activo?: boolean
+    usuario: UsuarioCreateNestedOneWithoutAdministradorInput
+  }
+
+  export type AdministradorUncheckedCreateInput = {
+    id?: number
+    usuarioId: number
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono?: string | null
+    correo?: string | null
+    fechaRegistro?: Date | string
+    activo?: boolean
+  }
+
+  export type AdministradorUpdateInput = {
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    usuario?: UsuarioUpdateOneRequiredWithoutAdministradorNestedInput
+  }
+
+  export type AdministradorUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AdministradorCreateManyInput = {
+    id?: number
+    usuarioId: number
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono?: string | null
+    correo?: string | null
+    fechaRegistro?: Date | string
+    activo?: boolean
+  }
+
+  export type AdministradorUpdateManyMutationInput = {
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AdministradorUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     correo?: NullableStringFieldUpdateOperationsInput | string | null
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35917,6 +37385,11 @@ export namespace Prisma {
     isNot?: EnfermeraWhereInput | null
   }
 
+  export type AdministradorNullableScalarRelationFilter = {
+    is?: AdministradorWhereInput | null
+    isNot?: AdministradorWhereInput | null
+  }
+
   export type AuditoriaHistoriaListRelationFilter = {
     every?: AuditoriaHistoriaWhereInput
     some?: AuditoriaHistoriaWhereInput
@@ -36221,6 +37694,60 @@ export namespace Prisma {
   }
 
   export type EnfermeraSumOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type AdministradorTipoDocumentoNumDocumentoCompoundUniqueInput = {
+    tipoDocumento: string
+    numDocumento: string
+  }
+
+  export type AdministradorCountOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipoDocumento?: SortOrder
+    numDocumento?: SortOrder
+    nombres?: SortOrder
+    apellidos?: SortOrder
+    telefono?: SortOrder
+    correo?: SortOrder
+    fechaRegistro?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type AdministradorAvgOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type AdministradorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipoDocumento?: SortOrder
+    numDocumento?: SortOrder
+    nombres?: SortOrder
+    apellidos?: SortOrder
+    telefono?: SortOrder
+    correo?: SortOrder
+    fechaRegistro?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type AdministradorMinOrderByAggregateInput = {
+    id?: SortOrder
+    usuarioId?: SortOrder
+    tipoDocumento?: SortOrder
+    numDocumento?: SortOrder
+    nombres?: SortOrder
+    apellidos?: SortOrder
+    telefono?: SortOrder
+    correo?: SortOrder
+    fechaRegistro?: SortOrder
+    activo?: SortOrder
+  }
+
+  export type AdministradorSumOrderByAggregateInput = {
     id?: SortOrder
     usuarioId?: SortOrder
   }
@@ -37451,6 +38978,12 @@ export namespace Prisma {
     connect?: EnfermeraWhereUniqueInput
   }
 
+  export type AdministradorCreateNestedOneWithoutUsuarioInput = {
+    create?: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: AdministradorCreateOrConnectWithoutUsuarioInput
+    connect?: AdministradorWhereUniqueInput
+  }
+
   export type AuditoriaHistoriaCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<AuditoriaHistoriaCreateWithoutUsuarioInput, AuditoriaHistoriaUncheckedCreateWithoutUsuarioInput> | AuditoriaHistoriaCreateWithoutUsuarioInput[] | AuditoriaHistoriaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: AuditoriaHistoriaCreateOrConnectWithoutUsuarioInput | AuditoriaHistoriaCreateOrConnectWithoutUsuarioInput[]
@@ -37468,6 +39001,12 @@ export namespace Prisma {
     create?: XOR<EnfermeraCreateWithoutUsuarioInput, EnfermeraUncheckedCreateWithoutUsuarioInput>
     connectOrCreate?: EnfermeraCreateOrConnectWithoutUsuarioInput
     connect?: EnfermeraWhereUniqueInput
+  }
+
+  export type AdministradorUncheckedCreateNestedOneWithoutUsuarioInput = {
+    create?: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: AdministradorCreateOrConnectWithoutUsuarioInput
+    connect?: AdministradorWhereUniqueInput
   }
 
   export type AuditoriaHistoriaUncheckedCreateNestedManyWithoutUsuarioInput = {
@@ -37517,6 +39056,16 @@ export namespace Prisma {
     update?: XOR<XOR<EnfermeraUpdateToOneWithWhereWithoutUsuarioInput, EnfermeraUpdateWithoutUsuarioInput>, EnfermeraUncheckedUpdateWithoutUsuarioInput>
   }
 
+  export type AdministradorUpdateOneWithoutUsuarioNestedInput = {
+    create?: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: AdministradorCreateOrConnectWithoutUsuarioInput
+    upsert?: AdministradorUpsertWithoutUsuarioInput
+    disconnect?: AdministradorWhereInput | boolean
+    delete?: AdministradorWhereInput | boolean
+    connect?: AdministradorWhereUniqueInput
+    update?: XOR<XOR<AdministradorUpdateToOneWithWhereWithoutUsuarioInput, AdministradorUpdateWithoutUsuarioInput>, AdministradorUncheckedUpdateWithoutUsuarioInput>
+  }
+
   export type AuditoriaHistoriaUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<AuditoriaHistoriaCreateWithoutUsuarioInput, AuditoriaHistoriaUncheckedCreateWithoutUsuarioInput> | AuditoriaHistoriaCreateWithoutUsuarioInput[] | AuditoriaHistoriaUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: AuditoriaHistoriaCreateOrConnectWithoutUsuarioInput | AuditoriaHistoriaCreateOrConnectWithoutUsuarioInput[]
@@ -37557,6 +39106,16 @@ export namespace Prisma {
     delete?: EnfermeraWhereInput | boolean
     connect?: EnfermeraWhereUniqueInput
     update?: XOR<XOR<EnfermeraUpdateToOneWithWhereWithoutUsuarioInput, EnfermeraUpdateWithoutUsuarioInput>, EnfermeraUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type AdministradorUncheckedUpdateOneWithoutUsuarioNestedInput = {
+    create?: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+    connectOrCreate?: AdministradorCreateOrConnectWithoutUsuarioInput
+    upsert?: AdministradorUpsertWithoutUsuarioInput
+    disconnect?: AdministradorWhereInput | boolean
+    delete?: AdministradorWhereInput | boolean
+    connect?: AdministradorWhereUniqueInput
+    update?: XOR<XOR<AdministradorUpdateToOneWithWhereWithoutUsuarioInput, AdministradorUpdateWithoutUsuarioInput>, AdministradorUncheckedUpdateWithoutUsuarioInput>
   }
 
   export type AuditoriaHistoriaUncheckedUpdateManyWithoutUsuarioNestedInput = {
@@ -37729,6 +39288,20 @@ export namespace Prisma {
     update?: EpisodioClincoUpdateWithWhereUniqueWithoutEnfermeraInput | EpisodioClincoUpdateWithWhereUniqueWithoutEnfermeraInput[]
     updateMany?: EpisodioClincoUpdateManyWithWhereWithoutEnfermeraInput | EpisodioClincoUpdateManyWithWhereWithoutEnfermeraInput[]
     deleteMany?: EpisodioClincoScalarWhereInput | EpisodioClincoScalarWhereInput[]
+  }
+
+  export type UsuarioCreateNestedOneWithoutAdministradorInput = {
+    create?: XOR<UsuarioCreateWithoutAdministradorInput, UsuarioUncheckedCreateWithoutAdministradorInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutAdministradorInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutAdministradorNestedInput = {
+    create?: XOR<UsuarioCreateWithoutAdministradorInput, UsuarioUncheckedCreateWithoutAdministradorInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutAdministradorInput
+    upsert?: UsuarioUpsertWithoutAdministradorInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutAdministradorInput, UsuarioUpdateWithoutAdministradorInput>, UsuarioUncheckedUpdateWithoutAdministradorInput>
   }
 
   export type ProgramaAcademicoCreateNestedManyWithoutFacultadInput = {
@@ -39298,6 +40871,34 @@ export namespace Prisma {
     create: XOR<EnfermeraCreateWithoutUsuarioInput, EnfermeraUncheckedCreateWithoutUsuarioInput>
   }
 
+  export type AdministradorCreateWithoutUsuarioInput = {
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono?: string | null
+    correo?: string | null
+    fechaRegistro?: Date | string
+    activo?: boolean
+  }
+
+  export type AdministradorUncheckedCreateWithoutUsuarioInput = {
+    id?: number
+    tipoDocumento: string
+    numDocumento: string
+    nombres: string
+    apellidos: string
+    telefono?: string | null
+    correo?: string | null
+    fechaRegistro?: Date | string
+    activo?: boolean
+  }
+
+  export type AdministradorCreateOrConnectWithoutUsuarioInput = {
+    where: AdministradorWhereUniqueInput
+    create: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+  }
+
   export type AuditoriaHistoriaCreateWithoutUsuarioInput = {
     fechaAccion?: Date | string
     tipoAccion: string
@@ -39413,6 +41014,40 @@ export namespace Prisma {
     episodiosClinicos?: EpisodioClincoUncheckedUpdateManyWithoutEnfermeraNestedInput
   }
 
+  export type AdministradorUpsertWithoutUsuarioInput = {
+    update: XOR<AdministradorUpdateWithoutUsuarioInput, AdministradorUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<AdministradorCreateWithoutUsuarioInput, AdministradorUncheckedCreateWithoutUsuarioInput>
+    where?: AdministradorWhereInput
+  }
+
+  export type AdministradorUpdateToOneWithWhereWithoutUsuarioInput = {
+    where?: AdministradorWhereInput
+    data: XOR<AdministradorUpdateWithoutUsuarioInput, AdministradorUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type AdministradorUpdateWithoutUsuarioInput = {
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type AdministradorUncheckedUpdateWithoutUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    tipoDocumento?: StringFieldUpdateOperationsInput | string
+    numDocumento?: StringFieldUpdateOperationsInput | string
+    nombres?: StringFieldUpdateOperationsInput | string
+    apellidos?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    correo?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
   export type AuditoriaHistoriaUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: AuditoriaHistoriaWhereUniqueInput
     update: XOR<AuditoriaHistoriaUpdateWithoutUsuarioInput, AuditoriaHistoriaUncheckedUpdateWithoutUsuarioInput>
@@ -39456,6 +41091,7 @@ export namespace Prisma {
     activo?: boolean
     fechaRegistro?: Date | string
     enfermera?: EnfermeraCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutUsuarioInput
   }
 
@@ -39469,6 +41105,7 @@ export namespace Prisma {
     activo?: boolean
     fechaRegistro?: Date | string
     enfermera?: EnfermeraUncheckedCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorUncheckedCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -39577,6 +41214,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     enfermera?: EnfermeraUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -39590,6 +41228,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     enfermera?: EnfermeraUncheckedUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUncheckedUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -39663,6 +41302,7 @@ export namespace Prisma {
     activo?: boolean
     fechaRegistro?: Date | string
     medico?: MedicoCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutUsuarioInput
   }
 
@@ -39676,6 +41316,7 @@ export namespace Prisma {
     activo?: boolean
     fechaRegistro?: Date | string
     medico?: MedicoUncheckedCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorUncheckedCreateNestedOneWithoutUsuarioInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
@@ -39759,6 +41400,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -39772,6 +41414,7 @@ export namespace Prisma {
     activo?: BoolFieldUpdateOperationsInput | boolean
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUncheckedUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUncheckedUpdateOneWithoutUsuarioNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
@@ -39789,6 +41432,76 @@ export namespace Prisma {
   export type EpisodioClincoUpdateManyWithWhereWithoutEnfermeraInput = {
     where: EpisodioClincoScalarWhereInput
     data: XOR<EpisodioClincoUpdateManyMutationInput, EpisodioClincoUncheckedUpdateManyWithoutEnfermeraInput>
+  }
+
+  export type UsuarioCreateWithoutAdministradorInput = {
+    nombreUsuario: string
+    contrasenaHash: string
+    tipoUsuario: $Enums.TipoUsuario
+    email: string
+    ultimoAcceso?: Date | string | null
+    activo?: boolean
+    fechaRegistro?: Date | string
+    medico?: MedicoCreateNestedOneWithoutUsuarioInput
+    enfermera?: EnfermeraCreateNestedOneWithoutUsuarioInput
+    auditorias?: AuditoriaHistoriaCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutAdministradorInput = {
+    id?: number
+    nombreUsuario: string
+    contrasenaHash: string
+    tipoUsuario: $Enums.TipoUsuario
+    email: string
+    ultimoAcceso?: Date | string | null
+    activo?: boolean
+    fechaRegistro?: Date | string
+    medico?: MedicoUncheckedCreateNestedOneWithoutUsuarioInput
+    enfermera?: EnfermeraUncheckedCreateNestedOneWithoutUsuarioInput
+    auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutAdministradorInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutAdministradorInput, UsuarioUncheckedCreateWithoutAdministradorInput>
+  }
+
+  export type UsuarioUpsertWithoutAdministradorInput = {
+    update: XOR<UsuarioUpdateWithoutAdministradorInput, UsuarioUncheckedUpdateWithoutAdministradorInput>
+    create: XOR<UsuarioCreateWithoutAdministradorInput, UsuarioUncheckedCreateWithoutAdministradorInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutAdministradorInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutAdministradorInput, UsuarioUncheckedUpdateWithoutAdministradorInput>
+  }
+
+  export type UsuarioUpdateWithoutAdministradorInput = {
+    nombreUsuario?: StringFieldUpdateOperationsInput | string
+    contrasenaHash?: StringFieldUpdateOperationsInput | string
+    tipoUsuario?: EnumTipoUsuarioFieldUpdateOperationsInput | $Enums.TipoUsuario
+    email?: StringFieldUpdateOperationsInput | string
+    ultimoAcceso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    medico?: MedicoUpdateOneWithoutUsuarioNestedInput
+    enfermera?: EnfermeraUpdateOneWithoutUsuarioNestedInput
+    auditorias?: AuditoriaHistoriaUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutAdministradorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombreUsuario?: StringFieldUpdateOperationsInput | string
+    contrasenaHash?: StringFieldUpdateOperationsInput | string
+    tipoUsuario?: EnumTipoUsuarioFieldUpdateOperationsInput | $Enums.TipoUsuario
+    email?: StringFieldUpdateOperationsInput | string
+    ultimoAcceso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
+    medico?: MedicoUncheckedUpdateOneWithoutUsuarioNestedInput
+    enfermera?: EnfermeraUncheckedUpdateOneWithoutUsuarioNestedInput
+    auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type ProgramaAcademicoCreateWithoutFacultadInput = {
@@ -42881,6 +44594,7 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     medico?: MedicoCreateNestedOneWithoutUsuarioInput
     enfermera?: EnfermeraCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutAuditoriasInput = {
@@ -42894,6 +44608,7 @@ export namespace Prisma {
     fechaRegistro?: Date | string
     medico?: MedicoUncheckedCreateNestedOneWithoutUsuarioInput
     enfermera?: EnfermeraUncheckedCreateNestedOneWithoutUsuarioInput
+    administrador?: AdministradorUncheckedCreateNestedOneWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutAuditoriasInput = {
@@ -43008,6 +44723,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUpdateOneWithoutUsuarioNestedInput
     enfermera?: EnfermeraUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUpdateOneWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
@@ -43021,6 +44737,7 @@ export namespace Prisma {
     fechaRegistro?: DateTimeFieldUpdateOperationsInput | Date | string
     medico?: MedicoUncheckedUpdateOneWithoutUsuarioNestedInput
     enfermera?: EnfermeraUncheckedUpdateOneWithoutUsuarioNestedInput
+    administrador?: AdministradorUncheckedUpdateOneWithoutUsuarioNestedInput
   }
 
   export type AuditoriaHistoriaCreateManyUsuarioInput = {

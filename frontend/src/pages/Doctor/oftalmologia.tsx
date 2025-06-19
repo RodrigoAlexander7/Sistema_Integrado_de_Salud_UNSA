@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { UserPlus } from "lucide-react";
 
 const DiagnosticoOftalmologia: React.FC = () => {
   const { theme } = useTheme();
@@ -104,8 +105,8 @@ const DiagnosticoOftalmologia: React.FC = () => {
         {/* Contenedor principal */}
         <div className="w-full max-w-full">
           <TitleCard 
-            title="Oftalmología" 
-            icon={<File className="h-8 w-8" />} 
+              title="Bienvenido" 
+              icon={<UserPlus className="h-8 w-8" />} 
           />
         </div>
       </main>

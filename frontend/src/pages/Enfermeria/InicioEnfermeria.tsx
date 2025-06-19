@@ -5,13 +5,21 @@ import {
     
     faUserPlus,
     faUserCheck,
+    faBell,
     faFileLines,
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import TitleCard from "@/components/TitleCard";
+import { File } from "lucide-react";
+import { useTheme } from "@/context/ThemeContext";1
+
+
+
 
 const InicioEnf: React.FC = () => {
+    const { theme } = useTheme();
     
     const navigate = useNavigate(); 
 
@@ -19,7 +27,13 @@ const InicioEnf: React.FC = () => {
         e.preventDefault();
         console.log("abriendo Historia Clinica Ingreso") 
         navigate("/HistoriaClinica-Ingreso");
-    }
+    } 
+    const handlePacientesEnEspera = (e: React.FormEvent) => {
+                e.preventDefault();
+                console.log("abriendo pacientes en espera") 
+                navigate("/pacientes-espera");
+        }
+    
     const handleTriaje = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("abriendo el triaje para el nuevo episodio médico") 
@@ -32,21 +46,17 @@ const InicioEnf: React.FC = () => {
         
     return (
         <div className="w-full min-h-screen bg-white">
-            <BarraOpciones />
-
+            
             {/* Contenido principal */}
             <main className="flex flex-col items-center mt-12 px-4">
-                <Card 
-                    className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4"
-                    >
-                    <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                    Bienvenido/a Veronika Elizabeth, Rios Cuadros
-                    </h1>
-                </Card>
+                <TitleCard 
+                    title="Bienvenido/a" 
+                    icon={<File className="h-8 w-8" />} 
+                />
                 
                 <p className="text-lg text-gray-700 mb-10">¿Qué acción deseas realizar?</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-5xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 w-full max-w-5xl">
                     {/* Card 1 */}
                     <Card onClick={handleBusqueda} className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
                         <CardContent className="flex flex-col items-center">
@@ -75,6 +85,13 @@ const InicioEnf: React.FC = () => {
                     <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
                         <CardContent className="flex flex-col items-center" onClick={handleTriaje}>
                             <FontAwesomeIcon icon={faUserCheck} style={{ color: "#1c398e", scale: 3.5 }} />
+                            <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
+                        </CardContent>
+                    </Card>
+                    {/* Card 5 */}
+                    <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
+                        <CardContent className="flex flex-col items-center" onClick={handlePacientesEnEspera}>
+                            <FontAwesomeIcon icon={faBell} style={{ color: "#1c398e", scale: 3.5 }}  />
                             <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
                         </CardContent>
                     </Card>

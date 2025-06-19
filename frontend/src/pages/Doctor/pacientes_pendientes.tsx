@@ -23,8 +23,8 @@ const Pacientes_pendientes: React.FC = () => {
     e.preventDefault();
     //navigate("/trabajo-social-diagnostico");
     //navigate("/psicologia-diagnostico");
-    navigate("/oftalmologia-diagnostico");
-    //navigate("/odontologia-diagnostico");
+    //navigate("/oftalmologia-diagnostico");
+    navigate("/odontologia-diagnostico");
   };
 
   return (

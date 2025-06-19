@@ -41,7 +41,7 @@ const PacientesEspera: React.FC = () => {
     const navigate = useNavigate();
     const handlePacientesEspera = (e: React.FormEvent) => {
         e.preventDefault();
-        navigate("/pacientesEspera");
+        navigate("/pacientes-espera");
     };
 
     return (

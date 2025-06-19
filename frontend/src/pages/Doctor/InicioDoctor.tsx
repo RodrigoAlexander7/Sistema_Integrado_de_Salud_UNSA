@@ -10,6 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import TitleCard from "@/components/TitleCard";
+import { UserPlus } from "lucide-react";
 
 const InicioDoc: React.FC = () => {
     
@@ -21,22 +23,19 @@ const InicioDoc: React.FC = () => {
     }
     const handlePacientesPendientes = (e: React.FormEvent) => {
         e.preventDefault();
-        navigate("/pacientes_pendientes");
+        navigate("/pacientes-pendientes");
     } 
         
     return (
         <div className="w-full min-h-screen bg-white">
-            <BarraOpciones />
+
 
             {/* Contenido principal */}
             <main className="flex flex-col items-center mt-12 px-4">
-                <Card 
-                    className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4"
-                    >
-                    <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                    Bienvenido/a Veronika Elizabeth, Rios Cuadros
-                    </h1>
-                </Card>
+                <TitleCard 
+                    title="Bienvenido" 
+                    icon={<UserPlus className="h-8 w-8" />} 
+                />
                 
                 <p className="text-lg text-gray-700 mb-10">¿Qué acción deseas realizar?</p>
 

@@ -7,6 +7,8 @@ import TitleCard from "@/components/TitleCard";
 import { Square, File } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
+import { UserPlus } from "lucide-react";
+
 
 const Odontograma: React.FC = () => {
   const { theme } = useTheme();
@@ -34,12 +36,10 @@ const Odontograma: React.FC = () => {
   return (
     <div className="w-full">
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
-        <div className="w-full max-w-full">
           <TitleCard 
-            title="Odontograma" 
-            icon={<Square className="h-8 w-8" />} 
+              title="Bienvenido" 
+              icon={<UserPlus className="h-8 w-8" />} 
           />
-        </div>
       </main>
 
       <div className="w-full px-8">

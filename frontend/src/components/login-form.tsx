@@ -19,7 +19,7 @@ export function LoginForm({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault(); 
-    navigate("/inicio"); 
+    navigate("/inicio-doctor"); 
   };
 
   return (

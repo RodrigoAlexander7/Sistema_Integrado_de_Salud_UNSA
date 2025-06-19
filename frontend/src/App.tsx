@@ -13,6 +13,8 @@ import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
 import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
 import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
 import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
+import InicioDoc from "./pages/Doctor/InicioDoctor"
+import Pacientes_pendientes from "./pages/Doctor/pacientes_pendientes"
 import CambiarContrasena from "./pages/cambiarContrasena";
 import ConfiguracionPage from "./pages/Configuracion";
 import Odontograma from "./pages/Doctor/odontologia";
@@ -45,12 +47,14 @@ function App() {
             <Route path="/cambiar-contrasena" element={<CambiarContrasena />} />
             <Route path="/configuracion" element={<ConfiguracionPage />} />
             <Route path="/odontologia-diagnostico" element={<Odontograma />} />
-            
+            <Route path="/Inicio-doctor" element={<InicioDoc />} />
+            <Route path="/inicio-enfermeria" element={<InicioEnf />} />
+
           </Route>
-          <Route path="/pacientesEspera" element={<PacientesEspera />} />
-          <Route path="/pacientesEsperaDoc" element={<PacientesEsperaDoc />} />
-          <Route path="/Inicio-Enfermeria" element={<InicioEnf />} />
-          <Route path="/HistoriaClinica-Ingreso" element={<HistoriaClinicaIngreso />} />
+          <Route path="/pacientes-espera" element={<PacientesEspera />} />
+          <Route path="/pacientes-pendientes" element={<Pacientes_pendientes />} />
+          <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
+          <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
           <Route path="/triaje" element={<TriajePaciente />} />
           
         </Routes>

@@ -1,4 +1,3 @@
-import { jwtCheck } from './config/auth0';
 // src/server.ts
 import express from 'express';
 import cors from 'cors';
@@ -21,23 +20,6 @@ const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);
 
 const app = express();
-
-
-
-
-
-
-app.get(
-  '/api/test-m2m', 
-  jwtCheck, 
-  (req, res) => {
-    // Aquí solo confirmamos que el token M2M es válido
-    res.json({ msg: 'Token M2M válido ✅', payload: (req as any).auth });
-  }
-);
-
-
-
 
 // Middlewares globales
 app.use(cors({

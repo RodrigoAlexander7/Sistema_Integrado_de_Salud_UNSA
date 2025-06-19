@@ -9,7 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-const DiagnosticoPsicologia: React.FC = () => {
+const DiagnosticoNutricion: React.FC = () => {
 
   const { theme } = useTheme();
   const navigate = useNavigate(); 
@@ -26,7 +26,7 @@ const DiagnosticoPsicologia: React.FC = () => {
         {/* Contenedor principal */}
         <div className="w-full max-w-full">
           <TitleCard 
-            title="Psicología" 
+            title="Nutrición" 
             icon={<File className="h-8 w-8" />} 
           />
         </div>
@@ -44,7 +44,7 @@ const DiagnosticoPsicologia: React.FC = () => {
           {/* Evaluaciones */}
           <Card className="p-6 mb-6">
           <div className="grid gap-4">
-            {["Evaluación Mental", "Test aplicado", "Plan de Intervención", "Evolución"].map((titulo, idx) => (
+            {["Evaluación Nutricional ", "Diagnóstico Nutricional", "Plan Alimentario", "Seguimiento"].map((titulo, idx) => (
               <Card key={idx} className={`p-4 border rounded-md shadow-sm ${
                   theme === 'dark' 
                     ? 'bg-gray-700 border-gray-600' 
@@ -103,4 +103,4 @@ const DiagnosticoPsicologia: React.FC = () => {
   );
 };
 
-export default DiagnosticoPsicologia;
+export default DiagnosticoNutricion;

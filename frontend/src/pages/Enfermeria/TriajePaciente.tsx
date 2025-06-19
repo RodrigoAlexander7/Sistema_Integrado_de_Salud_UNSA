@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import BarraOpciones from "../../components/barra-opciones-enfermeria";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import { File } from "lucide-react";
+import TitleCard from "@/components/TitleCard";
 
 const TriajePaciente: React.FC = () => {
     const navigate = useNavigate(); 
@@ -33,12 +35,10 @@ const TriajePaciente: React.FC = () => {
                 </div>
             )}
 
-            <BarraOpciones />
-            <Card className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4">
-                <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                    Triaje del Paciente
-                </h1>
-            </Card>
+            <TitleCard 
+            title="Triaje de paciente" 
+            icon={<File className="h-8 w-8" />} 
+            />
 
             <div className="border-2 border-blue-400 p-6 rounded-md w-full max-w-5xl shadow-sm">
                 <h2 className="text-xl font-semibold text-center mb-6">

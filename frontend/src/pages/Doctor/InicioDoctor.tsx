@@ -33,7 +33,7 @@ const InicioDoc: React.FC = () => {
             {/* Contenido principal */}
             <main className="flex flex-col items-center mt-12 px-4">
                 <TitleCard 
-                    title="Bienvenido" 
+                    title="Bienvenido/a" 
                     icon={<UserPlus className="h-8 w-8" />} 
                 />
                 

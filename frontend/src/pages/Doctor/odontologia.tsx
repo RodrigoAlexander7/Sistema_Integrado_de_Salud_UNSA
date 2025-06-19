@@ -8,6 +8,8 @@ import { Square, File } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 
 const Odontograma: React.FC = () => {
@@ -33,6 +35,13 @@ const Odontograma: React.FC = () => {
     { numero: 37, nombre: "2do Molar" }, { numero: 38, nombre: "3er Molar" }
   ];
 
+  const navigate = useNavigate(); 
+
+    const handlePacientesPendientes = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("abriendo Historia Clinica Ingreso") 
+        navigate("/pacientes-pendientes");
+    } 
   return (
     <div className="w-full">
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
@@ -190,6 +199,7 @@ const Odontograma: React.FC = () => {
             <Button 
               type="button" 
               variant="outline"
+              onClick={handlePacientesPendientes}
               className={`${
                 theme === 'dark' 
                  ? 'border-gray-600 hover:bg-gray-700' 

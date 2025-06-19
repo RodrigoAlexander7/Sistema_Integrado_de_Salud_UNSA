@@ -19,6 +19,7 @@ import CambiarContrasena from "./pages/cambiarContrasena";
 import ConfiguracionPage from "./pages/Configuracion";
 import Odontograma from "./pages/Doctor/odontologia";
 import { ThemeProvider } from "./context/ThemeContext";
+import DiagnosticoNutricion from "./pages/Doctor/nutricion";
 
 function App() {
   return (
@@ -49,10 +50,12 @@ function App() {
             <Route path="/odontologia-diagnostico" element={<Odontograma />} />
             <Route path="/Inicio-doctor" element={<InicioDoc />} />
             <Route path="/inicio-enfermeria" element={<InicioEnf />} />
+            <Route path="/pacientes-pendientes" element={<Pacientes_pendientes />} />          
+            <Route path="/nutricion-diagnostico" element={<DiagnosticoNutricion />} />
 
           </Route>
           <Route path="/pacientes-espera" element={<PacientesEspera />} />
-          <Route path="/pacientes-pendientes" element={<Pacientes_pendientes />} />
+          
           <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
           <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
           <Route path="/triaje" element={<TriajePaciente />} />

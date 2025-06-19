@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import BarraOpciones from "../../components/barra-opciones-enfermeria";
-import { Card } from "@/components/ui/card";
+//import BarraOpciones from "../../components/barra-opciones-enfermeria";
 import { useNavigate } from "react-router-dom";
+import { File } from "lucide-react";
+//import { useTheme } from "@/context/ThemeContext";
+import TitleCard from "@/components/TitleCard";
+
 
 
 const HistoriaClinicaIngreso: React.FC = () => {
@@ -21,14 +24,10 @@ const HistoriaClinicaIngreso: React.FC = () => {
         };
     return (
         <div className="w-full min-h-screen bg-white px-4 py-8 flex flex-col items-center">
-            <BarraOpciones />
-            <Card 
-                className="w-full bg-gradient-to-br from-sky-200 via-blue-100 to-yellow-100 text-gray-800 shadow-lg p-4"
-            >
-                <h1 className="text-4xl font-bold text-center mt-8 mb-8 text-blue-950">
-                Historia Clínica de Ingreso
-                </h1>
-            </Card>
+            <TitleCard 
+            title="Creación de historia clínica" 
+            icon={<File className="h-8 w-8" />} 
+            />
             <h1 className="text-3xl font-bold text-blue-900 mb-6">
             </h1>
 

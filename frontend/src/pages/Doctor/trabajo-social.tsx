@@ -7,10 +7,16 @@ import TitleCard from "@/components/TitleCard";
 import { File } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const DiagnosticoTrabSoc: React.FC = () => {
   const { theme } = useTheme();
-
+  const navigate = useNavigate(); 
+  const handlePacientesPendientes = (e: React.FormEvent) => {
+          e.preventDefault();
+          console.log("abriendo Historia Clinica Ingreso") 
+          navigate("/pacientes-pendientes");
+      }
   return (
     <div className="w-full">
       {/* Main ajustado */}
@@ -78,6 +84,7 @@ const DiagnosticoTrabSoc: React.FC = () => {
               <Button 
                 type="button" 
                 variant="outline"
+                onClick={handlePacientesPendientes}
                 className={`${
                   theme === 'dark' 
                     ? 'border-gray-600 hover:bg-gray-700' 

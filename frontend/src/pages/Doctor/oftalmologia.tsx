@@ -10,9 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { UserPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const DiagnosticoOftalmologia: React.FC = () => {
   const { theme } = useTheme();
+  const navigate = useNavigate(); 
+  
   const [formData, setFormData] = useState({
     agudezaVisual: {
       sinCorreccion: {
@@ -97,6 +100,10 @@ const DiagnosticoOftalmologia: React.FC = () => {
     console.log("Datos enviados:", formData);
     // Aquí iría la lógica para enviar los datos al servidor
   };
+  const handlePacientesPendientes = (e: React.FormEvent) => {
+          e.preventDefault();
+          navigate("/pacientes-pendientes");
+  } 
 
   return (
     <div className="w-full">
@@ -500,6 +507,7 @@ const DiagnosticoOftalmologia: React.FC = () => {
               <Button 
                 type="button" 
                 variant="outline"
+                onClick={handlePacientesPendientes}
                 className={`${
                   theme === 'dark' 
                     ? 'border-gray-600 hover:bg-gray-700' 

@@ -1,4 +1,4 @@
-// config/environment.ts
+// Importacion de variables de entorno desde el archivo .env
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,7 +19,7 @@ export const config = {
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d'
   },
   
-  // Auth0 (si lo usas)
+  // Auth0 
   auth0: {
     domain: process.env.AUTH0_DOMAIN || '',
     clientId: process.env.AUTH0_CLIENT_ID || '',
@@ -60,19 +60,19 @@ const requiredEnvVars = ['DATABASE_URL'];
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
-  console.error('❌ Variables de entorno faltantes:', missingEnvVars);
+  console.error('Variables de entorno faltantes:', missingEnvVars);
   process.exit(1);
 }
 
-// Validar configuraciones críticas
+// Validar que configuraciones criticas han sido cambiadas
 if (config.nodeEnv === 'production') {
   if (config.jwt.secret === 'your-super-secret-jwt-key-change-in-production') {
-    console.error('❌ JWT_SECRET debe ser cambiado en producción');
+    console.error('Algo Salio Mal: JWT_SECRET debe ser cambiado en producción');
     process.exit(1);
   }
   
   if (config.jwt.refreshSecret === 'your-super-secret-refresh-jwt-key-change-in-production') {
-    console.error('❌ JWT_REFRESH_SECRET debe ser cambiado en producción');
+    console.error('Algo Salio Mal: JWT_REFRESH_SECRET debe ser cambiado en producción');
     process.exit(1);
   }
 }

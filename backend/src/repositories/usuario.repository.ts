@@ -1,6 +1,10 @@
 import { Usuario, Medico, Enfermera, TipoUsuario } from '../generated/prisma';
 import { BaseRepository } from './base.repository';
 
+/* Creacion de modelo para Usuarios 
+Separecion de responsablidades y evitar exponer informacion [email/contrasenaHash] en la capa de perfil 
+*/
+
 export interface CreateUsuarioData {
   nombreUsuario: string;
   email: string;
@@ -9,6 +13,7 @@ export interface CreateUsuarioData {
   activo?: boolean;
 }
 
+// molde para crear medicos en la base de datos
 export interface CreateMedicoData {
   nombres: string;
   apellidos: string;
@@ -19,6 +24,7 @@ export interface CreateMedicoData {
   correo?: string;
 }
 
+// molde para crear enfermeras en la base de datos
 export interface CreateEnfermeraData {
   nombres: string;
   apellidos: string;
@@ -29,6 +35,7 @@ export interface CreateEnfermeraData {
   correo?: string;
 }
 
+// molde -> datos esperados para actualizar informacion de un usuario en la base de datos
 export interface UpdateUsuarioData {
   nombreUsuario?: string;
   email?: string;
@@ -37,8 +44,7 @@ export interface UpdateUsuarioData {
 }
 
 export class UsuarioRepository extends BaseRepository {
-  
-  // Crear usuario
+  // Crear usuario mediante la instacia de prisma 'db' (de base.repository)
   async create(data: CreateUsuarioData): Promise<Usuario> {
     try {
       return await this.db.usuario.create({

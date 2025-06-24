@@ -1,4 +1,5 @@
 // service.ts -> unica parte del back que habla con Auth0
+//se asegura que el usuario se cree localmente y en Auth0 
 import { ManagementClient, AuthenticationClient } from 'auth0';
 import { Usuario, Medico, Enfermera, TipoUsuario } from '../generated/prisma';
 import { UsuarioService } from './usuario.service';
@@ -67,7 +68,8 @@ export class AuthService {
     });
   }
 
-//************************* aqui inicia la logica pura y dura *************************************
+
+// LOGICA PARA REGISTRAR USUARIOS
   async register(data: RegisterData): Promise<RegisterResult> {
     try {
       logger.info(`Iniciando registro para: ${data.email}, tipo: ${data.tipoUsuario}`);
@@ -78,12 +80,18 @@ export class AuthService {
         throw new Error('El usuario ya existe en el sistema');
       }
 
-      // 2. Crear usuario en Auth0
+      // 2. CREAR USUARIO EN AUTH0
+      // ManagementClient -> poderes administrativos, crear, actualizar, eliminar, generar tikets 
+      // en auth0 no se usan todos los datos, guarda solo lo necesario para login
       const auth0User = await this.managementClient.users.create({
-        connection: 'Username-Password-Authentication', // Conexión por defecto
+        connection: 'Username-Password-Authentication', // Conexión por defecto -> la base de datos en auth0 por defecto donde se guardaran los users
         email: data.email,
         password: data.password,
-        email_verified: false, // Se verificará por email
+        
+        // esto podria cambiar mas adelante si aceptamos usuarios pacientes (escalaabilidad futura)
+        // donde los estudiantes (pacientes) podran registrarse con su correo institucional
+        email_verified: false, //NO se verificara email
+      
         app_metadata: {
           tipoUsuario: data.tipoUsuario,
           sistema: 'medico'
@@ -101,7 +109,7 @@ export class AuthService {
 
       logger.info(`Usuario creado en Auth0: ${auth0User.data.user_id}`);
 
-      // 3. Crear usuario en la base de datos local
+      // 3. CREAR USUARIO EN LA BASE DE DATOS LOCAL (SINCRONIZACION)
       const hashedPassword = await bcrypt.hash(data.password, 12);
       
       const usuario = await this.usuarioService.create({
@@ -114,7 +122,7 @@ export class AuthService {
 
       logger.info(`Usuario creado en BD local: ${usuario.id}`);
 
-      // 4. Crear perfil profesional
+      // 4. CREAR PERFIL PROFESIONAL (BD LOCAL)
       let profile: Medico | Enfermera | undefined;
 
       if (data.tipoUsuario === 'MEDICO') {

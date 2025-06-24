@@ -235,7 +235,7 @@ para la inyeccion de dependencias manuales */
     }
   }
 
-  // Actualizar último acceso
+  // Actualizar ultimo acceso
   async updateLastAccess(id: number): Promise<Usuario> {
     try {
       return await this.usuarioRepository.updateLastAccess(id);

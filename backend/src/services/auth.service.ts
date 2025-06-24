@@ -90,7 +90,7 @@ export class AuthService {
         
         // esto podria cambiar mas adelante si aceptamos usuarios pacientes (escalaabilidad futura)
         // donde los estudiantes (pacientes) podran registrarse con su correo institucional
-        email_verified: false, //NO se verificara email
+        email_verified: true, //NO se verificara email (el email esta verificado? -> true)
       
         app_metadata: {
           tipoUsuario: data.tipoUsuario,
@@ -149,7 +149,12 @@ export class AuthService {
         logger.info(`Perfil de enfermera creado: ${profile.id}`);
       }
 
-      // 5. Obtener token de acceso inicial
+      /* 5. Obtener token de acceso inicial  
+      Primer login cuando se crea el usuario, cliente authClient solicita un token 
+      Diferencias entre tipos de login
+      passwordGrant   : back recibe usuario y contrasena -> las envia a auth0 -> auth0 devuelve un token firmado(autorizado) 
+      universal login : usuario y contrasena en el login auth0 -> auth0 la recive y firma -> auth0 devuelve un token firmado
+       */
       const tokenResponse = await this.authClient.oauth.passwordGrant({
         username: data.email,
         password: data.password,
@@ -176,7 +181,7 @@ export class AuthService {
         stack: error.stack
       });
 
-      // Si falla, intentar limpiar lo que se creó
+      // Si falla, intentar limpiar lo que se creo
       try {
         const localUser = await this.usuarioService.findByEmail(data.email);
         if (localUser) {
@@ -191,6 +196,9 @@ export class AuthService {
     }
   }
 
+
+  // Login meiante passwordGrant esto es seguro solo si es una red privada (como la nuestra)
+  // en caso se vuelva un servicio para usuarios tambien (toda la U) tendriamos que cambiar a el Universal login
   async login(data: LoginData): Promise<AuthResult> {
     try {
       logger.info(`Intento de login para: ${data.email}`);
@@ -224,7 +232,9 @@ export class AuthService {
       logger.info(`Login exitoso para: ${data.email}`);
 
       return {
+        // Para acceder a rutas protegidas
         accessToken: tokenResponse.data.access_token,
+        // Para renovar el token cuando el otro expira
         refreshToken: tokenResponse.data.refresh_token,
         user: {
           id: user.id,
@@ -281,11 +291,11 @@ export class AuthService {
     try {
       logger.info(`Logout para usuario: ${userId}`);
       
-      // Actualizar último acceso
+      // Actualizar ultimo acceso
       await this.usuarioService.updateLastAccess(userId);
       
-      // Aquí podrías:
-      // 1. Invalidar el token en Auth0 (requiere configuración adicional)
+      // Aqui podriamos
+      // 1. Invalidar el token en Auth0 (configuracion adicional)
       // 2. Agregar token a blacklist
       // 3. Registrar logout en auditoría
       
@@ -313,17 +323,17 @@ export class AuthService {
     }
   }
 
-  // Método para verificar email
+  // Metodo para verificar email
   async resendVerificationEmail(userId: string): Promise<void> {
     try {
       await this.managementClient.tickets.verifyEmail({
         user_id: userId
       });
       
-      logger.info(`Email de verificación reenviado para usuario: ${userId}`);
+      logger.info(`Email de verificacion reenviado para usuario: ${userId}`);
     } catch (error: any) {
-      logger.error('Error al reenviar email de verificación:', error);
-      throw new Error('Error al enviar email de verificación');
+      logger.error('Error al reenviar email de verificacion:', error);
+      throw new Error('Error al enviar email de verificacion');
     }
   }
 }

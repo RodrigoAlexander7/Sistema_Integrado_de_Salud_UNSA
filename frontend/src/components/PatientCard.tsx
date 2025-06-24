@@ -33,13 +33,13 @@ const PatientCard: React.FC<PatientCardProps> = ({
       <Card className={`shadow-md rounded-2xl overflow-hidden w-full py-0 ${
         theme === 'dark' 
           ? 'border-gray-600 bg-gray-800' 
-          : 'border-gray-300 bg-white'
+          : 'border-white bg-white'
       }`}>
         <CardContent className="p-0">
           <div className={`text-center text-xl font-semibold border-b px-8 py-5 ${
             theme === 'dark' 
               ? 'bg-gray-700 text-gray-100 border-gray-600' 
-              : 'bg-white text-gray-800 border-gray-200'
+              : 'bg-white text-gray-800 border-white'
           }`}>
             Nombre: <span className="font-bold">{patient.name}</span>
           </div>
@@ -123,7 +123,7 @@ const PatientCard: React.FC<PatientCardProps> = ({
           <div className={`flex justify-center gap-8 px-8 py-6 border-t ${
             theme === 'dark' 
               ? 'bg-gray-800 border-gray-600' 
-              : 'bg-white border-gray-200'
+              : 'bg-white border-white'
           }`}>
             <Button
               className={`text-white text-md px-6 py-3 rounded-lg ${

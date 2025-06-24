@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import TitleCard from "@/components/TitleCard";
 import { UserPlus } from "lucide-react";
 
-const Inicio: React.FC = () => {
+const PacientesNuevos: React.FC = () => {
   const navigate = useNavigate();
 
   const patientInfo = {
@@ -47,4 +47,4 @@ const Inicio: React.FC = () => {
   );
 };
 
-export default Inicio;
+export default PacientesNuevos;

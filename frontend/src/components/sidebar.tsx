@@ -9,7 +9,8 @@ import {
   User,
   Book,
   Sun,
-  Moon
+  Moon,
+  UserPlus
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -20,14 +21,15 @@ const Sidebar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
-    { label: "Inicio", icon: <Home size={22} />, path: "/inicio" },
+    { label: "Inicio", icon: <Home size = {22}/>, path: "/inicio-doctor"},
+    { label: "Pacientes Nuevos", icon: <UserPlus size={22} />, path: "/pacientes-nuevos" },
     { label: "Perfil de Usuario", icon: <User size={22} />, path: "/perfil" },
     { label: "Búsqueda", icon: <Search size={22} />, path: "/busqueda" },
     { label: "Directorio", icon: <Book size={22} />, path: "/directorio" },
     { label: "Crear Historia", icon: <FilePlus size={22} />, path: "/trabajo-social-diagnostico" },
     { label: "Configuración", icon: <Settings size={22} />, path: "/configuracion" },
     { label: "Cambiar Contraseña", icon: <KeyRound size={22} />, path: "/cambiar-contrasena" },
-    { label: "Cerrar Sesión", icon: <LogOut size={22} />, path: "/logout" },
+    { label: "Cerrar Sesión", icon: <LogOut size={22} />, path: "/" },
   ];
 
   return (

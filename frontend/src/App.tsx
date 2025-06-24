@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LayoutWithSidebar } from "./components/layout-with-sidebar";
-import Inicio from "@/pages/Doctor/Inicio"
+import PacientesNuevos from "./pages/Doctor/pacientesNuevos";
 import Busqueda from "@/pages/Busqueda";
 import { LoginForm } from "@/components/login-form";
 import Perfil from "@/pages/Perfil";
@@ -38,7 +38,7 @@ function App() {
           
           {/* Rutas CON sidebar */}
           <Route element={<LayoutWithSidebar />}>
-            <Route path="/inicio" element={<Inicio />} />
+            <Route path="/pacientes-nuevos" element={<PacientesNuevos />} />
             <Route path="/busqueda" element={<Busqueda />} />
             <Route path="/directorio" element={<Directorio />} />
             <Route path="/perfil" element={<Perfil />} />

@@ -78,7 +78,7 @@ function Directorio() {
           <h2 className="text-xl font-bold mb-4">Personal:</h2>
 
           {/* Encabezado alineado */}
-          <div className="grid grid-cols-12 gap-4 px-6 py-4 text-2x1 font-bold text-gray-600">
+          <div className="grid grid-cols-12 gap-4 px-6 py-4 text-2x1 font-bold text-gray-600 dark:text-gray-300">
             <span className="col-span-5">Nombre</span>
             <span className="col-span-3">Especialidad</span>
             <span className="col-span-3">Disponibilidad</span>

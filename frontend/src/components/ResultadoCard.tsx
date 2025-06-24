@@ -13,7 +13,7 @@ interface ResultadoCardProps {
 
 export function ResultadoCard({ columnas, className }: ResultadoCardProps) {
   return (
-    <Card className={cn("w-full ", className)}>
+    <Card className={cn("w-full border-none", className)}>
       <div className="grid grid-cols-12 gap-4 px-6 items-center">
         {columnas.map((col, index) => (
           <div

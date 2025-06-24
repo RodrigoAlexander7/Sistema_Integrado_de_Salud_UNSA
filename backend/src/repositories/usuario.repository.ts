@@ -1,4 +1,5 @@
 // Los repository son los unicos que se comunican con la base de datos -> Arquitectura por capas
+// cran, actualizan, desactivan usuarios (medicos/enfermeras)
 import { Usuario, Medico, Enfermera, TipoUsuario } from '../generated/prisma';
 import { BaseRepository } from './base.repository';
 

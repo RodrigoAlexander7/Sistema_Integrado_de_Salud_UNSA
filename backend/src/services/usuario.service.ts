@@ -1,4 +1,7 @@
-// src/services/usuario.service.ts
+/* usuario.service.ts -> encargado de la logica relacionada con la base de datos
+ todo lo hace en local -> no sabe nada de Auth0 ni llama tokens, se limita a trabajar en local
+ *** Eso de Auth0 lo hace AuthService
+*/
 import { Usuario, Medico, Enfermera, TipoUsuario } from '../generated/prisma';
 import { 
   UsuarioRepository, 
@@ -11,7 +14,7 @@ import { logger } from '../utils/logger';
 import bcrypt from 'bcryptjs';
 
 export interface CreateUsuarioServiceData extends Omit<CreateUsuarioData, 'contrasenaHash'> {
-  contrasena?: string; // Opcional porque Auth0 maneja las contraseñas
+  contrasena?: string; // Opcional porque Auth0 maneja las contraseñas aunque sirve tenerlas en local tambien
 }
 
 export interface UpdateUsuarioServiceData {
@@ -27,6 +30,9 @@ export interface UsuarioListFilters {
 }
 
 export class UsuarioService {
+/* Constructor relevante en esta linea del server.ts
+const usuarioService = new UsuarioService(usuarioRepository);
+para la inyeccion de dependencias manuales */
   constructor(private usuarioRepository: UsuarioRepository) {}
 
   // Crear usuario
@@ -41,7 +47,7 @@ export class UsuarioService {
       // Validar que el nombre de usuario no exista
       const existingUsername = await this.usuarioRepository.findByUsername(data.nombreUsuario);
       if (existingUsername) {
-        throw new Error('El nombre de usuario ya está en uso');
+        throw new Error('El nombre de usuario ya esta en uso');
       }
 
       // Hash de la contraseña si se proporciona (backup para casos sin Auth0)

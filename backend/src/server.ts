@@ -12,8 +12,9 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthMiddleware } from './middleware/auth.middleware';
 
 // Crear instancias
-const usuarioRepository = new UsuarioRepository();
-const usuarioService = new UsuarioService(usuarioRepository);
+const usuarioRepository = new UsuarioRepository();                  //instancia para la comunicacion con la DB
+const usuarioService = new UsuarioService(usuarioRepository);       //instancia para crear/modif usuarios localmente
+
 const authService = new AuthService(usuarioService);
 const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);

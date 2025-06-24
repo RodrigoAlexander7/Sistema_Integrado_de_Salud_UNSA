@@ -19,7 +19,10 @@ import CambiarContrasena from "./pages/cambiarContrasena";
 import ConfiguracionPage from "./pages/Configuracion";
 import Odontograma from "./pages/Doctor/odontologia";
 import { ThemeProvider } from "./context/ThemeContext";
-import DiagnosticoNutricion from "./pages/Doctor/nutricion";
+import DiagnosticoNutricion from "./pages/Doctor/nutricion";  
+import InicioAdm from "./pages/Administrador/InicioAdministrador";
+import IngresoDoctor from "./pages/Administrador/IngresoDoctor";
+import RegistroEnfermera from "./pages/Administrador/ingresoEnfermera.";
 
 function App() {
   return (
@@ -52,13 +55,16 @@ function App() {
             <Route path="/inicio-enfermeria" element={<InicioEnf />} />
             <Route path="/pacientes-pendientes" element={<Pacientes_pendientes />} />          
             <Route path="/nutricion-diagnostico" element={<DiagnosticoNutricion />} />
-
+            <Route path="/inicio-admin" element={<InicioAdm />} />
           </Route>
           <Route path="/pacientes-espera" element={<PacientesEspera />} />
           
           <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
           <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
           <Route path="/triaje" element={<TriajePaciente />} />
+          <Route path="/ingresar-nuevo-doctor" element={<IngresoDoctor />} />
+          <Route path="/ingresar-nueva-enfermera" element={<RegistroEnfermera />} />
+
           
         </Routes>
       </BrowserRouter>

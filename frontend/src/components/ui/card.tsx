@@ -9,7 +9,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
         "flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
         "bg-white dark:bg-gray-800",
         "text-gray-900 dark:text-gray-100",
-        "border-gray-200 dark:border-gray-700",
+        "border-gray-200 dark:border-white",
         className
       )}
       {...props}

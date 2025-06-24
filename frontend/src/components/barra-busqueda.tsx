@@ -39,7 +39,7 @@ export function BarraBusqueda({
 
   return (
     <div className="w-full max-w-[90rem] mx-auto mt-0">
-      <Card className={`w-full shadow-lg p-4 ${
+      <Card className={`w-full shadow-lg p-4 border-none ${
         theme === 'dark' 
           ? 'bg-gradient-to-br from-gray-800 via-gray-700 to-gray-600 text-white' 
           : 'bg-gradient-to-br from-blue-800 via-blue-600 to-blue-400 text-white'

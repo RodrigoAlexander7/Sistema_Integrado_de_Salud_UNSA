@@ -13,9 +13,12 @@ import {
 import { logger } from '../utils/logger';
 import bcrypt from 'bcryptjs';
 
+
+// contrasena hash se omite por que esta es generada y guardada automaticamente, nosotros no la guardamos
 export interface CreateUsuarioServiceData extends Omit<CreateUsuarioData, 'contrasenaHash'> {
-  contrasena?: string; // Opcional porque Auth0 maneja las contraseñas aunque sirve tenerlas en local tambien
+  contrasena: string; 
 }
+
 
 export interface UpdateUsuarioServiceData {
   nombreUsuario?: string;
@@ -52,12 +55,11 @@ para la inyeccion de dependencias manuales */
 
       // Hash de la contraseña si se proporciona (backup para casos sin Auth0)
       let contrasenaHash = '';
-      if (data.contrasena) {
+      if (data.contrasena) 
         contrasenaHash = await bcrypt.hash(data.contrasena, 12);
-      } else {
-        // Generar hash aleatorio para Auth0
-        contrasenaHash = await bcrypt.hash(Math.random().toString(36), 12);
-      }
+      // Generar hash aleatorio para Auth0 (Login con gmail por ejemplo)
+      //else contrasenaHash = await bcrypt.hash(Math.random().toString(36), 12);
+      
 
       const usuario = await this.usuarioRepository.create({
         nombreUsuario: data.nombreUsuario,

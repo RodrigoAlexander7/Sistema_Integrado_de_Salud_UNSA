@@ -15,9 +15,9 @@ import { AuthMiddleware } from './middleware/auth.middleware';
 const usuarioRepository = new UsuarioRepository();                  //instancia para la comunicacion con la DB
 const usuarioService = new UsuarioService(usuarioRepository);       //instancia para crear/modif usuarios localmente
 
-const authService = new AuthService(usuarioService);
+const authService = new AuthService(usuarioService);                //para que authService pueda crear usuarios (en local y en auth0)
 const authController = new AuthController(authService, usuarioService);
-const authMiddleware = new AuthMiddleware(usuarioService);
+const authMiddleware = new AuthMiddleware(usuarioService);          
 
 const app = express();
 

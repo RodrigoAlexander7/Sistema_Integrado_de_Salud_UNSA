@@ -7,22 +7,25 @@ import { logger } from '../utils/logger';
 import { TipoUsuario } from '../generated/prisma';
 
 export class AuthMiddleware {
+  // le pasamos UsuarioService 
   constructor(private usuarioService: UsuarioService) {}
 
   // Middleware para verificar token de Auth0
-  //public verifyAuth0Token = jwtCheck;
-
-
-
   public verifyAuth0Token = (req: Request, res: Response, next: NextFunction) => {
-    logger.info('✅ Verificando token con jwtCheck');
+    logger.info('Verificando token con jwtCheck'); 
     return jwtCheck(req, res, next);
   };
-
-
-
-
-
+  // equivalente a esto -> public verifyAuth0Token = jwtCheck;
+  /* Flujo de jwtCheck
+  El servidor busca en el HEADER de Authorization el Bearer token, le pasa el token a jwtCheck pej:
+    router.get('/usuarios', jwtCheck, controlador.obtenerUsuarios);
+    el server ve que el middleware jwtCheck esta antes que el controlador (controlador.obtenerUsers)
+  jwtCheck extrae el string de JWT (header.payload.signature) Y lo veriifica para dar acceso
+    header    ->  contiene algoritmo de encriptacion y tipo de token  
+    payload   ->  datos (email, id , rol)
+    signature ->  firmado del token, asegura que no fue alterado
+  Si todo ok retorna un objeto req.auth
+  */  
 
   // Middleware para cargar información del usuario desde la DB
   public loadUserInfo = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -41,7 +44,8 @@ export class AuthMiddleware {
         return ResponseUtil.forbidden(res, 'Usuario inactivo');
       }
 
-      // Agregar información del usuario a la request
+      // Sobreescribimos la informacion de Auth0 
+      // desde aqui trabajamos con los datos y roles de nuestraba db y ya no con Aut0
       req.auth = {
         userId: usuario.id,
         tipoUsuario: usuario.tipoUsuario,
@@ -64,7 +68,7 @@ export class AuthMiddleware {
       }
 
       if (!roles.includes(req.auth.tipoUsuario)) {
-        return ResponseUtil.forbidden(res, 'No tienes permisos para realizar esta acción');
+        return ResponseUtil.forbidden(res, 'No tienes permisos para realizar esta accion');
       }
 
       next();

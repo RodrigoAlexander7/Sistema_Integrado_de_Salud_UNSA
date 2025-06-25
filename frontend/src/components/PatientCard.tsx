@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/ThemeContext";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 interface PatientInfo {
   name: string;
@@ -17,16 +18,31 @@ interface PatientInfo {
 
 interface PatientCardProps {
   patient: PatientInfo;
-  onAtenderPaciente?: () => void;
+  onAtenderPaciente?: (specialty: string) => void;
   onSiguientePaciente?: () => void;
 }
 
+const specialties = [
+  { value: "trabajo-social", label: "Trabajo Social" },
+  { value: "nutricion", label: "Nutrición" },
+  { value: "psicologia", label: "Psicología" },
+  { value: "oftalmologia", label: "Oftalmología" },
+  { value: "odontologia", label: "Odontología" },
+  { value: "medicina-general", label: "Medicina General" },
+];
+
 const PatientCard: React.FC<PatientCardProps> = ({
   patient,
-  onAtenderPaciente,
-  onSiguientePaciente,
+  onAtenderPaciente
 }) => {
   const { theme } = useTheme();
+  const [selectedSpecialty, setSelectedSpecialty] = React.useState<string>("");
+
+  const handleAtenderPaciente = () => {
+    if (selectedSpecialty && onAtenderPaciente) {
+      onAtenderPaciente(selectedSpecialty);
+    }
+  };
 
   return (
     <div className="w-full py-4">
@@ -120,31 +136,63 @@ const PatientCard: React.FC<PatientCardProps> = ({
             </div>
           </div>
 
-          <div className={`flex justify-center gap-8 px-8 py-6 border-t ${
+            <div className={`flex flex-col gap-4 px-8 py-6 border-t ${
             theme === 'dark' 
               ? 'bg-gray-800 border-gray-600' 
               : 'bg-white border-white'
           }`}>
-            <Button
-              className={`text-white text-md px-6 py-3 rounded-lg ${
-                theme === 'dark'
-                  ? 'bg-blue-700 hover:bg-blue-600'
-                  : 'bg-blue-900 hover:bg-blue-700'
-              }`}
-              onClick={onAtenderPaciente}
-            >
-              Atender Paciente
-            </Button>
-            <Button
-              className={`text-white text-md px-6 py-3 rounded-lg ${
-                theme === 'dark'
-                  ? 'bg-blue-700 hover:bg-blue-600'
-                  : 'bg-blue-900 hover:bg-blue-700'
-              }`}
-              onClick={onSiguientePaciente}
-            >
-              Siguiente Paciente
-            </Button>
+            <div className="w-full max-w-md mx-auto">
+              <Select 
+                value={selectedSpecialty} 
+                onValueChange={setSelectedSpecialty}
+              >
+                <SelectTrigger className={`w-full ${
+                  theme === 'dark' 
+                    ? 'bg-gray-700 border-gray-600 text-gray-100' 
+                    : 'bg-white border-gray-300 text-gray-800'
+                }`}>
+                  <SelectValue placeholder="Seleccione una especialidad" />
+                </SelectTrigger>
+                
+                <SelectContent 
+                  position="popper"
+                  side="top"
+                  className={`
+                    ${theme === 'dark' ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}
+                    w-[calc(var(--radix-select-trigger-width)+2px)]
+                    border
+                    mb-1
+                    rounded-md
+                    shadow-lg
+                  `}
+                >
+                  {specialties.map((specialty) => (
+                    <SelectItem 
+                      key={specialty.value} 
+                      value={specialty.value}
+                      className={`${theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}
+                        w-full text-left px-4 py-2`}
+                    >
+                      {specialty.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex justify-center">
+              <Button
+                className={`text-white text-md px-6 py-3 rounded-lg ${
+                  theme === 'dark'
+                    ? 'bg-blue-700 hover:bg-blue-600'
+                    : 'bg-blue-900 hover:bg-blue-700'
+                }`}
+                onClick={handleAtenderPaciente}
+                disabled={!selectedSpecialty}
+              >
+                Atender Paciente
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

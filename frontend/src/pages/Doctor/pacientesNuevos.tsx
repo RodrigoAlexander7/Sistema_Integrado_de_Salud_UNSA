@@ -19,9 +19,8 @@ const PacientesNuevos: React.FC = () => {
     bmi: "21 (Normal)",
   };
 
-  const handleTrabajoSocial = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate("/trabajo-social-diagnostico");
+  const handleDiagnosito = (specialty: string) => {
+    navigate(`/${specialty}-diagnostico`);
   };
 
   return (
@@ -39,7 +38,7 @@ const PacientesNuevos: React.FC = () => {
 
           <PatientCard
             patient={patientInfo}
-            onAtenderPaciente={handleTrabajoSocial}
+            onAtenderPaciente={handleDiagnosito}
           />
         </div>
       </main>

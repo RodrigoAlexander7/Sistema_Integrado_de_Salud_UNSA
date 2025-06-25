@@ -9,6 +9,21 @@ interface SelectContextProps {
   theme: 'light' | 'dark';
 }
 
+interface SelectContentProps {
+  children: ReactNode;
+  className?: string;
+  position?: "popper" | "item-aligned";
+  side?: "top" | "bottom" | "left" | "right";
+}
+
+interface SelectContentProps {
+  children: ReactNode;
+  className?: string;
+  position?: "popper" | "item-aligned";
+  side?: "top" | "bottom" | "left" | "right";
+  style?: React.CSSProperties; // Añade esta línea
+}
+
 const SelectContext = React.createContext<SelectContextProps | null>(null);
 
 interface SelectProps {
@@ -100,12 +115,14 @@ interface SelectContentProps {
 export const SelectContent: React.FC<SelectContentProps> = ({ 
   children, 
   className = "",
-  position = "item-aligned"
+  position = "item-aligned",
+  side = "bottom",
+  style = {} // Valor por defecto
 }) => {
   const ctx = useContext(SelectContext);
   if (!ctx) throw new Error("SelectContent must be used within a Select");
 
-  const baseClasses = "absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border shadow-lg focus:outline-none";
+  const baseClasses = "absolute z-50 max-h-60 w-full overflow-auto rounded-md border shadow-lg focus:outline-none";
   
   const themeClasses = ctx.theme === 'dark'
     ? "bg-gray-800 border-gray-700 text-gray-100"
@@ -115,10 +132,20 @@ export const SelectContent: React.FC<SelectContentProps> = ({
     ? "min-w-[var(--radix-select-trigger-width)]"
     : "w-full";
 
+  const sideClasses = {
+    top: "bottom-full mb-1",
+    bottom: "mt-1",
+    left: "right-full mr-1",
+    right: "ml-1"
+  }[side];
+
   if (!ctx.isOpen) return null;
 
   return (
-    <ul className={`${baseClasses} ${themeClasses} ${positionClasses} ${className}`}>
+    <ul 
+      className={`${baseClasses} ${themeClasses} ${positionClasses} ${sideClasses} ${className}`}
+      style={style} // Aplica los estilos inline aquí
+    >
       {children}
     </ul>
   );

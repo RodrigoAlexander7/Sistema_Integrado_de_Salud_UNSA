@@ -100,7 +100,8 @@
 
         logger.info(`Intento de registro para: ${email}, tipo: ${tipoUsuario}`);
 
-        // Registrar usuario
+        // Registrar usuario -> como ya paso la prueba (middleware) llama a AuthService para registrarlo 
+        // AuthService ya los crea tanto e auth0(datos parciales) como en local (todos los datos)
         const result = await this.authService.register({
           email,
           password,

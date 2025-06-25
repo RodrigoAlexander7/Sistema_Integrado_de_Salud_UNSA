@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import BarraOpciones from "../../components/barra-opciones-enfermeria";
-import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { File } from "lucide-react";
 import TitleCard from "@/components/TitleCard";
@@ -24,7 +22,8 @@ const TriajePaciente: React.FC = () => {
         "Trabajo Social",
         "Odontología",
         "Psicología",
-        "Oftalmología"
+        "Oftalmología",
+        "Nutrición"
     ];
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
     return (

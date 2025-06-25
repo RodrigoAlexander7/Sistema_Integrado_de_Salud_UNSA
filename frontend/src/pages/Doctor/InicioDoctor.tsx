@@ -73,7 +73,7 @@ const InicioDoc: React.FC = () => {
                                 />
                                 <p className={`text-md font-medium   ${
                                     theme === 'dark' ? 'text-gray-300' : 'text-blue-950'
-                                }`}><br /><br />Generar un Reporte</p>
+                                }`}><br /><br />Generar un<br></br>Reporte</p>
                             </CardContent>
                         </Card>
 
@@ -89,7 +89,7 @@ const InicioDoc: React.FC = () => {
                                 />
                                 <p className={`text-md font-medium   ${
                                     theme === 'dark' ? 'text-gray-300' : 'text-blue-950'
-                                }`}><br /><br />Pacientes<br></br>Pendientes</p>
+                                }`}><br /><br />Pacientes<br></br>Nuevos</p>
                             </CardContent>
                         </Card>
                     </div>

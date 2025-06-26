@@ -25,7 +25,8 @@ export const config = {
     clientId: process.env.AUTH0_CLIENT_ID || '',
     clientSecret: process.env.AUTH0_CLIENT_SECRET || '',
     audience: process.env.AUTH0_AUDIENCE || '',
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL || ''
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL || '',
+    namespace: process.env.AUTH0_NAMESPACE || ''
   },
   
   // CORS

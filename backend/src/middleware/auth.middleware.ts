@@ -5,6 +5,7 @@ import { UsuarioService } from '../services/usuario.service';
 import { ResponseUtil } from '../utils/response';
 import { logger } from '../utils/logger';
 import { TipoUsuario } from '../generated/prisma';
+import { config } from '../config/environment';
 
 export class AuthMiddleware {
   // le pasamos UsuarioService
@@ -27,10 +28,32 @@ export class AuthMiddleware {
   Si todo ok retorna un objeto req.auth
   */  
 
+
+  public attachUserInfoFromToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+      const namespace = config.auth0.namespace;
+      const auth = req.auth; // Payload del token validado por jwtCheck
+
+      if (!auth) {
+        return ResponseUtil.unauthorized(res, 'Token no encontrado o inválido');
+      }
+
+      // Reconstruimos req.auth con la info que nos interesa del token
+      req.auth = {
+        userId: auth[`${namespace}userId`],
+        tipoUsuario: auth[`${namespace}tipoUsuario`],
+        email: auth[`${namespace}email`],
+      };
+
+      next();
+  }
+
+
+
   // Middleware para cargar información del usuario desde la DB
   public loadUserInfo = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
       if (!req.auth?.email) {
+        console.log(req.headers.authorization)
         return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
       }
 
@@ -64,7 +87,7 @@ export class AuthMiddleware {
   public requireRole = (roles: TipoUsuario[]) => {
     return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
       if (!req.auth?.tipoUsuario) {
-        return ResponseUtil.unauthorized(res, 'Usuario no autenticado');
+        return ResponseUtil.unauthorized(res, 'Usuario no autenticado -r');
       }
 
       if (!roles.includes(req.auth.tipoUsuario)) {

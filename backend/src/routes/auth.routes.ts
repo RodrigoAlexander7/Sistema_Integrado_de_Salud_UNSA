@@ -14,8 +14,11 @@ export default function authRoutes(
   router.post('/refresh',     authController.refreshToken)
 
   // RUTAS PROTEGIDAS
+  //  routes   -> middleware -> controller -> service -> repositories
+  // llamar rutas -> guardias seguridad -> recibir datos/validar/llamar logica -> aplica logica ->  administrar BD
   router.use(
     authMiddleware.verifyAuth0Token,
+    authMiddleware.attachUserInfoFromToken,
     authMiddleware.loadUserInfo
   )
 

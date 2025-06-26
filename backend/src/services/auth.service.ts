@@ -122,6 +122,21 @@ export class AuthService {
 
       logger.info(`Usuario creado en BD local: ${usuario.id}`);
 
+      await this.managementClient.users.update(
+        { id: auth0User.data.user_id! },
+        {
+          app_metadata: {
+            // Guardamos el ID de nuestra BD y el tipo de usuario 
+            db_id: usuario.id,
+            tipoUsuario: usuario.tipoUsuario,
+            sistema: 'medico' // Mantienes tus otros metadatos
+          }
+        }
+      );
+      logger.info(`Metadatos actualizados en Auth0 para usuario ${usuario.id}`);
+
+
+
       // 4. CREAR PERFIL PROFESIONAL (BD LOCAL)
       let profile: Medico | Enfermera | undefined;
 

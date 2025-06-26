@@ -4,123 +4,63 @@ import rateLimit from 'express-rate-limit';
 import { config } from './config/environment';
 import { logger } from './utils/logger';
 
-// Importar repositorios, servicios y controladores
 import { UsuarioRepository } from './repositories/usuario.repository';
 import { UsuarioService } from './services/usuario.service';
 import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { AuthMiddleware } from './middleware/auth.middleware';
 
-// Crear instancias
-const usuarioRepository = new UsuarioRepository();                  //instancia para la comunicacion con la DB
-const usuarioService = new UsuarioService(usuarioRepository);       //instancia para crear/modif usuarios localmente
+import createAuthRoutes from './routes/auth.routes';
+import createMedicoRoutes from './routes/medico.routes';
+import createEnfermeraRoutes from './routes/enfermera.routes';
 
-const authService = new AuthService(usuarioService);                //para que authService pueda crear usuarios (en local y en auth0)
-const authController = new AuthController(authService, usuarioService); //tiene las funciones de login, register, etc, las construye con la logica de service
-const authMiddleware = new AuthMiddleware(usuarioService);          //para que el middleware pueda verificar roles con los datos de la bd local 
 
 const app = express();
 
-// Middlewares globales
-app.use(cors({
-  origin: config.corsOrigin,
-  credentials: true
-}));
 
-// IMPORTANTE: Middleware de parsing JSON ANTES de cualquier ruta
-app.use(express.json({ 
-  limit: '10mb'
-}));
+// MIDDLEWARES GLOBALES
+// Se aplican a TODAS las peticiones entrantes.
+app.use(cors({ origin: config.corsOrigin, credentials: true }));
+app.use(express.json({ limit: '10mb' })); // MUY IMPORTANTE: para poder leer req.body
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware de debug para inspeccionar requests (DESPUES del parsing)
+const limiter = rateLimit(config.rateLimit);
+app.use(limiter);
+
+// Middleware de log para cada petición
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.path} - ${req.ip}`);
-  
-  // Debug: Log del body en rutas de auth (ahora el body ya esta parseado)
-  if (req.path.includes('/auth/')) {
-    logger.info('Request body after parsing:', {
-      hasBody: !!req.body,
-      bodyType: typeof req.body,
-      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
-      contentType: req.get('content-type'),
-      contentLength: req.get('content-length'),
-      body: req.body
-    });
-  }
-  
   next();
 });
 
-// Rate limiting
-const limiter = rateLimit(config.rateLimit);
 
-app.use(limiter);
-
-// Health check endpoint
+// ENDPOINT DE SALUD
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     timestamp: new Date().toISOString(),
     environment: config.nodeEnv
   });
 });
 
-// Endpoint de test para verificar el parsing
-app.post('/api/test-body', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Test body parsing',
-    data: {
-      hasBody: !!req.body,
-      bodyType: typeof req.body,
-      bodyKeys: req.body && typeof req.body === 'object' ? Object.keys(req.body) : [],
-      contentType: req.get('content-type'),
-      contentLength: req.get('content-length'),
-      body: req.body
-    }
-  });
-});
 
-// Rutas de autenticación (públicas)
-app.post('/api/auth/register', authController.register);
-app.post('/api/auth/login', authController.login);
-app.post('/api/auth/refresh', authController.refreshToken);
+// INYECCIÓN DE DEPENDENCIAS
+// Creamos una unica instancia de cada clase, conectandolas entre si.
+const usuarioRepository = new UsuarioRepository();
+const usuarioService = new UsuarioService(usuarioRepository);
+const authService = new AuthService(usuarioService);
+const authController = new AuthController(authService, usuarioService);
+const authMiddleware = new AuthMiddleware(usuarioService);
 
-// Rutas protegidas
-app.post('/api/auth/logout', 
-  authMiddleware.verifyAuth0Token, 
-  authMiddleware.loadUserInfo, 
-  authController.logout
-);
 
-app.get('/api/auth/profile', 
-  authMiddleware.verifyAuth0Token, 
-  authMiddleware.loadUserInfo, 
-  authController.profile
-);
+// MONTAJE DE RUTAS MODULARES 
+app.use('/api/auth', createAuthRoutes(authController, authMiddleware));
+app.use('/api/medicos', createMedicoRoutes(authMiddleware));
+app.use('/api/enfermeras', createEnfermeraRoutes(authMiddleware));
 
-// Ruta de prueba para médicos
-app.get('/api/medicos/dashboard', 
-  authMiddleware.verifyAuth0Token, 
-  authMiddleware.loadUserInfo,
-  authMiddleware.requireMedico,
-  (req, res) => {
-    res.json({ message: 'Bienvenido al dashboard de médicos', user: (req as any).auth });
-  }
-);
 
-// Ruta de prueba para enfermeras
-app.get('/api/enfermeras/dashboard', 
-  authMiddleware.verifyAuth0Token, 
-  authMiddleware.loadUserInfo,
-  authMiddleware.requireEnfermera,
-  (req, res) => {
-    res.json({ message: 'Bienvenido al dashboard de enfermeras', user: (req as any).auth });
-  }
-);
-
-// Manejo de errores 404
+//MANEJO DE ERRORES
+// Si ninguna ruta anterior coincide, se ejecuta el 404
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -129,7 +69,7 @@ app.use('*', (req, res) => {
   });
 });
 
-// Manejo global de errores
+// Middleware global para atrapar cualquier error no manejado.
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   logger.error('Error no manejado:', {
     error: err.message,
@@ -145,12 +85,13 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-// Iniciar servidor
+
+//INICIO DEL SERVIDOR 
 const PORT = config.port;
 app.listen(PORT, () => {
-  logger.info(`🚀 Servidor corriendo en puerto ${PORT}`);
-  logger.info(`📚 Ambiente: ${config.nodeEnv}`);
-  logger.info(`🏥 API Medical App iniciada correctamente`);
+  logger.info(`Servidor corriendo en puerto ${PORT}`);
+  logger.info(`Ambiente: ${config.nodeEnv}`);
+  logger.info(`================  API Medical App iniciada correctamente  ================\n`);
 });
 
 export default app;

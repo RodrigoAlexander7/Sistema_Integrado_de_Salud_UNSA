@@ -10,6 +10,7 @@ export default function authRoutes(
   // RUTAS PROTEGIDAS ENFERMERA
    router.use(
       authMiddleware.verifyAuth0Token, 
+      authMiddleware.attachUserInfoFromToken,
       authMiddleware.loadUserInfo,
       authMiddleware.requireEnfermera
    )

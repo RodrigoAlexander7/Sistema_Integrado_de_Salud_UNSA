@@ -10,6 +10,7 @@ export default function authRoutes(
   // RUTAS PROTEGIDAS MEDICO
    router.use(
       authMiddleware.verifyAuth0Token,
+      authMiddleware.attachUserInfoFromToken,
       authMiddleware.loadUserInfo,
       authMiddleware.requireMedico
    )

@@ -7,16 +7,16 @@ export default function authRoutes(
 ) {
   const router = Router()
 
-  // RUTAS PROTEGIDAS MEDICO
+  // RUTAS PROTEGIDAS ENFERMERA
    router.use(
-      authMiddleware.verifyAuth0Token,
+      authMiddleware.verifyAuth0Token, 
       authMiddleware.loadUserInfo,
-      authMiddleware.requireMedico
+      authMiddleware.requireEnfermera
    )
 
    router.get ('/dashboard',
       (req:AuthenticatedRequest, res:Response)=>{
-         res.json({message:'Bienvenido al sistema de medicos', user: req.auth});
+         res.json({message:'Bienvenido al sistema de enfermera', user: req.auth});
       }
    );
 

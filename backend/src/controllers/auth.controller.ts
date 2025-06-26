@@ -1,5 +1,7 @@
-  // src/controllers/auth.controller.ts
-  import { Request, Response } from 'express';
+/*El controller recive los datos -> Extrae los datos necesarios
+  -> llama la logica del service -> devuelve la respuesta
+*/
+import { Request, Response } from 'express';
   import { AuthService } from '../services/auth.service';
   import { UsuarioService } from '../services/usuario.service';
   import { TipoUsuario } from '../generated/prisma';
@@ -87,7 +89,7 @@
           return;
         }
 
-        // Para médicos y enfermeras, validar datos profesionales
+        // Para medicos y enfermeras, validar datos profesionales
         if (tipoUsuario === 'MEDICO' || tipoUsuario === 'ENFERMERA') {
           if (!nombres || !apellidos || !tipoDocumento || !numDocumento || !numLicencia) {
             res.status(400).json({

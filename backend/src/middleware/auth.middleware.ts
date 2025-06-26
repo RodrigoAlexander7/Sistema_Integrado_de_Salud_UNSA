@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
 import { TipoUsuario } from '../generated/prisma';
 
 export class AuthMiddleware {
-  // le pasamos UsuarioService 
+  // le pasamos UsuarioService
   constructor(private usuarioService: UsuarioService) {}
 
   // Middleware para verificar token de Auth0
@@ -84,3 +84,10 @@ export class AuthMiddleware {
   // Middleware que permite ambos roles
   public requireHealthcareWorker = this.requireRole(['MEDICO', 'ENFERMERA']);
 }
+
+
+// -> front -> back -> validaciones con los middleware -> rutas
+// universal login -> servidor de auth0 -> valida - token firmado
+
+
+

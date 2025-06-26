@@ -16,8 +16,8 @@ const usuarioRepository = new UsuarioRepository();                  //instancia 
 const usuarioService = new UsuarioService(usuarioRepository);       //instancia para crear/modif usuarios localmente
 
 const authService = new AuthService(usuarioService);                //para que authService pueda crear usuarios (en local y en auth0)
-const authController = new AuthController(authService, usuarioService);
-const authMiddleware = new AuthMiddleware(usuarioService);          
+const authController = new AuthController(authService, usuarioService); //tiene las funciones de login, register, etc, las construye con la logica de service
+const authMiddleware = new AuthMiddleware(usuarioService);          //para que el middleware pueda verificar roles con los datos de la bd local 
 
 const app = express();
 
@@ -33,11 +33,11 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware de debug para inspeccionar requests (DESPUÉS del parsing)
+// Middleware de debug para inspeccionar requests (DESPUES del parsing)
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.path} - ${req.ip}`);
   
-  // Debug: Log del body en rutas de auth (ahora el body ya está parseado)
+  // Debug: Log del body en rutas de auth (ahora el body ya esta parseado)
   if (req.path.includes('/auth/')) {
     logger.info('Request body after parsing:', {
       hasBody: !!req.body,
@@ -54,6 +54,7 @@ app.use((req, res, next) => {
 
 // Rate limiting
 const limiter = rateLimit(config.rateLimit);
+
 app.use(limiter);
 
 // Health check endpoint

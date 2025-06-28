@@ -13,6 +13,7 @@ import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
 import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
 import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
 import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
+import DiagnosticoMedicinaGeneral from "./pages/Doctor/medicinaGeneral";
 import InicioDoc from "./pages/Doctor/InicioDoctor"
 import Pacientes_pendientes from "./pages/Doctor/pacientes_pendientes"
 import CambiarContrasena from "./pages/cambiarContrasena";
@@ -55,6 +56,7 @@ function App() {
             <Route path="/inicio-enfermeria" element={<InicioEnf />} />
             <Route path="/pacientes-pendientes" element={<Pacientes_pendientes />} />          
             <Route path="/nutricion-diagnostico" element={<DiagnosticoNutricion />} />
+            <Route path="/medicina-general-diagnostico" element={<DiagnosticoMedicinaGeneral />} />
             <Route path="/inicio-admin" element={<InicioAdm />} />
           </Route>
           <Route path="/pacientes-espera" element={<PacientesEspera />} />

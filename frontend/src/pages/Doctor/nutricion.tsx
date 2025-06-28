@@ -16,7 +16,7 @@ const DiagnosticoNutricion: React.FC = () => {
   const handlePacientesPendientes = (e: React.FormEvent) => {
           e.preventDefault();
           console.log("abriendo Historia Clinica Ingreso") 
-          navigate("/pacientes-pendientes");
+          navigate("/pacientes-nuevos");
       }
   return (
     <div className="w-full">

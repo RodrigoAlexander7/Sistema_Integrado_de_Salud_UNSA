@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import FichaEstudiante from "@/components/FichaEstudiante";
 import SeleccionDiagnostico from "@/components/diagnostico-primario-secundario";
 import TitleCard from "@/components/TitleCard";
-import { File } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -102,7 +101,7 @@ const DiagnosticoOftalmologia: React.FC = () => {
   };
   const handlePacientesPendientes = (e: React.FormEvent) => {
           e.preventDefault();
-          navigate("/pacientes-pendientes");
+          navigate("/pacientes-nuevos");
   } 
 
   return (

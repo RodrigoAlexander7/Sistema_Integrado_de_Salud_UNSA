@@ -2,7 +2,6 @@ import React from "react";
 import {
   Home,
   Search,
-  FilePlus,
   LogOut,
   KeyRound,
   Settings,
@@ -26,7 +25,6 @@ const Sidebar: React.FC = () => {
     { label: "Perfil de Usuario", icon: <User size={22} />, path: "/perfil" },
     { label: "Búsqueda", icon: <Search size={22} />, path: "/busqueda" },
     { label: "Directorio", icon: <Book size={22} />, path: "/directorio" },
-    { label: "Crear Historia", icon: <FilePlus size={22} />, path: "/trabajo-social-diagnostico" },
     { label: "Configuración", icon: <Settings size={22} />, path: "/configuracion" },
     { label: "Cambiar Contraseña", icon: <KeyRound size={22} />, path: "/cambiar-contrasena" },
     { label: "Cerrar Sesión", icon: <LogOut size={22} />, path: "/" },

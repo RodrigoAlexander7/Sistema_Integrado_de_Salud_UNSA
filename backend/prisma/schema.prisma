@@ -258,6 +258,7 @@ model EpisodioClinco {
   oftalmologiaDetalle    OftalmologiaDetalle?
   psicologiaDetalle      PsicologiaDetalle?
   trabajoSocialDetalle   TrabajoSocialDetalle?
+  nutricionDetalle       NutricionDetalle?
   auditorias             AuditoriaHistoria[]
 
   @@map("episodios_clinicos")
@@ -411,6 +412,19 @@ model TrabajoSocialDetalle {
   seguimientoCaso       String?        @map("seguimiento_caso")
 
   @@map("trabajo_social_detalles")
+}
+
+model NutricionDetalle {
+  id                   Int             @id @default(autoincrement())
+  episodioClinico      EpisodioClinco  @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId    Int             @unique @map("episodio_clinico_id")
+  evaluacionNutricional String?        @map("evaluacion_nutricional")
+  diagnosticoNutricional String?       @map("diagnostico_nutricional")
+  planAlimentario      String?         @map("plan_alimentario")
+  seguimiento          String?
+  imc                  Decimal?        @db.Decimal(4,2)  
+
+  @@map("nutricion_detalles")
 }
 
 // Audit

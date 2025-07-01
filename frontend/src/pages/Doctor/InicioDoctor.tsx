@@ -1,14 +1,14 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-    faUserCheck,
+    faUserPlus,
     faFileLines,
     faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import TitleCard from "@/components/TitleCard";
-import { UserPlus } from "lucide-react";
+import { Home } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 
 const InicioDoc: React.FC = () => {
@@ -22,7 +22,7 @@ const InicioDoc: React.FC = () => {
     }
     const handlePacientesPendientes = (e: React.FormEvent) => {
         e.preventDefault();
-        navigate("/pacientes-pendientes");
+        navigate("/pacientes-nuevos");
     } 
         
     return (
@@ -35,7 +35,7 @@ const InicioDoc: React.FC = () => {
 
                     <TitleCard 
                         title="Bienvenido/a" 
-                        icon={<UserPlus className="h-8 w-8" />} 
+                        icon={<Home className="h-8 w-8" />} 
                     />
                     
                     <p className={`text-lg text-center mb-10 ${
@@ -81,7 +81,7 @@ const InicioDoc: React.FC = () => {
                         <Card onClick={handlePacientesPendientes} className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
                             <CardContent className="flex flex-col items-center" >
                                 <FontAwesomeIcon  
-                                    icon={faUserCheck} 
+                                    icon={faUserPlus} 
                                     style={{ 
                                         color: theme === 'dark' ? "#ffffff" : "#1c398e", 
                                         scale: 3.5 

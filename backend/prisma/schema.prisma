@@ -26,12 +26,14 @@ model Usuario {
   fechaRegistro   DateTime          @default(now()) @map("fecha_registro")
   medico          Medico?
   enfermera       Enfermera?
+  administrador   Administrador?
   auditorias      AuditoriaHistoria[]
 
   @@map("usuarios")
 }
 
 enum TipoUsuario {
+  ADMINISTRADOR
   MEDICO
   ENFERMERA
 }
@@ -74,6 +76,23 @@ model Enfermera {
 
   @@unique([tipoDocumento, numDocumento])
   @@map("enfermeras")
+}
+
+model Administrador {
+  id                Int       @id @default(autoincrement())
+  usuario           Usuario   @relation(fields: [usuarioId], references: [id])
+  usuarioId         Int       @unique @map("usuario_id")
+  tipoDocumento     String    @map("tipo_documento")
+  numDocumento      String    @map("num_documento")
+  nombres           String
+  apellidos         String
+  telefono          String?
+  correo            String?
+  fechaRegistro     DateTime  @default(now()) @map("fecha_registro")
+  activo            Boolean   @default(true)
+
+  @@unique([tipoDocumento, numDocumento])
+  @@map("administradores")
 }
 
 // University Structure
@@ -239,6 +258,7 @@ model EpisodioClinco {
   oftalmologiaDetalle    OftalmologiaDetalle?
   psicologiaDetalle      PsicologiaDetalle?
   trabajoSocialDetalle   TrabajoSocialDetalle?
+  nutricionDetalle       NutricionDetalle?
   auditorias             AuditoriaHistoria[]
 
   @@map("episodios_clinicos")
@@ -392,6 +412,19 @@ model TrabajoSocialDetalle {
   seguimientoCaso       String?        @map("seguimiento_caso")
 
   @@map("trabajo_social_detalles")
+}
+
+model NutricionDetalle {
+  id                   Int             @id @default(autoincrement())
+  episodioClinico      EpisodioClinco  @relation(fields: [episodioClinicoId], references: [id])
+  episodioClinicoId    Int             @unique @map("episodio_clinico_id")
+  evaluacionNutricional String?        @map("evaluacion_nutricional")
+  diagnosticoNutricional String?       @map("diagnostico_nutricional")
+  planAlimentario      String?         @map("plan_alimentario")
+  seguimiento          String?
+  imc                  Decimal?        @db.Decimal(4,2)  
+
+  @@map("nutricion_detalles")
 }
 
 // Audit

@@ -1,4 +1,6 @@
 import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { useTheme } from "@/context/ThemeContext";
 
 interface EmptyStateCardProps {
   title: string;
@@ -13,19 +15,42 @@ const EmptyStateCard: React.FC<EmptyStateCardProps> = ({
   icon,
   action 
 }) => {
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-white rounded-lg shadow p-6 text-center">
-      <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
-        {icon}
-      </div>
-      <h3 className="text-lg font-medium text-gray-900 mb-1">{title}</h3>
-      <p className="text-gray-500 mb-4">{description}</p>
-      {action && (
-        <div className="mt-4">
-          {action}
+    <Card
+      className={`rounded-2xl overflow-hidden shadow-md w-full ${
+        theme === 'dark' 
+          ? 'bg-gray-800 border-gray-600' 
+          : 'bg-white border-white'
+      }`}
+    >
+      <CardContent className="p-8 text-center flex flex-col items-center justify-center">
+        <div className={`flex items-center justify-center h-14 w-14 rounded-full mb-4 ${
+          theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'
+        }`}>
+          {icon}
         </div>
-      )}
-    </div>
+
+        <h3 className={`text-lg font-semibold mb-2 ${
+          theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+        }`}>
+          {title}
+        </h3>
+
+        <p className={`mb-4 ${
+          theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+        }`}>
+          {description}
+        </p>
+
+        {action && (
+          <div className="mt-2">
+            {action}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 

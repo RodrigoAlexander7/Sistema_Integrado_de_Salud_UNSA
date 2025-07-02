@@ -7,15 +7,19 @@ interface DoctorInfo {
   specialty: string;
   email: string;
   location: string;
+  document?: string;
+  license?: string;
+  phone?: string;
 }
 
 interface DoctorCardProps {
   doctor?: DoctorInfo;
-  onSpecialtyChange?: (value: string) => void;
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
   const { theme } = useTheme();
+
+  if (!doctor) return null;
 
   return (
     <div className="w-full py-4">
@@ -41,29 +45,60 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 Nombre:
-              </span> {doctor?.name}
+              </span> {doctor.name}
             </div>
             <div>
               <span className={`font-semibold ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 Especialidad:
-              </span> {doctor?.specialty}
+              </span> {doctor.specialty}
             </div>
             <div>
               <span className={`font-semibold ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 Correo:
-              </span> {doctor?.email}
+              </span> {doctor.email}
             </div>
             <div>
               <span className={`font-semibold ${
                 theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 Sede:
-              </span> {doctor?.location}
+              </span> {doctor.location}
             </div>
+            
+            {/* Campos adicionales opcionales */}
+            {doctor.document && (
+              <div>
+                <span className={`font-semibold ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Documento:
+                </span> {doctor.document}
+              </div>
+            )}
+            
+            {doctor.license && (
+              <div>
+                <span className={`font-semibold ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Licencia:
+                </span> {doctor.license}
+              </div>
+            )}
+            
+            {doctor.phone && (
+              <div>
+                <span className={`font-semibold ${
+                  theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  Teléfono:
+                </span> {doctor.phone}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

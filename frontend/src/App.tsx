@@ -10,17 +10,17 @@ import HistoriaClinicaIngreso from "./pages/Enfermeria/HistoriaClinicaIngreso"
 import PacientesEspera from "./pages/Enfermeria/PacientesEspera"
 import TriajePaciente from "./pages/Enfermeria/TriajePaciente"
 import PacientesEsperaDoc from "./pages/Doctor/PacientesEspera"
-import DiagnosticoTrabSoc from "./pages/Doctor/trabajo-social"
-import DiagnosticoPsicologia from "./pages/Doctor/psicologia"
-import DiagnosticoOftalmologia from "./pages/Doctor/oftalmologia"
-import DiagnosticoMedicinaGeneral from "./pages/Doctor/medicinaGeneral";
+import DiagnosticoTrabSoc from "./pages/Doctor/diagnosticos/trabajo-social"
+import DiagnosticoPsicologia from "./pages/Doctor/diagnosticos/psicologia"
+import DiagnosticoOftalmologia from "./pages/Doctor/diagnosticos/oftalmologia"
+import DiagnosticoMedicinaGeneral from "./pages/Doctor/diagnosticos/medicinaGeneral";
 import InicioDoc from "./pages/Doctor/InicioDoctor"
 import Pacientes_pendientes from "./pages/Doctor/pacientes_pendientes"
 import CambiarContrasena from "./pages/cambiarContrasena";
 import ConfiguracionPage from "./pages/Configuracion";
-import Odontograma from "./pages/Doctor/odontologia";
+import Odontograma from "./pages/Doctor/diagnosticos/odontologia";
 import { ThemeProvider } from "./context/ThemeContext";
-import DiagnosticoNutricion from "./pages/Doctor/nutricion";  
+import DiagnosticoNutricion from "./pages/Doctor/diagnosticos/nutricion";  
 import InicioAdm from "./pages/Administrador/InicioAdministrador";
 import IngresoDoctor from "./pages/Administrador/IngresoDoctor";
 import RegistroEnfermera from "./pages/Administrador/ingresoEnfermera.";

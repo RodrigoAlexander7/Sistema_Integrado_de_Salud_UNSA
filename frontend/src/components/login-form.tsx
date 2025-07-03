@@ -10,16 +10,34 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useNavigate } from "react-router-dom";
+import { useState } from "react"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useNavigate(); 
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); 
-    navigate("/inicio-doctor"); 
+      try {
+        const backendUrl = 'http://localhost:4000/api/auth/login'
+        const response = await fetch(backendUrl, {
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({email, password})
+        })
+        const data = await response.json()
+        if(response.ok)
+          navigate("/inicio-doctor"); 
+        else throw new Error(data.message || 'Error iniciando sesion')
+    } catch (error) {
+        console.log(error)
+    }
   };
 
   return (
@@ -44,6 +62,8 @@ export function LoginForm({
                   placeholder="usuario@unsa.edu.pe"
                   required
                   className="h-10"
+                  value={email}
+                  onChange={(e)=> setEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
@@ -61,6 +81,8 @@ export function LoginForm({
                   type="password" 
                   required 
                   className="h-10"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="space-y-3 pt-2">

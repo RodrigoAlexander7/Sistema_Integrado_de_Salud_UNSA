@@ -8,8 +8,9 @@ import { File } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { DiagnosticoService } from "@/services/diagnosticoService";
 
-// Tipos para el odontograma
+// Tipos para el odontograma (se mantienen igual)
 type DienteCondicion = 
   | "sano" 
   | "caries" 
@@ -36,8 +37,13 @@ interface Tratamiento {
 const Odontograma: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Estados para el odontograma
+  // Estados para el diagnóstico (compatibles con servicios existentes)
+  const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");
+  const [diagnosticosSecundarios, setDiagnosticosSecundarios] = useState<string[]>([]);
+
+  // Estados para el odontograma (se mantienen igual)
   const [dienteSeleccionado, setDienteSeleccionado] = useState<number | null>(null);
   const [condiciones, setCondiciones] = useState<Record<number, DienteEstado>>({});
   const [dienteInput, setDienteInput] = useState<string>("");
@@ -155,6 +161,65 @@ const Odontograma: React.FC = () => {
     navigate("/pacientes-nuevos");
   };
 
+  // Función para enviar datos al backend
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Simulamos el pacienteId (en producción vendría de parámetros o estado global)
+      const pacienteId = 1;
+
+      // Preparamos los datos en el formato esperado por el servicio existente
+      const evaluaciones = {
+        "Odontograma": generarResumenOdontograma(),
+        "Tratamientos realizados": generarResumenTratamientos(),
+        "Observaciones dentales": condiciones[dienteSeleccionado || 0]?.observaciones || "Ninguna"
+      };
+
+      // Usamos el servicio existente sin modificaciones
+      const response = await DiagnosticoService.saveDiagnostico({
+        pacienteId,
+        evaluaciones,
+        diagnosticos: {
+          principal: diagnosticoPrincipal,
+          secundarios: diagnosticosSecundarios
+        },
+        especialidad: "odontologia"
+      });
+
+      if (response.success) {
+        alert("Diagnóstico odontológico guardado correctamente");
+        navigate("/pacientes-nuevos");
+      }
+    } catch (error) {
+      console.error("Error al guardar el diagnóstico:", error);
+      alert("Error al guardar el diagnóstico odontológico");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Función auxiliar para generar resumen del odontograma
+  const generarResumenOdontograma = (): string => {
+    const dientesConProblemas = Object.values(condiciones)
+      .filter(d => d.condicion !== "sano")
+      .map(d => `Diente ${d.numero}: ${d.condicion} (${d.observaciones || 'sin observaciones'})`);
+    
+    return dientesConProblemas.length > 0 
+      ? dientesConProblemas.join("; ") 
+      : "Todos los dientes están sanos";
+  };
+
+  // Función auxiliar para generar resumen de tratamientos
+  const generarResumenTratamientos = (): string => {
+    return tratamientos.length > 0
+      ? tratamientos.map(t => 
+          `${t.fecha} - D${t.diente}: ${t.procedimiento} (${t.observaciones || 'sin observaciones'})`
+        ).join("; ")
+      : "No se realizaron tratamientos";
+  };
+
   return (
     <div className="w-full">
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
@@ -165,12 +230,14 @@ const Odontograma: React.FC = () => {
       </main>
 
       <div className="w-full px-8">
-        <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
-          theme === 'dark' 
-            ? 'bg-gray-800 border-gray-700' 
-            : 'bg-white border-gray-300'
-        }`}>
-          <FichaEstudiante />
+        {/* Cambiamos el div por form y añadimos onSubmit */}
+        <form onSubmit={handleSubmit}>
+          <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
+            theme === 'dark' 
+              ? 'bg-gray-800 border-gray-700' 
+              : 'bg-white border-gray-300'
+          }`}>
+            <FichaEstudiante />
 
           {/* Odontograma */}
           <div className="mb-8">
@@ -381,32 +448,34 @@ const Odontograma: React.FC = () => {
           {/* Diagnóstico */}
           <SeleccionDiagnostico />
 
-          {/* Botones de acción */}
+          {/* Actualizamos el botón de guardar */}
           <div className="flex justify-end gap-4 mt-6">
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={handlePacientesPendientes}
-              className={`${
-                theme === 'dark' 
-                 ? 'border-gray-600 hover:bg-gray-700' 
-                  : 'border-gray-300 hover:bg-gray-100'
-              }`}
-            >
-              Cancelar
-            </Button>
-            <Button 
-              type="button"
-              className={`${
-                theme === 'dark' 
-                   ? 'bg-blue-600 hover:bg-blue-700' 
-                  : 'bg-blue-500 hover:bg-blue-600'
-               }`}
-             >
-              Guardar Odontograma
-            </Button>
+              <Button 
+                type="button" 
+                variant="outline"
+                onClick={handlePacientesPendientes}
+                className={`${
+                  theme === 'dark' 
+                    ? 'border-gray-600 hover:bg-gray-700' 
+                    : 'border-gray-300 hover:bg-gray-100'
+                }`}
+              >
+                Cancelar
+              </Button>
+              <Button 
+                type="submit"
+                className={`${
+                  theme === 'dark' 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Guardando..." : "Guardar Odontograma"}
+              </Button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

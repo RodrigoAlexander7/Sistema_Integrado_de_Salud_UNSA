@@ -10,96 +10,121 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import { DiagnosticoService } from "@/services/diagnosticoService";
 
 const DiagnosticoOftalmologia: React.FC = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const [formData, setFormData] = useState({
-    agudezaVisual: {
-      sinCorreccion: {
-        odLejos: "",
-        odCerca: "",
-        oiLejos: "",
-        oiCerca: ""
-      },
-      conCorreccion: {
-        odLejos: "",
-        odCerca: "",
-        oiLejos: "",
-        oiCerca: "",
-        lentesOd: "",
-        lentesOi: ""
-      }
-    },
-    refraccion: {
-      odEsfera: "",
-      odCilindro: "",
-      odEje: "",
-      odAv: "",
-      oiEsfera: "",
-      oiCilindro: "",
-      oiEje: "",
-      oiAv: ""
-    },
-    presionIntraocular: {
-      odValor: "",
-      odHora: "",
-      odMetodo: "Tonómetro de aire",
-      oiValor: "",
-      oiHora: "",
-      oiMetodo: "Tonómetro de aire"
-    },
-    motilidadOcular: {
-      derechaOd: "Normal",
-      derechaOi: "Normal",
-      izquierdaOd: "Normal",
-      izquierdaOi: "Normal",
-      arribaOd: "Normal",
-      arribaOi: "Normal",
-      abajoOd: "Normal",
-      abajoOi: "Normal"
-    },
-    observaciones: ""
-  });
+  // Estados para los diagnósticos (compatibles con el servicio existente)
+  const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");
+  const [diagnosticosSecundarios, setDiagnosticosSecundarios] = useState<string[]>([]);
+
+  // Estado para los campos específicos de oftalmología
+  type NestedFormData = {
+  [key: string]: any;
+};
+
+const [formData, setFormData] = useState<NestedFormData>({
+  agudezaVisual: {
+    sinCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "" },
+    conCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "", lentesOd: "", lentesOi: "" }
+  },
+  refraccion: {
+    odEsfera: "", odCilindro: "", odEje: "", odAv: "",
+    oiEsfera: "", oiCilindro: "", oiEje: "", oiAv: ""
+  },
+  presionIntraocular: {
+    odValor: "", odHora: "", odMetodo: "Tonómetro de aire",
+    oiValor: "", oiHora: "", oiMetodo: "Tonómetro de aire"
+  },
+  motilidadOcular: {
+    derechaOd: "Normal", derechaOi: "Normal",
+    izquierdaOd: "Normal", izquierdaOi: "Normal",
+    arribaOd: "Normal", arribaOi: "Normal",
+    abajoOd: "Normal", abajoOi: "Normal"
+  },
+  observaciones: ""
+});
+;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     const keys = name.split('.');
-    
-    setFormData(prev => {
-      const newData = { ...prev };
-      let current: any = newData;
-      
-      for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]];
+    setFormData(prev => ({ ...prev, [keys[0]]: { ...prev[keys[0]], [keys[1]]: value } }));
+  };
+
+  const handleNestedChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    const keys = name.split('.');
+    setFormData(prev => ({
+      ...prev,
+      [keys[0]]: {
+        ...prev[keys[0]],
+        [keys[1]]: {
+          ...prev[keys[0]][keys[1]],
+          [keys[2]]: value
+        }
       }
-      
-      current[keys[keys.length - 1]] = value;
-      return newData;
-    });
+    }));
   };
 
   const handleSelectChange = (name: string, value: string) => {
     const keys = name.split('.');
-    
-    setFormData(prev => {
-      const newData = { ...prev };
-      let current: any = newData;
-      
-      for (let i = 0; i < keys.length - 1; i++) {
-        current = current[keys[i]];
+    setFormData(prev => ({
+      ...prev,
+      [keys[0]]: {
+        ...prev[keys[0]],
+        [keys[1]]: {
+          ...prev[keys[0]][keys[1]],
+          [keys[2]]: value
+        }
       }
-      
-      current[keys[keys.length - 1]] = value;
-      return newData;
-    });
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Datos enviados:", formData);
-    // Aquí iría la lógica para enviar los datos al servidor
+    setIsSubmitting(true);
+
+    try {
+      // Simulamos el pacienteId (en producción vendría de parámetros o estado global)
+      const pacienteId = 1;
+
+      // Preparamos los datos en el formato esperado por el servicio existente
+      const evaluaciones = {
+        "Agudeza Visual (sin corrección)": `OD: ${formData.agudezaVisual.sinCorreccion.odLejos}/${formData.agudezaVisual.sinCorreccion.odCerca} | OI: ${formData.agudezaVisual.sinCorreccion.oiLejos}/${formData.agudezaVisual.sinCorreccion.oiCerca}`,
+        "Agudeza Visual (con corrección)": `OD: ${formData.agudezaVisual.conCorreccion.odLejos}/${formData.agudezaVisual.conCorreccion.odCerca} (${formData.agudezaVisual.conCorreccion.lentesOd}) | OI: ${formData.agudezaVisual.conCorreccion.oiLejos}/${formData.agudezaVisual.conCorreccion.oiCerca} (${formData.agudezaVisual.conCorreccion.lentesOi})`,
+        "Refracción": `OD: ${formData.refraccion.odEsfera} ${formData.refraccion.odCilindro} x${formData.refraccion.odEje} (AV:${formData.refraccion.odAv}) | OI: ${formData.refraccion.oiEsfera} ${formData.refraccion.oiCilindro} x${formData.refraccion.oiEje} (AV:${formData.refraccion.oiAv})`,
+        "Presión Intraocular": `OD: ${formData.presionIntraocular.odValor}mmHg (${formData.presionIntraocular.odMetodo}) | OI: ${formData.presionIntraocular.oiValor}mmHg (${formData.presionIntraocular.oiMetodo})`,
+        "Motilidad Ocular": `Derecha: OD-${formData.motilidadOcular.derechaOd}/OI-${formData.motilidadOcular.derechaOi} | Izquierda: OD-${formData.motilidadOcular.izquierdaOd}/OI-${formData.motilidadOcular.izquierdaOi} | Arriba: OD-${formData.motilidadOcular.arribaOd}/OI-${formData.motilidadOcular.arribaOi} | Abajo: OD-${formData.motilidadOcular.abajoOd}/OI-${formData.motilidadOcular.abajoOi}`,
+        "Observaciones": formData.observaciones
+      };
+
+      // Usamos el servicio existente sin modificaciones
+      const response = await DiagnosticoService.saveDiagnostico({
+        pacienteId,
+        evaluaciones,
+        diagnosticos: {
+          principal: diagnosticoPrincipal,
+          secundarios: diagnosticosSecundarios
+        },
+        especialidad: "oftalmologia"
+      });
+
+      if (response.success) {
+        alert("Diagnóstico oftalmológico guardado correctamente");
+        navigate("/pacientes-nuevos");
+      }
+    } catch (error) {
+      console.error("Error al guardar el diagnóstico:", error);
+      alert("Error al guardar el diagnóstico oftalmológico");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancelar = (e: React.FormEvent) => {

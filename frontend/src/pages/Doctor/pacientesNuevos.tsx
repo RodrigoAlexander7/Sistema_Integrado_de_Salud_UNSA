@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { UserPlus } from "lucide-react";
 import PatientCard from "@/components/PatientCard";
 import TitleCard from "@/components/TitleCard";
@@ -48,7 +47,7 @@ const PacientesNuevos: React.FC = () => {
         } 
       });
     } catch (err) {
-      toast.error("Error al iniciar el diagnóstico");
+      //toast.error("Error al iniciar el diagnóstico");
       console.error(err);
     }
   };

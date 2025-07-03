@@ -35,11 +35,11 @@ const RegistroEnfermera: React.FC = () => {
         // Lógica para enviar los datos al backend
         console.log(formData);
         setMostrarAlerta(true);
-        setTimeout(() => {
+        setTimeout(() => {  
             setMostrarAlerta(false);
-            navigate("/enfermeras"); 
-        }, 3000);
-    };
+            navigate("/inicio-admin"); 
+        }, 3000);   
+    };  
 
     const tiposDocumento = ["DNI", "Carnet de Extranjería", "Pasaporte"];
 

@@ -10,16 +10,80 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext"; // Asegúrate de tener este contexto
+import { useState } from "react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault(); 
-    navigate("/inicio-doctor"); 
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      // Simulación de autenticación - reemplazar con llamada real a tu API
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simular delay de red
+
+      // Determinar rol basado en el correo electrónico
+      let role: 'doctor' | 'enfermeria' | 'admin' = 'doctor'; // Valor por defecto
+      
+      if (email.endsWith('@doctor.unsa.edu.pe')) {
+        role = 'doctor';
+      } else if (email.endsWith('@enfermeria.unsa.edu.pe')) {
+        role = 'enfermeria';
+      } else if (email.endsWith('@admin.unsa.edu.pe')) {
+        role = 'admin';
+      }
+
+      // Validar credenciales (en una app real, esto se haría en el backend)
+      if (password.length < 6) {
+        throw new Error('La contraseña debe tener al menos 6 caracteres');
+      }
+
+      // Simular datos del usuario autenticado
+      const userData = {
+        id: '123',
+        name: email.split('@')[0],
+        email,
+        role
+      };
+
+      // Establecer el usuario en el contexto de autenticación
+      login(userData);
+
+      // Redirigir según el rol
+      switch(role) {
+        case 'doctor':
+          navigate("/inicio-doctor");
+          break;
+        case 'enfermeria':
+          navigate("/inicio-enfermeria");
+          break;
+        case 'admin':
+          navigate("/inicio-admin");
+          break;
+        default:
+          navigate("/inicio-doctor");
+      }
+
+    } catch (err) {
+      console.error('Error de autenticación:', err);
+      setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,15 +100,24 @@ export function LoginForm({
         <CardContent className="space-y-4 py-6">
           <form onSubmit={handleLogin}>
             <div className="space-y-4">
+              {error && (
+                <div className="text-red-500 text-sm text-center p-2 bg-red-50 rounded-md">
+                  {error}
+                </div>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="email">Correo electrónico</Label>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="usuario@unsa.edu.pe"
                   required
                   className="h-10"
                 />
+                <p className="text-xs text-gray-500">
+                  Ejemplos: doctor@doctor.unsa.edu.pe, enfermera@enfermeria.unsa.edu.pe, admin@admin.unsa.edu.pe
+                </p>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -57,17 +130,27 @@ export function LoginForm({
                   </a>
                 </div>
                 <Input 
-                  id="password" 
+                  id="password"
+                  name="password" 
                   type="password" 
                   required 
                   className="h-10"
+                  minLength={6}
                 />
               </div>
               <div className="space-y-3 pt-2">
-                <Button type="submit" className="w-full h-10">
-                  Ingresar
+                <Button 
+                  type="submit" 
+                  className="w-full h-10"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Ingresando..." : "Ingresar"}
                 </Button>
-                <Button variant="outline" className="w-full h-10">
+                <Button 
+                  variant="outline" 
+                  className="w-full h-10"
+                  type="button"
+                >
                   <svg
                     className="mr-2 h-4 w-4"
                     aria-hidden="true"

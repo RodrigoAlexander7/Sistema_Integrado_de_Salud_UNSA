@@ -1,13 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import { PasswordForm } from "@/components/PasswordForm";
 import { Lock } from "lucide-react";
 import TitleCard from "@/components/TitleCard";
+import { useNavigate } from "react-router-dom";
+import { PasswordService } from "@/services/passwordService";
 
 const CambiarContrasena: React.FC = () => {
-  const handlePasswordSubmit = (currentPassword: string, newPassword: string, confirmPassword: string) => {
-    // Lógica para manejar el cambio de contraseña
-    console.log({ currentPassword, newPassword, confirmPassword });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handlePasswordSubmit = async (
+    currentPassword: string, 
+    newPassword: string, 
+    confirmPassword: string
+  ) => {
+    // Validaciones del frontend (las mismas que antes)
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      alert("Todos los campos son obligatorios");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      alert("La nueva contraseña debe tener al menos 8 caracteres");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("Las contraseñas nuevas no coinciden");
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      alert("La nueva contraseña debe ser diferente a la actual");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await PasswordService.changePassword(currentPassword, newPassword);
+
+      if (result.success) {
+        alert("¡Contraseña actualizada exitosamente!");
+        // Cerrar sesión y redirigir al login (recomendado por seguridad)
+        localStorage.removeItem('token');
+        navigate("/login");
+      } else {
+        alert(result.message || "Error al cambiar la contraseña");
+      }
+    } catch (error) {
+      alert("Error inesperado. Por favor intenta nuevamente.");
+      console.error("Error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   return (
     <div className="w-full">
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
@@ -16,10 +64,12 @@ const CambiarContrasena: React.FC = () => {
             title="Cambiar Contraseña" 
             icon={<Lock className="h-8 w-8" />} 
           />
-
-          {/* Formulario de cambio de contraseña */}
-          <div className="w-full">
-            <PasswordForm onSubmit={handlePasswordSubmit} />
+          
+          <div className="w-full max-w-2xl mx-auto mt-8">
+            <PasswordForm 
+              onSubmit={handlePasswordSubmit}
+              isSubmitting={isSubmitting}
+            />
           </div>
         </div>
       </main>

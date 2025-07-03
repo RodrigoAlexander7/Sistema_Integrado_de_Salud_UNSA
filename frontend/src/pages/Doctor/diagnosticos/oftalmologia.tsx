@@ -1,59 +1,59 @@
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
+import { File } from "lucide-react";
 import FichaEstudiante from "@/components/FichaEstudiante";
 import SeleccionDiagnostico from "@/components/diagnostico-primario-secundario";
 import TitleCard from "@/components/TitleCard";
-import { useTheme } from "@/context/ThemeContext";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UserPlus } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { useTheme } from "@/context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 const DiagnosticoOftalmologia: React.FC = () => {
   const { theme } = useTheme();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     agudezaVisual: {
       sinCorreccion: {
-        odLejos: "20/20",
-        odCerca: "J1",
-        oiLejos: "20/25",
-        oiCerca: "J2"
+        odLejos: "",
+        odCerca: "",
+        oiLejos: "",
+        oiCerca: ""
       },
       conCorreccion: {
-        odLejos: "20/20",
-        odCerca: "J1",
-        oiLejos: "20/25",
-        oiCerca: "J2",
-        lentesOd: "-2.50 esf +0.50 cil x180º",
-        lentesOi: "-2.75 esf +0.75 cil x170º"
+        odLejos: "",
+        odCerca: "",
+        oiLejos: "",
+        oiCerca: "",
+        lentesOd: "",
+        lentesOi: ""
       }
     },
     refraccion: {
-      odEsfera: "-2.5",
-      odCilindro: "+0.50",
-      odEje: "180",
-      odAv: "20/20",
-      oiEsfera: "-2.5",
-      oiCilindro: "+0.50",
-      oiEje: "180",
-      oiAv: "20/20"
+      odEsfera: "",
+      odCilindro: "",
+      odEje: "",
+      odAv: "",
+      oiEsfera: "",
+      oiCilindro: "",
+      oiEje: "",
+      oiAv: ""
     },
     presionIntraocular: {
-      odValor: "14",
-      odHora: "10:30",
+      odValor: "",
+      odHora: "",
       odMetodo: "Tonómetro de aire",
-      oiValor: "15",
-      oiHora: "10:32",
+      oiValor: "",
+      oiHora: "",
       oiMetodo: "Tonómetro de aire"
     },
     motilidadOcular: {
       derechaOd: "Normal",
       derechaOi: "Normal",
-      izquierdaOd: "Limitada",
+      izquierdaOd: "Normal",
       izquierdaOi: "Normal",
       arribaOd: "Normal",
       arribaOi: "Normal",
@@ -65,33 +65,35 @@ const DiagnosticoOftalmologia: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    const [section, subSection, field] = name.split('.');
+    const keys = name.split('.');
     
-    setFormData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section as keyof typeof formData],
-        [subSection]: {
-          ...(prev[section as keyof typeof formData] as any)[subSection],
-          [field]: value
-        }
+    setFormData(prev => {
+      const newData = { ...prev };
+      let current: any = newData;
+      
+      for (let i = 0; i < keys.length - 1; i++) {
+        current = current[keys[i]];
       }
-    }));
+      
+      current[keys[keys.length - 1]] = value;
+      return newData;
+    });
   };
 
   const handleSelectChange = (name: string, value: string) => {
-    const [section, subSection, field] = name.split('.');
+    const keys = name.split('.');
     
-    setFormData(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section as keyof typeof formData],
-        [subSection]: {
-          ...(prev[section as keyof typeof formData] as any)[subSection],
-          [field]: value
-        }
+    setFormData(prev => {
+      const newData = { ...prev };
+      let current: any = newData;
+      
+      for (let i = 0; i < keys.length - 1; i++) {
+        current = current[keys[i]];
       }
-    }));
+      
+      current[keys[keys.length - 1]] = value;
+      return newData;
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -99,25 +101,25 @@ const DiagnosticoOftalmologia: React.FC = () => {
     console.log("Datos enviados:", formData);
     // Aquí iría la lógica para enviar los datos al servidor
   };
-  const handlePacientesPendientes = (e: React.FormEvent) => {
-          e.preventDefault();
-          navigate("/pacientes-nuevos");
-  } 
+
+  const handleCancelar = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate("/pacientes-nuevos");
+  };
 
   return (
     <div className="w-full">
-      {/* Título principal */}
+      {/* Encabezado */}
       <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
-        {/* Contenedor principal */}
         <div className="w-full max-w-full">
           <TitleCard 
-              title="Bienvenido" 
-              icon={<UserPlus className="h-8 w-8" />} 
+            title="Oftalmología" 
+            icon={<File className="h-8 w-8" />} 
           />
         </div>
       </main>
 
-      {/* Contenido */}
+      {/* Contenido principal */}
       <div className="w-full px-8">
         <form onSubmit={handleSubmit}>
           <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
@@ -127,14 +129,17 @@ const DiagnosticoOftalmologia: React.FC = () => {
           }`}>
             <FichaEstudiante />
 
-            {/* Agudeza visual */}
-            <Card className="p-6 mb-6">
+            {/* Sección Agudeza Visual */}
+            <Card className={`p-6 mb-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
               <h3 className="text-lg font-semibold mb-4">Agudeza visual</h3>
+              
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Sin Corrección */}
                 <div>
                   <h4 className="font-semibold mb-2">Sin Corrección</h4>
-                  <div className="grid grid-cols-3 gap-2 text-sm border rounded p-3">
+                  <div className={`grid grid-cols-3 gap-2 text-sm border rounded p-3 ${
+                    theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                  }`}>
                     <span className="font-medium text-center">Ojo</span>
                     <span className="text-center">Lejos</span>
                     <span className="text-center">Cerca</span>
@@ -145,12 +150,14 @@ const DiagnosticoOftalmologia: React.FC = () => {
                       value={formData.agudezaVisual.sinCorreccion.odLejos}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="20/20"
                     />
                     <Input 
                       name="agudezaVisual.sinCorreccion.odCerca"
                       value={formData.agudezaVisual.sinCorreccion.odCerca}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="J1"
                     />
                     
                     <span className="text-center">OI</span>
@@ -159,12 +166,14 @@ const DiagnosticoOftalmologia: React.FC = () => {
                       value={formData.agudezaVisual.sinCorreccion.oiLejos}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="20/20"
                     />
                     <Input 
                       name="agudezaVisual.sinCorreccion.oiCerca"
                       value={formData.agudezaVisual.sinCorreccion.oiCerca}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="J1"
                     />
                   </div>
                 </div>
@@ -172,11 +181,13 @@ const DiagnosticoOftalmologia: React.FC = () => {
                 {/* Con Corrección */}
                 <div>
                   <h4 className="font-semibold mb-2">Con Corrección</h4>
-                  <div className="grid grid-cols-4 gap-2 text-sm border rounded p-3">
+                  <div className={`grid grid-cols-4 gap-2 text-sm border rounded p-3 ${
+                    theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                  }`}>
                     <span className="font-medium text-center col-span-1">Ojo</span>
                     <span className="text-center">Lejos</span>
                     <span className="text-center">Cerca</span>
-                    <span className="text-center">Lentes Utilizados</span>
+                    <span className="text-center">Lentes</span>
                     
                     <span className="text-center">OD</span>
                     <Input 
@@ -184,18 +195,21 @@ const DiagnosticoOftalmologia: React.FC = () => {
                       value={formData.agudezaVisual.conCorreccion.odLejos}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="20/20"
                     />
                     <Input 
                       name="agudezaVisual.conCorreccion.odCerca"
                       value={formData.agudezaVisual.conCorreccion.odCerca}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="J1"
                     />
                     <Input 
                       name="agudezaVisual.conCorreccion.lentesOd"
                       value={formData.agudezaVisual.conCorreccion.lentesOd}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="-2.50 esf"
                     />
                     
                     <span className="text-center">OI</span>
@@ -204,29 +218,34 @@ const DiagnosticoOftalmologia: React.FC = () => {
                       value={formData.agudezaVisual.conCorreccion.oiLejos}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="20/20"
                     />
                     <Input 
                       name="agudezaVisual.conCorreccion.oiCerca"
                       value={formData.agudezaVisual.conCorreccion.oiCerca}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="J1"
                     />
                     <Input 
                       name="agudezaVisual.conCorreccion.lentesOi"
                       value={formData.agudezaVisual.conCorreccion.lentesOi}
                       onChange={handleChange}
                       className="h-8 text-center"
+                      placeholder="-2.50 esf"
                     />
                   </div>
                 </div>
               </div>
 
-              <h3 className="text-lg font-semibold mb-4 mt-4">Exámenes Oculares</h3>
+              <h3 className="text-lg font-semibold my-4">Exámenes Oculares</h3>
 
               {/* Refracción */}
               <div className="mb-6">
                 <h4 className="font-semibold mb-2">Refracción</h4>
-                <div className="grid grid-cols-6 gap-2 text-sm border rounded p-3">
+                <div className={`grid grid-cols-6 gap-2 text-sm border rounded p-3 ${
+                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                }`}>
                   <span className="text-center">Ojo</span>
                   <span className="text-center">Esfera</span>
                   <span className="text-center">Cilindro</span>
@@ -240,24 +259,28 @@ const DiagnosticoOftalmologia: React.FC = () => {
                     value={formData.refraccion.odEsfera}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="-2.50"
                   />
                   <Input 
                     name="refraccion.odCilindro"
                     value={formData.refraccion.odCilindro}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="+0.50"
                   />
                   <Input 
                     name="refraccion.odEje"
                     value={formData.refraccion.odEje}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="180"
                   />
                   <Input 
                     name="refraccion.odAv"
                     value={formData.refraccion.odAv}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="20/20"
                   />
                   <span></span>
                   
@@ -267,24 +290,28 @@ const DiagnosticoOftalmologia: React.FC = () => {
                     value={formData.refraccion.oiEsfera}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="-2.50"
                   />
                   <Input 
                     name="refraccion.oiCilindro"
                     value={formData.refraccion.oiCilindro}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="+0.50"
                   />
                   <Input 
                     name="refraccion.oiEje"
                     value={formData.refraccion.oiEje}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="180"
                   />
                   <Input 
                     name="refraccion.oiAv"
                     value={formData.refraccion.oiAv}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="20/20"
                   />
                   <span></span>
                 </div>
@@ -293,7 +320,9 @@ const DiagnosticoOftalmologia: React.FC = () => {
               {/* Presión Intraocular */}
               <div className="mb-6">
                 <h4 className="font-semibold mb-2">Presión Intraocular</h4>
-                <div className="grid grid-cols-5 gap-2 text-sm border rounded p-3">
+                <div className={`grid grid-cols-5 gap-2 text-sm border rounded p-3 ${
+                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                }`}>
                   <span className="text-center">Ojo</span>
                   <span className="text-center">Valor (mmHg)</span>
                   <span className="text-center">Hora</span>
@@ -306,12 +335,14 @@ const DiagnosticoOftalmologia: React.FC = () => {
                     value={formData.presionIntraocular.odValor}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="14"
                   />
                   <Input 
                     name="presionIntraocular.odHora"
                     value={formData.presionIntraocular.odHora}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="10:30"
                   />
                   <Select 
                     value={formData.presionIntraocular.odMetodo}
@@ -334,12 +365,14 @@ const DiagnosticoOftalmologia: React.FC = () => {
                     value={formData.presionIntraocular.oiValor}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="14"
                   />
                   <Input 
                     name="presionIntraocular.oiHora"
                     value={formData.presionIntraocular.oiHora}
                     onChange={handleChange}
                     className="h-8 text-center"
+                    placeholder="10:30"
                   />
                   <Select 
                     value={formData.presionIntraocular.oiMetodo}
@@ -361,7 +394,9 @@ const DiagnosticoOftalmologia: React.FC = () => {
               {/* Motilidad Ocular */}
               <div className="mb-6">
                 <h4 className="font-semibold mb-2">Motilidad Ocular</h4>
-                <div className="grid grid-cols-3 text-sm border rounded p-3">
+                <div className={`grid grid-cols-3 text-sm border rounded p-3 ${
+                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
+                }`}>
                   <span className="text-center font-medium">Movimiento</span>
                   <span className="text-center font-medium">OD</span>
                   <span className="text-center font-medium">OI</span>
@@ -481,7 +516,7 @@ const DiagnosticoOftalmologia: React.FC = () => {
               </div>
 
               {/* Observaciones */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <h4 className="font-semibold mb-2">Observaciones</h4>
                 <Textarea 
                   name="observaciones"
@@ -496,9 +531,7 @@ const DiagnosticoOftalmologia: React.FC = () => {
                 />
               </div>
 
-              {/* Diagnóstico */}
               <SeleccionDiagnostico />
-
             </Card>
 
             {/* Botones de acción */}
@@ -506,7 +539,7 @@ const DiagnosticoOftalmologia: React.FC = () => {
               <Button 
                 type="button" 
                 variant="outline"
-                onClick={handlePacientesPendientes}
+                onClick={handleCancelar}
                 className={`${
                   theme === 'dark' 
                     ? 'border-gray-600 hover:bg-gray-700' 

@@ -4,17 +4,24 @@ import { Lock } from "lucide-react";
 import TitleCard from "@/components/TitleCard";
 import { useNavigate } from "react-router-dom";
 import { PasswordService } from "@/services/passwordService";
+import { useAuth } from "@/context/AuthContext";
 
 const CambiarContrasena: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { user, logout } = useAuth(); // Obtenemos user y logout del contexto
 
   const handlePasswordSubmit = async (
     currentPassword: string, 
     newPassword: string, 
     confirmPassword: string
   ) => {
-    // Validaciones del frontend (las mismas que antes)
+    if (!user) {
+      alert("No hay usuario autenticado");
+      return;
+    }
+
+    // Validaciones del frontend
     if (!currentPassword || !newPassword || !confirmPassword) {
       alert("Todos los campos son obligatorios");
       return;
@@ -38,13 +45,16 @@ const CambiarContrasena: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await PasswordService.changePassword(currentPassword, newPassword);
+      const result = await PasswordService.changePassword(
+        currentPassword, 
+        newPassword,
+        user.email // Pasamos el email del contexto
+      );
 
       if (result.success) {
         alert("¡Contraseña actualizada exitosamente!");
-        // Cerrar sesión y redirigir al login (recomendado por seguridad)
-        localStorage.removeItem('token');
-        navigate("/login");
+        logout(); // Cerramos sesión
+        navigate("/login"); // Redirigimos al login
       } else {
         alert(result.message || "Error al cambiar la contraseña");
       }

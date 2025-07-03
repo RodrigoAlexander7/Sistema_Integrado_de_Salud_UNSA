@@ -19,29 +19,31 @@ import Pacientes_pendientes from "./pages/Doctor/pacientes_pendientes"
 import CambiarContrasena from "./pages/cambiarContrasena";
 import ConfiguracionPage from "./pages/Configuracion";
 import Odontograma from "./pages/Doctor/odontologia";
-import { ThemeProvider } from "./context/ThemeContext";
 import DiagnosticoNutricion from "./pages/Doctor/nutricion";  
 import InicioAdm from "./pages/Administrador/InicioAdministrador";
 import IngresoDoctor from "./pages/Administrador/IngresoDoctor";
 import RegistroEnfermera from "./pages/Administrador/ingresoEnfermera.";
+import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Ruta de login - sin layout */}
-          <Route
-            path="/"
-            element={
-              <div className="flex min-h-screen w-full items-center justify-center p-6">
-                <LoginForm />
-              </div>
-            }
-          />
-          
-          {/* Rutas CON sidebar */}
-          <Route element={<LayoutWithSidebar />}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Ruta de login - sin layout */}
+            <Route
+              path="/"
+              element={
+                <div className="flex min-h-screen w-full items-center justify-center p-6">
+                  <LoginForm />
+                </div>
+              }
+            />
+            
+            {/* Rutas CON sidebar */}
+            <Route element={<LayoutWithSidebar />}>
             <Route path="/pacientes-nuevos" element={<PacientesNuevos />} />
             <Route path="/busqueda" element={<Busqueda />} />
             <Route path="/directorio" element={<Directorio />} />
@@ -58,20 +60,17 @@ function App() {
             <Route path="/nutricion-diagnostico" element={<DiagnosticoNutricion />} />
             <Route path="/medicina-general-diagnostico" element={<DiagnosticoMedicinaGeneral />} />
             <Route path="/inicio-admin" element={<InicioAdm />} />
-          </Route>
-          <Route path="/pacientes-espera" element={<PacientesEspera />} />
-          
-          <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
-          <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
-          <Route path="/triaje" element={<TriajePaciente />} />
-          <Route path="/ingresar-nuevo-doctor" element={<IngresoDoctor />} />
-          <Route path="/ingresar-nueva-enfermera" element={<RegistroEnfermera />} />
-
-          
-        </Routes>
-      </BrowserRouter>
+            <Route path="/pacientes-espera" element={<PacientesEspera />} />
+            <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
+            <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
+            <Route path="/triaje" element={<TriajePaciente />} />
+            <Route path="/ingresar-nuevo-doctor" element={<IngresoDoctor />} />
+            <Route path="/ingresar-nueva-enfermera" element={<RegistroEnfermera />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
-
 export default App;

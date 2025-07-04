@@ -7,6 +7,7 @@ import { logger } from '../utils/logger';
 import { TipoUsuario } from '../generated/prisma';
 import { config } from '../config/environment';
 import { UsuarioDTO } from '../models/dto/usuario.dto';
+import { tokenFromCookieToHeader } from '../utils/cookieAuth';
 
 declare global{
   namespace Express{
@@ -19,6 +20,8 @@ declare global{
 export class AuthMiddleware {
   // le pasamos UsuarioService
   constructor(private usuarioService: UsuarioService) {}
+
+  public fromCookieToHeader = tokenFromCookieToHeader
 
   // Middleware para verificar token de Auth0
   public verifyAuth0Token = (req: Request, res: Response, next: NextFunction) => {

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { AuthController } from '../controllers/auth.controller'
 import { AuthMiddleware } from '../middleware/auth.middleware'
+import { tokenFromCookieToHeader } from '../utils/cookieAuth'
 
 export default function authRoutes(
   authController: AuthController,
@@ -17,6 +18,7 @@ export default function authRoutes(
   //  routes   -> middleware -> controller -> service -> repositories
   // llamar rutas -> guardias seguridad -> recibir datos/validar/llamar logica -> aplica logica ->  administrar BD
   router.use(
+    authMiddleware.fromCookieToHeader,
     authMiddleware.verifyAuth0Token,
     authMiddleware.attachUserInfoFromToken,
     authMiddleware.loadUserInfo

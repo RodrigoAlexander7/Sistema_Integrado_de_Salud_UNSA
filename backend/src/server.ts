@@ -3,6 +3,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { config } from './config/environment';
 import { logger } from './utils/logger';
+import cookieParser from 'cookie-parser';
 
 import { UsuarioRepository } from './repositories/usuario.repository';
 import { UsuarioService } from './services/usuario.service';
@@ -23,6 +24,7 @@ const app = express();
 app.use(cors({ origin: config.corsOrigin, credentials: true }));
 app.use(express.json({ limit: '10mb' })); // MUY IMPORTANTE: para poder leer req.body
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 const limiter = rateLimit(config.rateLimit);
 app.use(limiter);

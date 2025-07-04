@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
   import { UsuarioService } from '../services/usuario.service';
   import { TipoUsuario } from '../generated/prisma';
   import { logger } from '../utils/logger';
+  import {config} from '../config/environment';
 
   export interface RegisterRequest {
     email: string;
@@ -177,10 +178,17 @@ import { Request, Response } from 'express';
 
       logger.info(`Login exitoso para: ${email}`);
 
+      res.cookie('authToken', result.accessToken, {
+        httpOnly: true,
+        secure: config.nodeEnv === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 24
+      })
+
       res.json({
         success: true,
         message: 'Login exitoso',
-        data: result
+        user: result.user
       });
 
     } catch (error: any) {

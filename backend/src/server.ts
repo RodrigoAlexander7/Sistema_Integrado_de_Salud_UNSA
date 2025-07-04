@@ -11,6 +11,8 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { AuthMiddleware } from './middleware/auth.middleware';
 
+import { CookieController } from './controllers/cookie.controller';
+
 import createAuthRoutes from './routes/auth.routes';
 import createMedicoRoutes from './routes/medico.routes';
 import createEnfermeraRoutes from './routes/enfermera.routes';
@@ -21,7 +23,13 @@ const app = express();
 
 // MIDDLEWARES GLOBALES
 // Se aplican a TODAS las peticiones entrantes.
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+app.use(cors({ 
+  origin: config.corsOrigin, 
+  credentials: true ,
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '10mb' })); // MUY IMPORTANTE: para poder leer req.body
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
@@ -54,9 +62,10 @@ const authService = new AuthService(usuarioService);
 const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);
 
+const cookieController = new CookieController();
 
 // MONTAJE DE RUTAS MODULARES 
-app.use('/api/auth', createAuthRoutes(authController, authMiddleware));
+app.use('/api/auth', createAuthRoutes(authController, authMiddleware, cookieController));
 app.use('/api/medicos', createMedicoRoutes(authMiddleware));
 app.use('/api/enfermeras', createEnfermeraRoutes(authMiddleware));
 

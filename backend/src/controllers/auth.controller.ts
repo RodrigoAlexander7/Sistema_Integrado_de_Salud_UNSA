@@ -2,163 +2,163 @@
   -> llama la logica del service -> devuelve la respuesta
 */
 import { Request, Response } from 'express';
-  import { AuthService } from '../services/auth.service';
-  import { UsuarioService } from '../services/usuario.service';
-  import { TipoUsuario } from '../generated/prisma';
-  import { logger } from '../utils/logger';
-  import {config} from '../config/environment';
+import { AuthService } from '../services/auth.service';
+import { UsuarioService } from '../services/usuario.service';
+import { TipoUsuario } from '../generated/prisma';
+import { logger } from '../utils/logger';
+import {config} from '../config/environment';
 
-  export interface RegisterRequest {
-    email: string;
-    password?: string;
-    nombreUsuario: string;
-    tipoUsuario: TipoUsuario;
-    // Datos del perfil profesional
-    nombres?: string;
-    apellidos?: string;
-    tipoDocumento?: string;
-    numDocumento?: string;
-    numLicencia?: string;
-    telefono?: string;
+export interface RegisterRequest {
+  email: string;
+  password?: string;
+  nombreUsuario: string;
+  tipoUsuario: TipoUsuario;
+  // Datos del perfil profesional
+  nombres?: string;
+  apellidos?: string;
+  tipoDocumento?: string;
+  numDocumento?: string;
+  numLicencia?: string;
+  telefono?: string;
+}
+
+export class AuthController {
+  constructor(
+    private authService: AuthService,
+    private usuarioService: UsuarioService
+  ) {
+    // Bind de métodos para mantener el contexto
+    this.register = this.register.bind(this);
+    this.login = this.login.bind(this);
+    this.refreshToken = this.refreshToken.bind(this);
+    this.logout = this.logout.bind(this);
+    this.profile = this.profile.bind(this);
   }
 
-  export class AuthController {
-    constructor(
-      private authService: AuthService,
-      private usuarioService: UsuarioService
-    ) {
-      // Bind de métodos para mantener el contexto
-      this.register = this.register.bind(this);
-      this.login = this.login.bind(this);
-      this.refreshToken = this.refreshToken.bind(this);
-      this.logout = this.logout.bind(this);
-      this.profile = this.profile.bind(this);
-    }
+  async register(req: Request, res: Response): Promise<void> {
+    try {
+      // Log de datos recibidos para debugging
+      logger.info('Datos recibidos en register:', {
+        body: req.body,
+        email: req.body?.email,
+        tipoUsuario: req.body?.tipoUsuario
+      });
 
-    async register(req: Request, res: Response): Promise<void> {
-      try {
-        // Log de datos recibidos para debugging
-        logger.info('Datos recibidos en register:', {
-          body: req.body,
-          email: req.body?.email,
-          tipoUsuario: req.body?.tipoUsuario
-        });
+      const {
+        email,
+        password,
+        nombreUsuario,
+        tipoUsuario,
+        nombres,
+        apellidos,
+        tipoDocumento,
+        numDocumento,
+        numLicencia,
+        telefono
+      } = req.body;
 
-        const {
-          email,
-          password,
-          nombreUsuario,
-          tipoUsuario,
-          nombres,
-          apellidos,
-          tipoDocumento,
-          numDocumento,
-          numLicencia,
-          telefono
-        } = req.body;
-
-        // Validaciones básicas
-        if (!email) {
-          res.status(400).json({
-            success: false,
-            message: 'El email es requerido'
-          });
-          return;
-        }
-
-        if (!nombreUsuario) {
-          res.status(400).json({
-            success: false,
-            message: 'El nombre de usuario es requerido'
-          });
-          return;
-        }
-
-        if (!tipoUsuario) {
-          res.status(400).json({
-            success: false,
-            message: 'El tipo de usuario es requerido'
-          });
-          return;
-        }
-
-        if (!['MEDICO', 'ENFERMERA'].includes(tipoUsuario)) {
-          res.status(400).json({
-            success: false,
-            message: 'Tipo de usuario inválido'
-          });
-          return;
-        }
-
-        // Para medicos y enfermeras, validar datos profesionales
-        if (tipoUsuario === 'MEDICO' || tipoUsuario === 'ENFERMERA') {
-          if (!nombres || !apellidos || !tipoDocumento || !numDocumento || !numLicencia) {
-            res.status(400).json({
-              success: false,
-              message: 'Los datos profesionales son requeridos para médicos y enfermeras'
-            });
-            return;
-          }
-        }
-
-        logger.info(`Intento de registro para: ${email}, tipo: ${tipoUsuario}`);
-
-        // Registrar usuario -> como ya paso la prueba (middleware) llama a AuthService para registrarlo 
-        // AuthService ya los crea tanto e auth0(datos parciales) como en local (todos los datos)
-        const result = await this.authService.register({
-          email,
-          password,
-          nombreUsuario,
-          tipoUsuario,
-          nombres,
-          apellidos,
-          tipoDocumento,
-          numDocumento,
-          numLicencia,
-          telefono
-        });
-
-        logger.info(`Usuario registrado exitosamente: ${email}`);
-
-        res.status(201).json({
-          success: true,
-          message: 'Usuario registrado exitosamente',
-          data: {
-            user: {
-              id: result.usuario.id,
-              email: result.usuario.email,
-              nombreUsuario: result.usuario.nombreUsuario,
-              tipoUsuario: result.usuario.tipoUsuario,
-              activo: result.usuario.activo
-            },
-            profile: result.profile
-          }
-        });
-
-      } catch (error: any) {
-        logger.error('Error en registro:', { 
-          error: error.message,
-          stack: error.stack 
-        });
-
-        // Determinar el código de estado basado en el tipo de error
-        let statusCode = 500;
-        if (error.message.includes('ya está registrado') || 
-            error.message.includes('ya está en uso') ||
-            error.message.includes('ya existe')) {
-          statusCode = 409; // Conflict
-        } else if (error.message.includes('requerido') || 
-                  error.message.includes('inválido')) {
-          statusCode = 400; // Bad Request
-        }
-
-        res.status(statusCode).json({
+      // Validaciones básicas
+      if (!email) {
+        res.status(400).json({
           success: false,
-          message: error.message || 'Error en el registro',
-          timestamp: new Date().toISOString()
+          message: 'El email es requerido'
         });
+        return;
       }
+
+      if (!nombreUsuario) {
+        res.status(400).json({
+          success: false,
+          message: 'El nombre de usuario es requerido'
+        });
+        return;
+      }
+
+      if (!tipoUsuario) {
+        res.status(400).json({
+          success: false,
+          message: 'El tipo de usuario es requerido'
+        });
+        return;
+      }
+
+      if (!['MEDICO', 'ENFERMERA'].includes(tipoUsuario)) {
+        res.status(400).json({
+          success: false,
+          message: 'Tipo de usuario inválido'
+        });
+        return;
+      }
+
+      // Para medicos y enfermeras, validar datos profesionales
+      if (tipoUsuario === 'MEDICO' || tipoUsuario === 'ENFERMERA') {
+        if (!nombres || !apellidos || !tipoDocumento || !numDocumento || !numLicencia) {
+          res.status(400).json({
+            success: false,
+            message: 'Los datos profesionales son requeridos para médicos y enfermeras'
+          });
+          return;
+        }
+      }
+
+      logger.info(`Intento de registro para: ${email}, tipo: ${tipoUsuario}`);
+
+      // Registrar usuario -> como ya paso la prueba (middleware) llama a AuthService para registrarlo 
+      // AuthService ya los crea tanto e auth0(datos parciales) como en local (todos los datos)
+      const result = await this.authService.register({
+        email,
+        password,
+        nombreUsuario,
+        tipoUsuario,
+        nombres,
+        apellidos,
+        tipoDocumento,
+        numDocumento,
+        numLicencia,
+        telefono
+      });
+
+      logger.info(`Usuario registrado exitosamente: ${email}`);
+
+      res.status(201).json({
+        success: true,
+        message: 'Usuario registrado exitosamente',
+        data: {
+          user: {
+            id: result.usuario.id,
+            email: result.usuario.email,
+            nombreUsuario: result.usuario.nombreUsuario,
+            tipoUsuario: result.usuario.tipoUsuario,
+            activo: result.usuario.activo
+          },
+          profile: result.profile
+        }
+      });
+
+    } catch (error: any) {
+      logger.error('Error en registro:', { 
+        error: error.message,
+        stack: error.stack 
+      });
+
+      // Determinar el código de estado basado en el tipo de error
+      let statusCode = 500;
+      if (error.message.includes('ya está registrado') || 
+          error.message.includes('ya está en uso') ||
+          error.message.includes('ya existe')) {
+        statusCode = 409; // Conflict
+      } else if (error.message.includes('requerido') || 
+                error.message.includes('inválido')) {
+        statusCode = 400; // Bad Request
+      }
+
+      res.status(statusCode).json({
+        success: false,
+        message: error.message || 'Error en el registro',
+        timestamp: new Date().toISOString()
+      });
     }
+  }
 
   async login(req: Request, res: Response): Promise<void> {
     try {
@@ -182,7 +182,8 @@ import { Request, Response } from 'express';
         httpOnly: true,
         secure: config.nodeEnv === 'production',
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: 1000 * 60 * 60 * 24,
+        path: '/'
       })
 
       res.json({

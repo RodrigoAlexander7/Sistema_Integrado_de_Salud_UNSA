@@ -26,6 +26,7 @@ export function LoginForm({
         const backendUrl = 'http://localhost:4000/api/auth/login'
         const response = await fetch(backendUrl, {
           method: 'POST',
+          credentials: 'include',
           headers:{
             'Content-Type': 'application/json',
           },

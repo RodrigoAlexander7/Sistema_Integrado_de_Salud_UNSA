@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { LayoutWithSidebar } from "./components/layout-with-sidebar";
 import PacientesNuevos from "./pages/Doctor/pacientesNuevos";
 import Busqueda from "@/pages/Busqueda";
@@ -27,6 +27,8 @@ import RegistroEnfermera from "./pages/Administrador/ingresoEnfermera.";
 import { AuthProvider } from "./context/AuthContext";
 
 
+import { ProtectRoute } from "./components/ui/secure/ProtectRoute";
+
 function App() {
   return (
     <ThemeProvider>
@@ -44,7 +46,7 @@ function App() {
           />
           
           {/* Rutas CON sidebar */}
-          <Route element={<LayoutWithSidebar />}>
+          <Route element={<ProtectRoute><LayoutWithSidebar /></ProtectRoute>}>
             <Route path="/pacientes-nuevos" element={<PacientesNuevos />} />
             <Route path="/busqueda" element={<Busqueda />} />
             <Route path="/directorio" element={<Directorio />} />
@@ -62,14 +64,18 @@ function App() {
             <Route path="/medicina-general-diagnostico" element={<DiagnosticoMedicinaGeneral />} />
             <Route path="/inicio-admin" element={<InicioAdm />} />
           </Route>
-          <Route path="/pacientes-espera" element={<PacientesEspera />} />
-          
-          <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
-          <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
-          <Route path="/triaje" element={<TriajePaciente />} />
-          <Route path="/ingresar-nuevo-doctor" element={<IngresoDoctor />} />
-          <Route path="/ingresar-nueva-enfermera" element={<RegistroEnfermera />} />
 
+          //Rutas sin sidebar
+          <Route element={<ProtectRoute><Outlet/></ProtectRoute>}>
+            <Route path="/pacientes-espera" element={<PacientesEspera />} />
+          
+            <Route path="/pacientes-espera-doctor" element={<PacientesEsperaDoc />} />
+            <Route path="/ingreso-historia-clinica" element={<HistoriaClinicaIngreso />} />
+            <Route path="/triaje" element={<TriajePaciente />} />
+            <Route path="/ingresar-nuevo-doctor" element={<IngresoDoctor />} />
+            <Route path="/ingresar-nueva-enfermera" element={<RegistroEnfermera />} />
+
+          </Route>  
           
           </Routes>
         </BrowserRouter>

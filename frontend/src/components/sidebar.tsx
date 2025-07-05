@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/ThemeContext";
+import { handleLogout } from "@/utils/handleEvents";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -56,7 +57,10 @@ const Sidebar: React.FC = () => {
                 ? 'hover:bg-gray-700 text-gray-100 hover:text-white'
                 : 'hover:bg-blue-100 text-blue-950 hover:text-blue-900'
             }`}
-            onClick={() => navigate(item.path)}
+            onClick={() => {
+              if(item.label === 'Cerrar Sesión') handleLogout(navigate)
+              else navigate(item.path)
+            }}
           >
             {item.icon}
             <span>{item.label}</span>

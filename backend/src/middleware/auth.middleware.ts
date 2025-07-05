@@ -6,14 +6,27 @@ import { ResponseUtil } from '../utils/response';
 import { logger } from '../utils/logger';
 import { TipoUsuario } from '../generated/prisma';
 import { config } from '../config/environment';
+import { UsuarioDTO } from '../models/dto/usuario.dto';
+import { tokenFromCookieToHeader } from '../utils/cookieAuth';
+
+declare global{
+  namespace Express{
+    interface Request{
+      usuario?: UsuarioDTO
+    }
+  }
+}
 
 export class AuthMiddleware {
   // le pasamos UsuarioService
   constructor(private usuarioService: UsuarioService) {}
 
+  public fromCookieToHeader = tokenFromCookieToHeader
+
   // Middleware para verificar token de Auth0
   public verifyAuth0Token = (req: Request, res: Response, next: NextFunction) => {
     logger.info('Verificando token con jwtCheck'); 
+    
     return jwtCheck(req, res, next);
   };
   // equivalente a esto -> public verifyAuth0Token = jwtCheck;

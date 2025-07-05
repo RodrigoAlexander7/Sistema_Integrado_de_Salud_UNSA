@@ -7,9 +7,13 @@ import { useTheme } from "@/context/ThemeContext";
 
 interface PasswordFormProps {
   onSubmit: (currentPassword: string, newPassword: string, confirmPassword: string) => void;
+  isSubmitting?: boolean;
 }
 
-export const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit }) => {
+export const PasswordForm: React.FC<PasswordFormProps> = ({ 
+  onSubmit, 
+  isSubmitting = false 
+}) => {
   const { theme } = useTheme();
   const [currentPassword, setCurrentPassword] = React.useState("");
   const [newPassword, setNewPassword] = React.useState("");
@@ -136,4 +140,4 @@ export const PasswordForm: React.FC<PasswordFormProps> = ({ onSubmit }) => {
       </Card>
     </div>
   );
-};
+};  

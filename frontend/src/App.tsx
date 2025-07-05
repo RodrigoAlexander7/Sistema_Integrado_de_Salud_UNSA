@@ -24,14 +24,17 @@ import DiagnosticoNutricion from "./pages/Doctor/diagnosticos/nutricion";
 import InicioAdm from "./pages/Administrador/InicioAdministrador";
 import IngresoDoctor from "./pages/Administrador/IngresoDoctor";
 import RegistroEnfermera from "./pages/Administrador/ingresoEnfermera.";
+import { AuthProvider } from "./context/AuthContext";
+
 
 import { ProtectRoute } from "./components/ui/secure/ProtectRoute";
 
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Routes>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
           {/* Ruta de login - sin layout */}
           <Route
             path="/"
@@ -74,10 +77,10 @@ function App() {
 
           </Route>  
           
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
-
 export default App;

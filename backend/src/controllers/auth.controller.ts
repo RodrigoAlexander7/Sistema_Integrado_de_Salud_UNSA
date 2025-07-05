@@ -248,6 +248,14 @@ export class AuthController {
         await this.authService.logout(userInfo.userId);
       }
 
+      const isProduction = config.nodeEnv === 'production'
+      res.clearCookie('authToken',{
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction? 'none': 'lax',
+        path: '/' 
+      })
+
       res.json({
         success: true,
         message: 'Logout exitoso'

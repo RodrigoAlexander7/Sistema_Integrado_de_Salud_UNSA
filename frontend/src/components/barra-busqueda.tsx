@@ -16,6 +16,7 @@ interface BarraBusquedaProps {
   setFechaFin: (value: string) => void;
   onBuscar: () => void;
   onLimpiar: () => void;
+  loading: boolean;
 }
 
 export function BarraBusqueda({

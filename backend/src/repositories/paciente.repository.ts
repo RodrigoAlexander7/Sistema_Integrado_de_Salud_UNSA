@@ -17,7 +17,6 @@ export interface CreatePatientData {
    estadoCivil?: string;
    //FALTA TODO LO RELEVANTE A PROGRAMA ACADEMICO
    programaAcademico: ProgramaAcademico;
-   fechaRegistro: Date;
    activo: boolean;
 }
 
@@ -42,7 +41,7 @@ export class PatientRepository extends BaseRepository {
                programaAcademico: {
                   connect: {id: data.programaAcademico.id}
                },
-               fechaRegistro: data.fechaRegistro,
+               fechaRegistro: new Date(),
                activo: data.activo,
             }
          })

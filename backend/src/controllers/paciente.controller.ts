@@ -5,6 +5,16 @@ import { PacienteService } from '../services/paciente.service';
 import { logger } from '../utils/logger';
 import {config} from '../config/environment';
 
+export interface ProgramaAcademicoDTO{
+   id: number;
+   facultadId: number;
+   nombre: string;
+   codigo: string;
+   descripcion: string | null;
+   nivel: string;
+   activo: boolean;
+}
+
 export interface PutPersonalDataRequest {
    tipoDocumento: string;
    numDocumento: string;
@@ -19,8 +29,8 @@ export interface PutPersonalDataRequest {
    alergias: string;
    antecedentesFamiliares: string;
    estadoCivil: string;
-   fechaRegistro?: string;
    activo?: boolean;
+   programaAcademico: ProgramaAcademicoDTO,
 }
 
 export class PatientController{
@@ -46,8 +56,8 @@ export class PatientController{
             alergias,
             antecedentesFamiliares,
             estadoCivil,
-            fechaRegistro = new Date().toISOString(),
             activo = true,
+            programaAcademico
          } = req.body;
 
          const resutl = await this.pacienteService.createPatient({
@@ -55,7 +65,7 @@ export class PatientController{
             numDocumento,
             nombres,
             apellidos,
-            fechaNacimiento,
+            fechaNacimiento: new Date(fechaNacimiento),
             genero,
             direccion,
             telefono,
@@ -64,8 +74,8 @@ export class PatientController{
             alergias,
             antecedentesFamiliares,
             estadoCivil,
-            fechaRegistro,
-            activo
+            activo,
+            programaAcademico
          })
          logger.info(`Usuario registrado exitosamente: ${correo}`);
 
@@ -75,10 +85,7 @@ export class PatientController{
             stack: error.stack 
          });
       }
-   }
-
-
-   
+   }  
 }
 
 

@@ -188,6 +188,7 @@ export class AuthController {
 
       res.json({
         success: true,
+        token: result.accessToken,
         message: 'Login exitoso',
         user: result.user
       });

@@ -5,16 +5,6 @@ import { PacienteService } from '../services/paciente.service';
 import { logger } from '../utils/logger';
 import {config} from '../config/environment';
 
-export interface ProgramaAcademicoDTO{
-   id: number;
-   facultadId: number;
-   nombre: string;
-   codigo: string;
-   descripcion: string | null;
-   nivel: string;
-   activo: boolean;
-}
-
 export interface PutPersonalDataRequest {
    tipoDocumento: string;
    numDocumento: string;
@@ -30,7 +20,7 @@ export interface PutPersonalDataRequest {
    antecedentesFamiliares: string;
    estadoCivil: string;
    activo?: boolean;
-   programaAcademico: ProgramaAcademicoDTO,
+   programaAcademicoId: number,
 }
 
 export class PatientController{
@@ -57,7 +47,7 @@ export class PatientController{
             antecedentesFamiliares,
             estadoCivil,
             activo = true,
-            programaAcademico
+            programaAcademicoId
          } = req.body;
 
          const resutl = await this.pacienteService.createPatient({
@@ -75,9 +65,14 @@ export class PatientController{
             antecedentesFamiliares,
             estadoCivil,
             activo,
-            programaAcademico
+            programaAcademicoId
          })
          logger.info(`Usuario registrado exitosamente: ${correo}`);
+
+         res.status(201).json({
+            success: true,
+            message: 'Usuario registrado exitosamente',
+         });
 
       }catch (error: any){
          logger.error('Error en registro:', { 

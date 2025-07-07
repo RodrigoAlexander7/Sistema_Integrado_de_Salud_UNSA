@@ -16,7 +16,7 @@ export interface CreatePatientData {
    antecedentesFamiliares?: string;
    estadoCivil?: string;
    //FALTA TODO LO RELEVANTE A PROGRAMA ACADEMICO
-   programaAcademico: ProgramaAcademico;
+   programaAcademicoId: number;
    activo: boolean;
 }
 
@@ -39,7 +39,7 @@ export class PatientRepository extends BaseRepository {
                antecedentesFamiliares: data.antecedentesFamiliares,
                estadoCivil: data.estadoCivil,
                programaAcademico: {
-                  connect: {id: data.programaAcademico.id}
+                  connect: {id: data.programaAcademicoId}
                },
                fechaRegistro: new Date(),
                activo: data.activo,

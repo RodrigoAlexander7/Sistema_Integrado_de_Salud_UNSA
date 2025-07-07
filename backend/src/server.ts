@@ -11,11 +11,15 @@ import { AuthService } from './services/auth.service';
 import { AuthController } from './controllers/auth.controller';
 import { AuthMiddleware } from './middleware/auth.middleware';
 
+import { PatientRepository } from './repositories/paciente.repository';
+import { PatientController } from './controllers/paciente.controller';
+import { PacienteService } from './services/paciente.service';
 import { CookieController } from './controllers/cookie.controller';
 
 import createAuthRoutes from './routes/auth.routes';
 import createMedicoRoutes from './routes/medico.routes';
 import createEnfermeraRoutes from './routes/enfermera.routes';
+import createPacientesRoutes from './routes/paciente.routes'
 
 
 const app = express();
@@ -62,12 +66,16 @@ const authService = new AuthService(usuarioService);
 const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);
 
+const patienRepository = new PatientRepository()
+const pacienteService = new PacienteService(patienRepository)
+const patientController = new PatientController(pacienteService)
 const cookieController = new CookieController();
 
 // MONTAJE DE RUTAS MODULARES 
 app.use('/api/auth', createAuthRoutes(authController, authMiddleware, cookieController));
 app.use('/api/medicos', createMedicoRoutes(authMiddleware));
 app.use('/api/enfermeras', createEnfermeraRoutes(authMiddleware));
+app.use('/api/pacientes', createPacientesRoutes(patientController, authMiddleware));
 
 
 //MANEJO DE ERRORES

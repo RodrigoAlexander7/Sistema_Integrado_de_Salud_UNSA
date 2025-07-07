@@ -134,6 +134,11 @@ export type PsicologiaDetalle = $Result.DefaultSelection<Prisma.$PsicologiaDetal
  */
 export type TrabajoSocialDetalle = $Result.DefaultSelection<Prisma.$TrabajoSocialDetallePayload>
 /**
+ * Model NutricionDetalle
+ * 
+ */
+export type NutricionDetalle = $Result.DefaultSelection<Prisma.$NutricionDetallePayload>
+/**
  * Model AuditoriaHistoria
  * 
  */
@@ -533,6 +538,16 @@ export class PrismaClient<
     * ```
     */
   get trabajoSocialDetalle(): Prisma.TrabajoSocialDetalleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.nutricionDetalle`: Exposes CRUD operations for the **NutricionDetalle** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more NutricionDetalles
+    * const nutricionDetalles = await prisma.nutricionDetalle.findMany()
+    * ```
+    */
+  get nutricionDetalle(): Prisma.NutricionDetalleDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.auditoriaHistoria`: Exposes CRUD operations for the **AuditoriaHistoria** model.
@@ -1007,6 +1022,7 @@ export namespace Prisma {
     OftalmologiaDetalle: 'OftalmologiaDetalle',
     PsicologiaDetalle: 'PsicologiaDetalle',
     TrabajoSocialDetalle: 'TrabajoSocialDetalle',
+    NutricionDetalle: 'NutricionDetalle',
     AuditoriaHistoria: 'AuditoriaHistoria'
   };
 
@@ -1026,7 +1042,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "medico" | "enfermera" | "administrador" | "facultad" | "programaAcademico" | "sede" | "consultorio" | "especialidad" | "medicoEspecialidad" | "paciente" | "contactoEmergencia" | "historiaClinica" | "episodioClinco" | "signosVitales" | "codigoCIE10" | "diagnostico" | "prescripcion" | "documentoClinico" | "consentimientoInformado" | "odontologiaDetalle" | "oftalmologiaDetalle" | "psicologiaDetalle" | "trabajoSocialDetalle" | "auditoriaHistoria"
+      modelProps: "usuario" | "medico" | "enfermera" | "administrador" | "facultad" | "programaAcademico" | "sede" | "consultorio" | "especialidad" | "medicoEspecialidad" | "paciente" | "contactoEmergencia" | "historiaClinica" | "episodioClinco" | "signosVitales" | "codigoCIE10" | "diagnostico" | "prescripcion" | "documentoClinico" | "consentimientoInformado" | "odontologiaDetalle" | "oftalmologiaDetalle" | "psicologiaDetalle" | "trabajoSocialDetalle" | "nutricionDetalle" | "auditoriaHistoria"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2806,6 +2822,80 @@ export namespace Prisma {
           }
         }
       }
+      NutricionDetalle: {
+        payload: Prisma.$NutricionDetallePayload<ExtArgs>
+        fields: Prisma.NutricionDetalleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NutricionDetalleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NutricionDetalleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          findFirst: {
+            args: Prisma.NutricionDetalleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NutricionDetalleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          findMany: {
+            args: Prisma.NutricionDetalleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>[]
+          }
+          create: {
+            args: Prisma.NutricionDetalleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          createMany: {
+            args: Prisma.NutricionDetalleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NutricionDetalleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>[]
+          }
+          delete: {
+            args: Prisma.NutricionDetalleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          update: {
+            args: Prisma.NutricionDetalleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          deleteMany: {
+            args: Prisma.NutricionDetalleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NutricionDetalleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NutricionDetalleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>[]
+          }
+          upsert: {
+            args: Prisma.NutricionDetalleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NutricionDetallePayload>
+          }
+          aggregate: {
+            args: Prisma.NutricionDetalleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNutricionDetalle>
+          }
+          groupBy: {
+            args: Prisma.NutricionDetalleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NutricionDetalleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NutricionDetalleCountArgs<ExtArgs>
+            result: $Utils.Optional<NutricionDetalleCountAggregateOutputType> | number
+          }
+        }
+      }
       AuditoriaHistoria: {
         payload: Prisma.$AuditoriaHistoriaPayload<ExtArgs>
         fields: Prisma.AuditoriaHistoriaFieldRefs
@@ -2988,6 +3078,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleOmit
     psicologiaDetalle?: PsicologiaDetalleOmit
     trabajoSocialDetalle?: TrabajoSocialDetalleOmit
+    nutricionDetalle?: NutricionDetalleOmit
     auditoriaHistoria?: AuditoriaHistoriaOmit
   }
 
@@ -19014,6 +19105,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: boolean | EpisodioClinco$oftalmologiaDetalleArgs<ExtArgs>
     psicologiaDetalle?: boolean | EpisodioClinco$psicologiaDetalleArgs<ExtArgs>
     trabajoSocialDetalle?: boolean | EpisodioClinco$trabajoSocialDetalleArgs<ExtArgs>
+    nutricionDetalle?: boolean | EpisodioClinco$nutricionDetalleArgs<ExtArgs>
     auditorias?: boolean | EpisodioClinco$auditoriasArgs<ExtArgs>
     _count?: boolean | EpisodioClincoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["episodioClinco"]>
@@ -19086,6 +19178,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: boolean | EpisodioClinco$oftalmologiaDetalleArgs<ExtArgs>
     psicologiaDetalle?: boolean | EpisodioClinco$psicologiaDetalleArgs<ExtArgs>
     trabajoSocialDetalle?: boolean | EpisodioClinco$trabajoSocialDetalleArgs<ExtArgs>
+    nutricionDetalle?: boolean | EpisodioClinco$nutricionDetalleArgs<ExtArgs>
     auditorias?: boolean | EpisodioClinco$auditoriasArgs<ExtArgs>
     _count?: boolean | EpisodioClincoCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -19121,6 +19214,7 @@ export namespace Prisma {
       oftalmologiaDetalle: Prisma.$OftalmologiaDetallePayload<ExtArgs> | null
       psicologiaDetalle: Prisma.$PsicologiaDetallePayload<ExtArgs> | null
       trabajoSocialDetalle: Prisma.$TrabajoSocialDetallePayload<ExtArgs> | null
+      nutricionDetalle: Prisma.$NutricionDetallePayload<ExtArgs> | null
       auditorias: Prisma.$AuditoriaHistoriaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -19543,6 +19637,7 @@ export namespace Prisma {
     oftalmologiaDetalle<T extends EpisodioClinco$oftalmologiaDetalleArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClinco$oftalmologiaDetalleArgs<ExtArgs>>): Prisma__OftalmologiaDetalleClient<$Result.GetResult<Prisma.$OftalmologiaDetallePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     psicologiaDetalle<T extends EpisodioClinco$psicologiaDetalleArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClinco$psicologiaDetalleArgs<ExtArgs>>): Prisma__PsicologiaDetalleClient<$Result.GetResult<Prisma.$PsicologiaDetallePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     trabajoSocialDetalle<T extends EpisodioClinco$trabajoSocialDetalleArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClinco$trabajoSocialDetalleArgs<ExtArgs>>): Prisma__TrabajoSocialDetalleClient<$Result.GetResult<Prisma.$TrabajoSocialDetallePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    nutricionDetalle<T extends EpisodioClinco$nutricionDetalleArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClinco$nutricionDetalleArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     auditorias<T extends EpisodioClinco$auditoriasArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClinco$auditoriasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditoriaHistoriaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -20192,6 +20287,25 @@ export namespace Prisma {
      */
     include?: TrabajoSocialDetalleInclude<ExtArgs> | null
     where?: TrabajoSocialDetalleWhereInput
+  }
+
+  /**
+   * EpisodioClinco.nutricionDetalle
+   */
+  export type EpisodioClinco$nutricionDetalleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    where?: NutricionDetalleWhereInput
   }
 
   /**
@@ -31597,6 +31711,1132 @@ export namespace Prisma {
 
 
   /**
+   * Model NutricionDetalle
+   */
+
+  export type AggregateNutricionDetalle = {
+    _count: NutricionDetalleCountAggregateOutputType | null
+    _avg: NutricionDetalleAvgAggregateOutputType | null
+    _sum: NutricionDetalleSumAggregateOutputType | null
+    _min: NutricionDetalleMinAggregateOutputType | null
+    _max: NutricionDetalleMaxAggregateOutputType | null
+  }
+
+  export type NutricionDetalleAvgAggregateOutputType = {
+    id: number | null
+    episodioClinicoId: number | null
+    imc: Decimal | null
+  }
+
+  export type NutricionDetalleSumAggregateOutputType = {
+    id: number | null
+    episodioClinicoId: number | null
+    imc: Decimal | null
+  }
+
+  export type NutricionDetalleMinAggregateOutputType = {
+    id: number | null
+    episodioClinicoId: number | null
+    evaluacionNutricional: string | null
+    diagnosticoNutricional: string | null
+    planAlimentario: string | null
+    seguimiento: string | null
+    imc: Decimal | null
+  }
+
+  export type NutricionDetalleMaxAggregateOutputType = {
+    id: number | null
+    episodioClinicoId: number | null
+    evaluacionNutricional: string | null
+    diagnosticoNutricional: string | null
+    planAlimentario: string | null
+    seguimiento: string | null
+    imc: Decimal | null
+  }
+
+  export type NutricionDetalleCountAggregateOutputType = {
+    id: number
+    episodioClinicoId: number
+    evaluacionNutricional: number
+    diagnosticoNutricional: number
+    planAlimentario: number
+    seguimiento: number
+    imc: number
+    _all: number
+  }
+
+
+  export type NutricionDetalleAvgAggregateInputType = {
+    id?: true
+    episodioClinicoId?: true
+    imc?: true
+  }
+
+  export type NutricionDetalleSumAggregateInputType = {
+    id?: true
+    episodioClinicoId?: true
+    imc?: true
+  }
+
+  export type NutricionDetalleMinAggregateInputType = {
+    id?: true
+    episodioClinicoId?: true
+    evaluacionNutricional?: true
+    diagnosticoNutricional?: true
+    planAlimentario?: true
+    seguimiento?: true
+    imc?: true
+  }
+
+  export type NutricionDetalleMaxAggregateInputType = {
+    id?: true
+    episodioClinicoId?: true
+    evaluacionNutricional?: true
+    diagnosticoNutricional?: true
+    planAlimentario?: true
+    seguimiento?: true
+    imc?: true
+  }
+
+  export type NutricionDetalleCountAggregateInputType = {
+    id?: true
+    episodioClinicoId?: true
+    evaluacionNutricional?: true
+    diagnosticoNutricional?: true
+    planAlimentario?: true
+    seguimiento?: true
+    imc?: true
+    _all?: true
+  }
+
+  export type NutricionDetalleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NutricionDetalle to aggregate.
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NutricionDetalles to fetch.
+     */
+    orderBy?: NutricionDetalleOrderByWithRelationInput | NutricionDetalleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NutricionDetalleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NutricionDetalles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NutricionDetalles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned NutricionDetalles
+    **/
+    _count?: true | NutricionDetalleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: NutricionDetalleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: NutricionDetalleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NutricionDetalleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NutricionDetalleMaxAggregateInputType
+  }
+
+  export type GetNutricionDetalleAggregateType<T extends NutricionDetalleAggregateArgs> = {
+        [P in keyof T & keyof AggregateNutricionDetalle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNutricionDetalle[P]>
+      : GetScalarType<T[P], AggregateNutricionDetalle[P]>
+  }
+
+
+
+
+  export type NutricionDetalleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NutricionDetalleWhereInput
+    orderBy?: NutricionDetalleOrderByWithAggregationInput | NutricionDetalleOrderByWithAggregationInput[]
+    by: NutricionDetalleScalarFieldEnum[] | NutricionDetalleScalarFieldEnum
+    having?: NutricionDetalleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NutricionDetalleCountAggregateInputType | true
+    _avg?: NutricionDetalleAvgAggregateInputType
+    _sum?: NutricionDetalleSumAggregateInputType
+    _min?: NutricionDetalleMinAggregateInputType
+    _max?: NutricionDetalleMaxAggregateInputType
+  }
+
+  export type NutricionDetalleGroupByOutputType = {
+    id: number
+    episodioClinicoId: number
+    evaluacionNutricional: string | null
+    diagnosticoNutricional: string | null
+    planAlimentario: string | null
+    seguimiento: string | null
+    imc: Decimal | null
+    _count: NutricionDetalleCountAggregateOutputType | null
+    _avg: NutricionDetalleAvgAggregateOutputType | null
+    _sum: NutricionDetalleSumAggregateOutputType | null
+    _min: NutricionDetalleMinAggregateOutputType | null
+    _max: NutricionDetalleMaxAggregateOutputType | null
+  }
+
+  type GetNutricionDetalleGroupByPayload<T extends NutricionDetalleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NutricionDetalleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NutricionDetalleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NutricionDetalleGroupByOutputType[P]>
+            : GetScalarType<T[P], NutricionDetalleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NutricionDetalleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    episodioClinicoId?: boolean
+    evaluacionNutricional?: boolean
+    diagnosticoNutricional?: boolean
+    planAlimentario?: boolean
+    seguimiento?: boolean
+    imc?: boolean
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nutricionDetalle"]>
+
+  export type NutricionDetalleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    episodioClinicoId?: boolean
+    evaluacionNutricional?: boolean
+    diagnosticoNutricional?: boolean
+    planAlimentario?: boolean
+    seguimiento?: boolean
+    imc?: boolean
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nutricionDetalle"]>
+
+  export type NutricionDetalleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    episodioClinicoId?: boolean
+    evaluacionNutricional?: boolean
+    diagnosticoNutricional?: boolean
+    planAlimentario?: boolean
+    seguimiento?: boolean
+    imc?: boolean
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["nutricionDetalle"]>
+
+  export type NutricionDetalleSelectScalar = {
+    id?: boolean
+    episodioClinicoId?: boolean
+    evaluacionNutricional?: boolean
+    diagnosticoNutricional?: boolean
+    planAlimentario?: boolean
+    seguimiento?: boolean
+    imc?: boolean
+  }
+
+  export type NutricionDetalleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "episodioClinicoId" | "evaluacionNutricional" | "diagnosticoNutricional" | "planAlimentario" | "seguimiento" | "imc", ExtArgs["result"]["nutricionDetalle"]>
+  export type NutricionDetalleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }
+  export type NutricionDetalleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }
+  export type NutricionDetalleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    episodioClinico?: boolean | EpisodioClincoDefaultArgs<ExtArgs>
+  }
+
+  export type $NutricionDetallePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "NutricionDetalle"
+    objects: {
+      episodioClinico: Prisma.$EpisodioClincoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      episodioClinicoId: number
+      evaluacionNutricional: string | null
+      diagnosticoNutricional: string | null
+      planAlimentario: string | null
+      seguimiento: string | null
+      imc: Prisma.Decimal | null
+    }, ExtArgs["result"]["nutricionDetalle"]>
+    composites: {}
+  }
+
+  type NutricionDetalleGetPayload<S extends boolean | null | undefined | NutricionDetalleDefaultArgs> = $Result.GetResult<Prisma.$NutricionDetallePayload, S>
+
+  type NutricionDetalleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NutricionDetalleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NutricionDetalleCountAggregateInputType | true
+    }
+
+  export interface NutricionDetalleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['NutricionDetalle'], meta: { name: 'NutricionDetalle' } }
+    /**
+     * Find zero or one NutricionDetalle that matches the filter.
+     * @param {NutricionDetalleFindUniqueArgs} args - Arguments to find a NutricionDetalle
+     * @example
+     * // Get one NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NutricionDetalleFindUniqueArgs>(args: SelectSubset<T, NutricionDetalleFindUniqueArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one NutricionDetalle that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NutricionDetalleFindUniqueOrThrowArgs} args - Arguments to find a NutricionDetalle
+     * @example
+     * // Get one NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NutricionDetalleFindUniqueOrThrowArgs>(args: SelectSubset<T, NutricionDetalleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NutricionDetalle that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleFindFirstArgs} args - Arguments to find a NutricionDetalle
+     * @example
+     * // Get one NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NutricionDetalleFindFirstArgs>(args?: SelectSubset<T, NutricionDetalleFindFirstArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first NutricionDetalle that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleFindFirstOrThrowArgs} args - Arguments to find a NutricionDetalle
+     * @example
+     * // Get one NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NutricionDetalleFindFirstOrThrowArgs>(args?: SelectSubset<T, NutricionDetalleFindFirstOrThrowArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more NutricionDetalles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all NutricionDetalles
+     * const nutricionDetalles = await prisma.nutricionDetalle.findMany()
+     * 
+     * // Get first 10 NutricionDetalles
+     * const nutricionDetalles = await prisma.nutricionDetalle.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const nutricionDetalleWithIdOnly = await prisma.nutricionDetalle.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NutricionDetalleFindManyArgs>(args?: SelectSubset<T, NutricionDetalleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a NutricionDetalle.
+     * @param {NutricionDetalleCreateArgs} args - Arguments to create a NutricionDetalle.
+     * @example
+     * // Create one NutricionDetalle
+     * const NutricionDetalle = await prisma.nutricionDetalle.create({
+     *   data: {
+     *     // ... data to create a NutricionDetalle
+     *   }
+     * })
+     * 
+     */
+    create<T extends NutricionDetalleCreateArgs>(args: SelectSubset<T, NutricionDetalleCreateArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many NutricionDetalles.
+     * @param {NutricionDetalleCreateManyArgs} args - Arguments to create many NutricionDetalles.
+     * @example
+     * // Create many NutricionDetalles
+     * const nutricionDetalle = await prisma.nutricionDetalle.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NutricionDetalleCreateManyArgs>(args?: SelectSubset<T, NutricionDetalleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many NutricionDetalles and returns the data saved in the database.
+     * @param {NutricionDetalleCreateManyAndReturnArgs} args - Arguments to create many NutricionDetalles.
+     * @example
+     * // Create many NutricionDetalles
+     * const nutricionDetalle = await prisma.nutricionDetalle.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many NutricionDetalles and only return the `id`
+     * const nutricionDetalleWithIdOnly = await prisma.nutricionDetalle.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NutricionDetalleCreateManyAndReturnArgs>(args?: SelectSubset<T, NutricionDetalleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a NutricionDetalle.
+     * @param {NutricionDetalleDeleteArgs} args - Arguments to delete one NutricionDetalle.
+     * @example
+     * // Delete one NutricionDetalle
+     * const NutricionDetalle = await prisma.nutricionDetalle.delete({
+     *   where: {
+     *     // ... filter to delete one NutricionDetalle
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NutricionDetalleDeleteArgs>(args: SelectSubset<T, NutricionDetalleDeleteArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one NutricionDetalle.
+     * @param {NutricionDetalleUpdateArgs} args - Arguments to update one NutricionDetalle.
+     * @example
+     * // Update one NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NutricionDetalleUpdateArgs>(args: SelectSubset<T, NutricionDetalleUpdateArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more NutricionDetalles.
+     * @param {NutricionDetalleDeleteManyArgs} args - Arguments to filter NutricionDetalles to delete.
+     * @example
+     * // Delete a few NutricionDetalles
+     * const { count } = await prisma.nutricionDetalle.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NutricionDetalleDeleteManyArgs>(args?: SelectSubset<T, NutricionDetalleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NutricionDetalles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many NutricionDetalles
+     * const nutricionDetalle = await prisma.nutricionDetalle.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NutricionDetalleUpdateManyArgs>(args: SelectSubset<T, NutricionDetalleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more NutricionDetalles and returns the data updated in the database.
+     * @param {NutricionDetalleUpdateManyAndReturnArgs} args - Arguments to update many NutricionDetalles.
+     * @example
+     * // Update many NutricionDetalles
+     * const nutricionDetalle = await prisma.nutricionDetalle.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more NutricionDetalles and only return the `id`
+     * const nutricionDetalleWithIdOnly = await prisma.nutricionDetalle.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NutricionDetalleUpdateManyAndReturnArgs>(args: SelectSubset<T, NutricionDetalleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one NutricionDetalle.
+     * @param {NutricionDetalleUpsertArgs} args - Arguments to update or create a NutricionDetalle.
+     * @example
+     * // Update or create a NutricionDetalle
+     * const nutricionDetalle = await prisma.nutricionDetalle.upsert({
+     *   create: {
+     *     // ... data to create a NutricionDetalle
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the NutricionDetalle we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NutricionDetalleUpsertArgs>(args: SelectSubset<T, NutricionDetalleUpsertArgs<ExtArgs>>): Prisma__NutricionDetalleClient<$Result.GetResult<Prisma.$NutricionDetallePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of NutricionDetalles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleCountArgs} args - Arguments to filter NutricionDetalles to count.
+     * @example
+     * // Count the number of NutricionDetalles
+     * const count = await prisma.nutricionDetalle.count({
+     *   where: {
+     *     // ... the filter for the NutricionDetalles we want to count
+     *   }
+     * })
+    **/
+    count<T extends NutricionDetalleCountArgs>(
+      args?: Subset<T, NutricionDetalleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NutricionDetalleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a NutricionDetalle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NutricionDetalleAggregateArgs>(args: Subset<T, NutricionDetalleAggregateArgs>): Prisma.PrismaPromise<GetNutricionDetalleAggregateType<T>>
+
+    /**
+     * Group by NutricionDetalle.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NutricionDetalleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NutricionDetalleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NutricionDetalleGroupByArgs['orderBy'] }
+        : { orderBy?: NutricionDetalleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NutricionDetalleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNutricionDetalleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the NutricionDetalle model
+   */
+  readonly fields: NutricionDetalleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for NutricionDetalle.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NutricionDetalleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    episodioClinico<T extends EpisodioClincoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EpisodioClincoDefaultArgs<ExtArgs>>): Prisma__EpisodioClincoClient<$Result.GetResult<Prisma.$EpisodioClincoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the NutricionDetalle model
+   */
+  interface NutricionDetalleFieldRefs {
+    readonly id: FieldRef<"NutricionDetalle", 'Int'>
+    readonly episodioClinicoId: FieldRef<"NutricionDetalle", 'Int'>
+    readonly evaluacionNutricional: FieldRef<"NutricionDetalle", 'String'>
+    readonly diagnosticoNutricional: FieldRef<"NutricionDetalle", 'String'>
+    readonly planAlimentario: FieldRef<"NutricionDetalle", 'String'>
+    readonly seguimiento: FieldRef<"NutricionDetalle", 'String'>
+    readonly imc: FieldRef<"NutricionDetalle", 'Decimal'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * NutricionDetalle findUnique
+   */
+  export type NutricionDetalleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter, which NutricionDetalle to fetch.
+     */
+    where: NutricionDetalleWhereUniqueInput
+  }
+
+  /**
+   * NutricionDetalle findUniqueOrThrow
+   */
+  export type NutricionDetalleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter, which NutricionDetalle to fetch.
+     */
+    where: NutricionDetalleWhereUniqueInput
+  }
+
+  /**
+   * NutricionDetalle findFirst
+   */
+  export type NutricionDetalleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter, which NutricionDetalle to fetch.
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NutricionDetalles to fetch.
+     */
+    orderBy?: NutricionDetalleOrderByWithRelationInput | NutricionDetalleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NutricionDetalles.
+     */
+    cursor?: NutricionDetalleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NutricionDetalles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NutricionDetalles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NutricionDetalles.
+     */
+    distinct?: NutricionDetalleScalarFieldEnum | NutricionDetalleScalarFieldEnum[]
+  }
+
+  /**
+   * NutricionDetalle findFirstOrThrow
+   */
+  export type NutricionDetalleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter, which NutricionDetalle to fetch.
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NutricionDetalles to fetch.
+     */
+    orderBy?: NutricionDetalleOrderByWithRelationInput | NutricionDetalleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for NutricionDetalles.
+     */
+    cursor?: NutricionDetalleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NutricionDetalles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NutricionDetalles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of NutricionDetalles.
+     */
+    distinct?: NutricionDetalleScalarFieldEnum | NutricionDetalleScalarFieldEnum[]
+  }
+
+  /**
+   * NutricionDetalle findMany
+   */
+  export type NutricionDetalleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter, which NutricionDetalles to fetch.
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of NutricionDetalles to fetch.
+     */
+    orderBy?: NutricionDetalleOrderByWithRelationInput | NutricionDetalleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing NutricionDetalles.
+     */
+    cursor?: NutricionDetalleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` NutricionDetalles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` NutricionDetalles.
+     */
+    skip?: number
+    distinct?: NutricionDetalleScalarFieldEnum | NutricionDetalleScalarFieldEnum[]
+  }
+
+  /**
+   * NutricionDetalle create
+   */
+  export type NutricionDetalleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a NutricionDetalle.
+     */
+    data: XOR<NutricionDetalleCreateInput, NutricionDetalleUncheckedCreateInput>
+  }
+
+  /**
+   * NutricionDetalle createMany
+   */
+  export type NutricionDetalleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many NutricionDetalles.
+     */
+    data: NutricionDetalleCreateManyInput | NutricionDetalleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * NutricionDetalle createManyAndReturn
+   */
+  export type NutricionDetalleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * The data used to create many NutricionDetalles.
+     */
+    data: NutricionDetalleCreateManyInput | NutricionDetalleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NutricionDetalle update
+   */
+  export type NutricionDetalleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a NutricionDetalle.
+     */
+    data: XOR<NutricionDetalleUpdateInput, NutricionDetalleUncheckedUpdateInput>
+    /**
+     * Choose, which NutricionDetalle to update.
+     */
+    where: NutricionDetalleWhereUniqueInput
+  }
+
+  /**
+   * NutricionDetalle updateMany
+   */
+  export type NutricionDetalleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update NutricionDetalles.
+     */
+    data: XOR<NutricionDetalleUpdateManyMutationInput, NutricionDetalleUncheckedUpdateManyInput>
+    /**
+     * Filter which NutricionDetalles to update
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * Limit how many NutricionDetalles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * NutricionDetalle updateManyAndReturn
+   */
+  export type NutricionDetalleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * The data used to update NutricionDetalles.
+     */
+    data: XOR<NutricionDetalleUpdateManyMutationInput, NutricionDetalleUncheckedUpdateManyInput>
+    /**
+     * Filter which NutricionDetalles to update
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * Limit how many NutricionDetalles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * NutricionDetalle upsert
+   */
+  export type NutricionDetalleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the NutricionDetalle to update in case it exists.
+     */
+    where: NutricionDetalleWhereUniqueInput
+    /**
+     * In case the NutricionDetalle found by the `where` argument doesn't exist, create a new NutricionDetalle with this data.
+     */
+    create: XOR<NutricionDetalleCreateInput, NutricionDetalleUncheckedCreateInput>
+    /**
+     * In case the NutricionDetalle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NutricionDetalleUpdateInput, NutricionDetalleUncheckedUpdateInput>
+  }
+
+  /**
+   * NutricionDetalle delete
+   */
+  export type NutricionDetalleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+    /**
+     * Filter which NutricionDetalle to delete.
+     */
+    where: NutricionDetalleWhereUniqueInput
+  }
+
+  /**
+   * NutricionDetalle deleteMany
+   */
+  export type NutricionDetalleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which NutricionDetalles to delete
+     */
+    where?: NutricionDetalleWhereInput
+    /**
+     * Limit how many NutricionDetalles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * NutricionDetalle without action
+   */
+  export type NutricionDetalleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the NutricionDetalle
+     */
+    select?: NutricionDetalleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the NutricionDetalle
+     */
+    omit?: NutricionDetalleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NutricionDetalleInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AuditoriaHistoria
    */
 
@@ -33204,6 +34444,19 @@ export namespace Prisma {
   export type TrabajoSocialDetalleScalarFieldEnum = (typeof TrabajoSocialDetalleScalarFieldEnum)[keyof typeof TrabajoSocialDetalleScalarFieldEnum]
 
 
+  export const NutricionDetalleScalarFieldEnum: {
+    id: 'id',
+    episodioClinicoId: 'episodioClinicoId',
+    evaluacionNutricional: 'evaluacionNutricional',
+    diagnosticoNutricional: 'diagnosticoNutricional',
+    planAlimentario: 'planAlimentario',
+    seguimiento: 'seguimiento',
+    imc: 'imc'
+  };
+
+  export type NutricionDetalleScalarFieldEnum = (typeof NutricionDetalleScalarFieldEnum)[keyof typeof NutricionDetalleScalarFieldEnum]
+
+
   export const AuditoriaHistoriaScalarFieldEnum: {
     id: 'id',
     historiaClinicaId: 'historiaClinicaId',
@@ -34401,6 +35654,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: XOR<OftalmologiaDetalleNullableScalarRelationFilter, OftalmologiaDetalleWhereInput> | null
     psicologiaDetalle?: XOR<PsicologiaDetalleNullableScalarRelationFilter, PsicologiaDetalleWhereInput> | null
     trabajoSocialDetalle?: XOR<TrabajoSocialDetalleNullableScalarRelationFilter, TrabajoSocialDetalleWhereInput> | null
+    nutricionDetalle?: XOR<NutricionDetalleNullableScalarRelationFilter, NutricionDetalleWhereInput> | null
     auditorias?: AuditoriaHistoriaListRelationFilter
   }
 
@@ -34430,6 +35684,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleOrderByWithRelationInput
     psicologiaDetalle?: PsicologiaDetalleOrderByWithRelationInput
     trabajoSocialDetalle?: TrabajoSocialDetalleOrderByWithRelationInput
+    nutricionDetalle?: NutricionDetalleOrderByWithRelationInput
     auditorias?: AuditoriaHistoriaOrderByRelationAggregateInput
   }
 
@@ -34462,6 +35717,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: XOR<OftalmologiaDetalleNullableScalarRelationFilter, OftalmologiaDetalleWhereInput> | null
     psicologiaDetalle?: XOR<PsicologiaDetalleNullableScalarRelationFilter, PsicologiaDetalleWhereInput> | null
     trabajoSocialDetalle?: XOR<TrabajoSocialDetalleNullableScalarRelationFilter, TrabajoSocialDetalleWhereInput> | null
+    nutricionDetalle?: XOR<NutricionDetalleNullableScalarRelationFilter, NutricionDetalleWhereInput> | null
     auditorias?: AuditoriaHistoriaListRelationFilter
   }, "id">
 
@@ -35215,6 +36471,73 @@ export namespace Prisma {
     redesApoyo?: StringNullableWithAggregatesFilter<"TrabajoSocialDetalle"> | string | null
     intervencionRealizada?: StringNullableWithAggregatesFilter<"TrabajoSocialDetalle"> | string | null
     seguimientoCaso?: StringNullableWithAggregatesFilter<"TrabajoSocialDetalle"> | string | null
+  }
+
+  export type NutricionDetalleWhereInput = {
+    AND?: NutricionDetalleWhereInput | NutricionDetalleWhereInput[]
+    OR?: NutricionDetalleWhereInput[]
+    NOT?: NutricionDetalleWhereInput | NutricionDetalleWhereInput[]
+    id?: IntFilter<"NutricionDetalle"> | number
+    episodioClinicoId?: IntFilter<"NutricionDetalle"> | number
+    evaluacionNutricional?: StringNullableFilter<"NutricionDetalle"> | string | null
+    diagnosticoNutricional?: StringNullableFilter<"NutricionDetalle"> | string | null
+    planAlimentario?: StringNullableFilter<"NutricionDetalle"> | string | null
+    seguimiento?: StringNullableFilter<"NutricionDetalle"> | string | null
+    imc?: DecimalNullableFilter<"NutricionDetalle"> | Decimal | DecimalJsLike | number | string | null
+    episodioClinico?: XOR<EpisodioClincoScalarRelationFilter, EpisodioClincoWhereInput>
+  }
+
+  export type NutricionDetalleOrderByWithRelationInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    evaluacionNutricional?: SortOrderInput | SortOrder
+    diagnosticoNutricional?: SortOrderInput | SortOrder
+    planAlimentario?: SortOrderInput | SortOrder
+    seguimiento?: SortOrderInput | SortOrder
+    imc?: SortOrderInput | SortOrder
+    episodioClinico?: EpisodioClincoOrderByWithRelationInput
+  }
+
+  export type NutricionDetalleWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    episodioClinicoId?: number
+    AND?: NutricionDetalleWhereInput | NutricionDetalleWhereInput[]
+    OR?: NutricionDetalleWhereInput[]
+    NOT?: NutricionDetalleWhereInput | NutricionDetalleWhereInput[]
+    evaluacionNutricional?: StringNullableFilter<"NutricionDetalle"> | string | null
+    diagnosticoNutricional?: StringNullableFilter<"NutricionDetalle"> | string | null
+    planAlimentario?: StringNullableFilter<"NutricionDetalle"> | string | null
+    seguimiento?: StringNullableFilter<"NutricionDetalle"> | string | null
+    imc?: DecimalNullableFilter<"NutricionDetalle"> | Decimal | DecimalJsLike | number | string | null
+    episodioClinico?: XOR<EpisodioClincoScalarRelationFilter, EpisodioClincoWhereInput>
+  }, "id" | "episodioClinicoId">
+
+  export type NutricionDetalleOrderByWithAggregationInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    evaluacionNutricional?: SortOrderInput | SortOrder
+    diagnosticoNutricional?: SortOrderInput | SortOrder
+    planAlimentario?: SortOrderInput | SortOrder
+    seguimiento?: SortOrderInput | SortOrder
+    imc?: SortOrderInput | SortOrder
+    _count?: NutricionDetalleCountOrderByAggregateInput
+    _avg?: NutricionDetalleAvgOrderByAggregateInput
+    _max?: NutricionDetalleMaxOrderByAggregateInput
+    _min?: NutricionDetalleMinOrderByAggregateInput
+    _sum?: NutricionDetalleSumOrderByAggregateInput
+  }
+
+  export type NutricionDetalleScalarWhereWithAggregatesInput = {
+    AND?: NutricionDetalleScalarWhereWithAggregatesInput | NutricionDetalleScalarWhereWithAggregatesInput[]
+    OR?: NutricionDetalleScalarWhereWithAggregatesInput[]
+    NOT?: NutricionDetalleScalarWhereWithAggregatesInput | NutricionDetalleScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"NutricionDetalle"> | number
+    episodioClinicoId?: IntWithAggregatesFilter<"NutricionDetalle"> | number
+    evaluacionNutricional?: StringNullableWithAggregatesFilter<"NutricionDetalle"> | string | null
+    diagnosticoNutricional?: StringNullableWithAggregatesFilter<"NutricionDetalle"> | string | null
+    planAlimentario?: StringNullableWithAggregatesFilter<"NutricionDetalle"> | string | null
+    seguimiento?: StringNullableWithAggregatesFilter<"NutricionDetalle"> | string | null
+    imc?: DecimalNullableWithAggregatesFilter<"NutricionDetalle"> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type AuditoriaHistoriaWhereInput = {
@@ -36376,6 +37699,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -36400,6 +37724,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -36423,6 +37748,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -36447,6 +37773,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -37214,6 +38541,72 @@ export namespace Prisma {
     redesApoyo?: NullableStringFieldUpdateOperationsInput | string | null
     intervencionRealizada?: NullableStringFieldUpdateOperationsInput | string | null
     seguimientoCaso?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type NutricionDetalleCreateInput = {
+    evaluacionNutricional?: string | null
+    diagnosticoNutricional?: string | null
+    planAlimentario?: string | null
+    seguimiento?: string | null
+    imc?: Decimal | DecimalJsLike | number | string | null
+    episodioClinico: EpisodioClincoCreateNestedOneWithoutNutricionDetalleInput
+  }
+
+  export type NutricionDetalleUncheckedCreateInput = {
+    id?: number
+    episodioClinicoId: number
+    evaluacionNutricional?: string | null
+    diagnosticoNutricional?: string | null
+    planAlimentario?: string | null
+    seguimiento?: string | null
+    imc?: Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleUpdateInput = {
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    episodioClinico?: EpisodioClincoUpdateOneRequiredWithoutNutricionDetalleNestedInput
+  }
+
+  export type NutricionDetalleUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    episodioClinicoId?: IntFieldUpdateOperationsInput | number
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleCreateManyInput = {
+    id?: number
+    episodioClinicoId: number
+    evaluacionNutricional?: string | null
+    diagnosticoNutricional?: string | null
+    planAlimentario?: string | null
+    seguimiento?: string | null
+    imc?: Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleUpdateManyMutationInput = {
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    episodioClinicoId?: IntFieldUpdateOperationsInput | number
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type AuditoriaHistoriaCreateInput = {
@@ -38291,6 +39684,11 @@ export namespace Prisma {
     isNot?: TrabajoSocialDetalleWhereInput | null
   }
 
+  export type NutricionDetalleNullableScalarRelationFilter = {
+    is?: NutricionDetalleWhereInput | null
+    isNot?: NutricionDetalleWhereInput | null
+  }
+
   export type SignosVitalesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -38893,6 +40291,48 @@ export namespace Prisma {
   export type TrabajoSocialDetalleSumOrderByAggregateInput = {
     id?: SortOrder
     episodioClinicoId?: SortOrder
+  }
+
+  export type NutricionDetalleCountOrderByAggregateInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    evaluacionNutricional?: SortOrder
+    diagnosticoNutricional?: SortOrder
+    planAlimentario?: SortOrder
+    seguimiento?: SortOrder
+    imc?: SortOrder
+  }
+
+  export type NutricionDetalleAvgOrderByAggregateInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    imc?: SortOrder
+  }
+
+  export type NutricionDetalleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    evaluacionNutricional?: SortOrder
+    diagnosticoNutricional?: SortOrder
+    planAlimentario?: SortOrder
+    seguimiento?: SortOrder
+    imc?: SortOrder
+  }
+
+  export type NutricionDetalleMinOrderByAggregateInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    evaluacionNutricional?: SortOrder
+    diagnosticoNutricional?: SortOrder
+    planAlimentario?: SortOrder
+    seguimiento?: SortOrder
+    imc?: SortOrder
+  }
+
+  export type NutricionDetalleSumOrderByAggregateInput = {
+    id?: SortOrder
+    episodioClinicoId?: SortOrder
+    imc?: SortOrder
   }
 
   export type HistoriaClinicaNullableScalarRelationFilter = {
@@ -39911,6 +41351,12 @@ export namespace Prisma {
     connect?: TrabajoSocialDetalleWhereUniqueInput
   }
 
+  export type NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput = {
+    create?: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+    connectOrCreate?: NutricionDetalleCreateOrConnectWithoutEpisodioClinicoInput
+    connect?: NutricionDetalleWhereUniqueInput
+  }
+
   export type AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput = {
     create?: XOR<AuditoriaHistoriaCreateWithoutEpisodioClinicoInput, AuditoriaHistoriaUncheckedCreateWithoutEpisodioClinicoInput> | AuditoriaHistoriaCreateWithoutEpisodioClinicoInput[] | AuditoriaHistoriaUncheckedCreateWithoutEpisodioClinicoInput[]
     connectOrCreate?: AuditoriaHistoriaCreateOrConnectWithoutEpisodioClinicoInput | AuditoriaHistoriaCreateOrConnectWithoutEpisodioClinicoInput[]
@@ -39975,6 +41421,12 @@ export namespace Prisma {
     create?: XOR<TrabajoSocialDetalleCreateWithoutEpisodioClinicoInput, TrabajoSocialDetalleUncheckedCreateWithoutEpisodioClinicoInput>
     connectOrCreate?: TrabajoSocialDetalleCreateOrConnectWithoutEpisodioClinicoInput
     connect?: TrabajoSocialDetalleWhereUniqueInput
+  }
+
+  export type NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput = {
+    create?: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+    connectOrCreate?: NutricionDetalleCreateOrConnectWithoutEpisodioClinicoInput
+    connect?: NutricionDetalleWhereUniqueInput
   }
 
   export type AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput = {
@@ -40136,6 +41588,16 @@ export namespace Prisma {
     update?: XOR<XOR<TrabajoSocialDetalleUpdateToOneWithWhereWithoutEpisodioClinicoInput, TrabajoSocialDetalleUpdateWithoutEpisodioClinicoInput>, TrabajoSocialDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
   }
 
+  export type NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput = {
+    create?: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+    connectOrCreate?: NutricionDetalleCreateOrConnectWithoutEpisodioClinicoInput
+    upsert?: NutricionDetalleUpsertWithoutEpisodioClinicoInput
+    disconnect?: NutricionDetalleWhereInput | boolean
+    delete?: NutricionDetalleWhereInput | boolean
+    connect?: NutricionDetalleWhereUniqueInput
+    update?: XOR<XOR<NutricionDetalleUpdateToOneWithWhereWithoutEpisodioClinicoInput, NutricionDetalleUpdateWithoutEpisodioClinicoInput>, NutricionDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
+  }
+
   export type AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput = {
     create?: XOR<AuditoriaHistoriaCreateWithoutEpisodioClinicoInput, AuditoriaHistoriaUncheckedCreateWithoutEpisodioClinicoInput> | AuditoriaHistoriaCreateWithoutEpisodioClinicoInput[] | AuditoriaHistoriaUncheckedCreateWithoutEpisodioClinicoInput[]
     connectOrCreate?: AuditoriaHistoriaCreateOrConnectWithoutEpisodioClinicoInput | AuditoriaHistoriaCreateOrConnectWithoutEpisodioClinicoInput[]
@@ -40266,6 +41728,16 @@ export namespace Prisma {
     delete?: TrabajoSocialDetalleWhereInput | boolean
     connect?: TrabajoSocialDetalleWhereUniqueInput
     update?: XOR<XOR<TrabajoSocialDetalleUpdateToOneWithWhereWithoutEpisodioClinicoInput, TrabajoSocialDetalleUpdateWithoutEpisodioClinicoInput>, TrabajoSocialDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
+  }
+
+  export type NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput = {
+    create?: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+    connectOrCreate?: NutricionDetalleCreateOrConnectWithoutEpisodioClinicoInput
+    upsert?: NutricionDetalleUpsertWithoutEpisodioClinicoInput
+    disconnect?: NutricionDetalleWhereInput | boolean
+    delete?: NutricionDetalleWhereInput | boolean
+    connect?: NutricionDetalleWhereUniqueInput
+    update?: XOR<XOR<NutricionDetalleUpdateToOneWithWhereWithoutEpisodioClinicoInput, NutricionDetalleUpdateWithoutEpisodioClinicoInput>, NutricionDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
   }
 
   export type AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput = {
@@ -40478,6 +41950,20 @@ export namespace Prisma {
     upsert?: EpisodioClincoUpsertWithoutTrabajoSocialDetalleInput
     connect?: EpisodioClincoWhereUniqueInput
     update?: XOR<XOR<EpisodioClincoUpdateToOneWithWhereWithoutTrabajoSocialDetalleInput, EpisodioClincoUpdateWithoutTrabajoSocialDetalleInput>, EpisodioClincoUncheckedUpdateWithoutTrabajoSocialDetalleInput>
+  }
+
+  export type EpisodioClincoCreateNestedOneWithoutNutricionDetalleInput = {
+    create?: XOR<EpisodioClincoCreateWithoutNutricionDetalleInput, EpisodioClincoUncheckedCreateWithoutNutricionDetalleInput>
+    connectOrCreate?: EpisodioClincoCreateOrConnectWithoutNutricionDetalleInput
+    connect?: EpisodioClincoWhereUniqueInput
+  }
+
+  export type EpisodioClincoUpdateOneRequiredWithoutNutricionDetalleNestedInput = {
+    create?: XOR<EpisodioClincoCreateWithoutNutricionDetalleInput, EpisodioClincoUncheckedCreateWithoutNutricionDetalleInput>
+    connectOrCreate?: EpisodioClincoCreateOrConnectWithoutNutricionDetalleInput
+    upsert?: EpisodioClincoUpsertWithoutNutricionDetalleInput
+    connect?: EpisodioClincoWhereUniqueInput
+    update?: XOR<XOR<EpisodioClincoUpdateToOneWithWhereWithoutNutricionDetalleInput, EpisodioClincoUpdateWithoutNutricionDetalleInput>, EpisodioClincoUncheckedUpdateWithoutNutricionDetalleInput>
   }
 
   export type HistoriaClinicaCreateNestedOneWithoutAuditoriasInput = {
@@ -41158,6 +42644,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41181,6 +42668,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41344,6 +42832,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41367,6 +42856,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41794,6 +43284,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41817,6 +43308,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41918,6 +43410,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -41941,6 +43434,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -42446,6 +43940,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -42469,6 +43964,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -42982,6 +44478,28 @@ export namespace Prisma {
     create: XOR<TrabajoSocialDetalleCreateWithoutEpisodioClinicoInput, TrabajoSocialDetalleUncheckedCreateWithoutEpisodioClinicoInput>
   }
 
+  export type NutricionDetalleCreateWithoutEpisodioClinicoInput = {
+    evaluacionNutricional?: string | null
+    diagnosticoNutricional?: string | null
+    planAlimentario?: string | null
+    seguimiento?: string | null
+    imc?: Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput = {
+    id?: number
+    evaluacionNutricional?: string | null
+    diagnosticoNutricional?: string | null
+    planAlimentario?: string | null
+    seguimiento?: string | null
+    imc?: Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleCreateOrConnectWithoutEpisodioClinicoInput = {
+    where: NutricionDetalleWhereUniqueInput
+    create: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+  }
+
   export type AuditoriaHistoriaCreateWithoutEpisodioClinicoInput = {
     fechaAccion?: Date | string
     tipoAccion: string
@@ -43451,6 +44969,34 @@ export namespace Prisma {
     seguimientoCaso?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type NutricionDetalleUpsertWithoutEpisodioClinicoInput = {
+    update: XOR<NutricionDetalleUpdateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
+    create: XOR<NutricionDetalleCreateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedCreateWithoutEpisodioClinicoInput>
+    where?: NutricionDetalleWhereInput
+  }
+
+  export type NutricionDetalleUpdateToOneWithWhereWithoutEpisodioClinicoInput = {
+    where?: NutricionDetalleWhereInput
+    data: XOR<NutricionDetalleUpdateWithoutEpisodioClinicoInput, NutricionDetalleUncheckedUpdateWithoutEpisodioClinicoInput>
+  }
+
+  export type NutricionDetalleUpdateWithoutEpisodioClinicoInput = {
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NutricionDetalleUncheckedUpdateWithoutEpisodioClinicoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    evaluacionNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosticoNutricional?: NullableStringFieldUpdateOperationsInput | string | null
+    planAlimentario?: NullableStringFieldUpdateOperationsInput | string | null
+    seguimiento?: NullableStringFieldUpdateOperationsInput | string | null
+    imc?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type AuditoriaHistoriaUpsertWithWhereUniqueWithoutEpisodioClinicoInput = {
     where: AuditoriaHistoriaWhereUniqueInput
     update: XOR<AuditoriaHistoriaUpdateWithoutEpisodioClinicoInput, AuditoriaHistoriaUncheckedUpdateWithoutEpisodioClinicoInput>
@@ -43486,6 +45032,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43509,6 +45056,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43547,6 +45095,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43570,6 +45119,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43633,6 +45183,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43656,6 +45207,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43715,6 +45267,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43738,6 +45291,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43787,6 +45341,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43810,6 +45365,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43848,6 +45404,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43871,6 +45428,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43893,6 +45451,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43916,6 +45475,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -43954,6 +45514,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43977,6 +45538,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -43999,6 +45561,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44022,6 +45585,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44060,6 +45624,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44083,6 +45648,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44105,6 +45671,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44128,6 +45695,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44166,6 +45734,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44189,6 +45758,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44211,6 +45781,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44234,6 +45805,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44272,6 +45844,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44295,6 +45868,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44317,6 +45891,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44340,6 +45915,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44378,6 +45954,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44401,6 +45978,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44423,6 +46001,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44446,6 +46025,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
   }
 
@@ -44484,6 +46064,7 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44507,6 +46088,117 @@ export namespace Prisma {
     odontologiaDetalle?: OdontologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+  }
+
+  export type EpisodioClincoCreateWithoutNutricionDetalleInput = {
+    fechaEpisodio: Date | string
+    motivoConsulta: string
+    sintomas?: string | null
+    tratamiento?: string | null
+    observaciones?: string | null
+    historiaClinica: HistoriaClinicaCreateNestedOneWithoutEpisodiosClinicosInput
+    especialidad: EspecialidadCreateNestedOneWithoutEpisodiosClinicosInput
+    medico?: MedicoCreateNestedOneWithoutEpisodiosClinicosInput
+    enfermera: EnfermeraCreateNestedOneWithoutEpisodiosClinicosInput
+    consultorio: ConsultorioCreateNestedOneWithoutEpisodiosClinicosInput
+    signosVitales?: SignosVitalesCreateNestedManyWithoutEpisodioClinicoInput
+    diagnosticos?: DiagnosticoCreateNestedManyWithoutEpisodioClinicoInput
+    prescripciones?: PrescripcionCreateNestedManyWithoutEpisodioClinicoInput
+    documentosClinicos?: DocumentoClinicoCreateNestedManyWithoutEpisodioClinicoInput
+    consentimientos?: ConsentimientoInformadoCreateNestedManyWithoutEpisodioClinicoInput
+    odontologiaDetalle?: OdontologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    auditorias?: AuditoriaHistoriaCreateNestedManyWithoutEpisodioClinicoInput
+  }
+
+  export type EpisodioClincoUncheckedCreateWithoutNutricionDetalleInput = {
+    id?: number
+    historiaClinicaId: number
+    especialidadId: number
+    medicoId?: number | null
+    enfermeraId: number
+    consultorioId: number
+    fechaEpisodio: Date | string
+    motivoConsulta: string
+    sintomas?: string | null
+    tratamiento?: string | null
+    observaciones?: string | null
+    signosVitales?: SignosVitalesUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+    diagnosticos?: DiagnosticoUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+    prescripciones?: PrescripcionUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+    documentosClinicos?: DocumentoClinicoUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+    consentimientos?: ConsentimientoInformadoUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+    odontologiaDetalle?: OdontologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    auditorias?: AuditoriaHistoriaUncheckedCreateNestedManyWithoutEpisodioClinicoInput
+  }
+
+  export type EpisodioClincoCreateOrConnectWithoutNutricionDetalleInput = {
+    where: EpisodioClincoWhereUniqueInput
+    create: XOR<EpisodioClincoCreateWithoutNutricionDetalleInput, EpisodioClincoUncheckedCreateWithoutNutricionDetalleInput>
+  }
+
+  export type EpisodioClincoUpsertWithoutNutricionDetalleInput = {
+    update: XOR<EpisodioClincoUpdateWithoutNutricionDetalleInput, EpisodioClincoUncheckedUpdateWithoutNutricionDetalleInput>
+    create: XOR<EpisodioClincoCreateWithoutNutricionDetalleInput, EpisodioClincoUncheckedCreateWithoutNutricionDetalleInput>
+    where?: EpisodioClincoWhereInput
+  }
+
+  export type EpisodioClincoUpdateToOneWithWhereWithoutNutricionDetalleInput = {
+    where?: EpisodioClincoWhereInput
+    data: XOR<EpisodioClincoUpdateWithoutNutricionDetalleInput, EpisodioClincoUncheckedUpdateWithoutNutricionDetalleInput>
+  }
+
+  export type EpisodioClincoUpdateWithoutNutricionDetalleInput = {
+    fechaEpisodio?: DateTimeFieldUpdateOperationsInput | Date | string
+    motivoConsulta?: StringFieldUpdateOperationsInput | string
+    sintomas?: NullableStringFieldUpdateOperationsInput | string | null
+    tratamiento?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    historiaClinica?: HistoriaClinicaUpdateOneRequiredWithoutEpisodiosClinicosNestedInput
+    especialidad?: EspecialidadUpdateOneRequiredWithoutEpisodiosClinicosNestedInput
+    medico?: MedicoUpdateOneWithoutEpisodiosClinicosNestedInput
+    enfermera?: EnfermeraUpdateOneRequiredWithoutEpisodiosClinicosNestedInput
+    consultorio?: ConsultorioUpdateOneRequiredWithoutEpisodiosClinicosNestedInput
+    signosVitales?: SignosVitalesUpdateManyWithoutEpisodioClinicoNestedInput
+    diagnosticos?: DiagnosticoUpdateManyWithoutEpisodioClinicoNestedInput
+    prescripciones?: PrescripcionUpdateManyWithoutEpisodioClinicoNestedInput
+    documentosClinicos?: DocumentoClinicoUpdateManyWithoutEpisodioClinicoNestedInput
+    consentimientos?: ConsentimientoInformadoUpdateManyWithoutEpisodioClinicoNestedInput
+    odontologiaDetalle?: OdontologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
+  }
+
+  export type EpisodioClincoUncheckedUpdateWithoutNutricionDetalleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    historiaClinicaId?: IntFieldUpdateOperationsInput | number
+    especialidadId?: IntFieldUpdateOperationsInput | number
+    medicoId?: NullableIntFieldUpdateOperationsInput | number | null
+    enfermeraId?: IntFieldUpdateOperationsInput | number
+    consultorioId?: IntFieldUpdateOperationsInput | number
+    fechaEpisodio?: DateTimeFieldUpdateOperationsInput | Date | string
+    motivoConsulta?: StringFieldUpdateOperationsInput | string
+    sintomas?: NullableStringFieldUpdateOperationsInput | string | null
+    tratamiento?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    signosVitales?: SignosVitalesUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+    diagnosticos?: DiagnosticoUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+    prescripciones?: PrescripcionUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+    documentosClinicos?: DocumentoClinicoUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+    consentimientos?: ConsentimientoInformadoUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
+    odontologiaDetalle?: OdontologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44554,6 +46246,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleCreateNestedOneWithoutEpisodioClinicoInput
   }
 
   export type EpisodioClincoUncheckedCreateWithoutAuditoriasInput = {
@@ -44577,6 +46270,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
+    nutricionDetalle?: NutricionDetalleUncheckedCreateNestedOneWithoutEpisodioClinicoInput
   }
 
   export type EpisodioClincoCreateOrConnectWithoutAuditoriasInput = {
@@ -44677,6 +46371,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
   }
 
   export type EpisodioClincoUncheckedUpdateWithoutAuditoriasInput = {
@@ -44700,6 +46395,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
   }
 
   export type UsuarioUpsertWithoutAuditoriasInput = {
@@ -44858,6 +46554,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44881,6 +46578,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44929,6 +46627,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -44952,6 +46651,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45149,6 +46849,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45172,6 +46873,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45251,6 +46953,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45274,6 +46977,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45414,6 +47118,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUpdateManyWithoutEpisodioClinicoNestedInput
   }
 
@@ -45437,6 +47142,7 @@ export namespace Prisma {
     oftalmologiaDetalle?: OftalmologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     psicologiaDetalle?: PsicologiaDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     trabajoSocialDetalle?: TrabajoSocialDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
+    nutricionDetalle?: NutricionDetalleUncheckedUpdateOneWithoutEpisodioClinicoNestedInput
     auditorias?: AuditoriaHistoriaUncheckedUpdateManyWithoutEpisodioClinicoNestedInput
   }
 

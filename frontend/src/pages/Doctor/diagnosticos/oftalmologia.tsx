@@ -11,8 +11,13 @@ import MotilidadOcularSection from "@/components/DiagnosticoOftalmologia/Motilid
 import type { Patient } from "@/types/patientTypes";
 import type { DatosOftalmologicos } from "@/types/patientTypes";
 
-const [] = useState<Patient | undefined>(undefined);
-const [] = useState<DatosOftalmologicos>({
+
+
+const DiagnosticoOftalmologia: React.FC = () => {
+  const navigate = useNavigate();
+  const { pacienteId } = useParams<{ pacienteId: string }>();
+  const [] = useState<Patient | undefined>(undefined);
+  const [] = useState<DatosOftalmologicos>({
   agudezaVisual: {
     sinCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "" },
     conCorreccion: {
@@ -36,11 +41,6 @@ const [] = useState<DatosOftalmologicos>({
   },
   observaciones: ""
 });
-
-const DiagnosticoOftalmologia: React.FC = () => {
-  const navigate = useNavigate();
-  const { pacienteId } = useParams<{ pacienteId: string }>();
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [setPacienteData] = useState<any>(null);
   const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");

@@ -26,7 +26,7 @@ const InicioEnf: React.FC = () => {
     const handleHistoriaClinicaIngreso = (e: React.FormEvent) => {
         e.preventDefault();
         console.log("abriendo Historia Clinica Ingreso") 
-        navigate("/HistoriaClinica-Ingreso");
+        navigate("/ingreso-historia-clinica");
     } 
     const handlePacientesEnEspera = (e: React.FormEvent) => {
                 e.preventDefault();

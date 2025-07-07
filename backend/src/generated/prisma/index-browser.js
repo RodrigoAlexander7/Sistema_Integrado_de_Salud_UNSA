@@ -389,6 +389,16 @@ exports.Prisma.TrabajoSocialDetalleScalarFieldEnum = {
   seguimientoCaso: 'seguimientoCaso'
 };
 
+exports.Prisma.NutricionDetalleScalarFieldEnum = {
+  id: 'id',
+  episodioClinicoId: 'episodioClinicoId',
+  evaluacionNutricional: 'evaluacionNutricional',
+  diagnosticoNutricional: 'diagnosticoNutricional',
+  planAlimentario: 'planAlimentario',
+  seguimiento: 'seguimiento',
+  imc: 'imc'
+};
+
 exports.Prisma.AuditoriaHistoriaScalarFieldEnum = {
   id: 'id',
   historiaClinicaId: 'historiaClinicaId',
@@ -454,6 +464,7 @@ exports.Prisma.ModelName = {
   OftalmologiaDetalle: 'OftalmologiaDetalle',
   PsicologiaDetalle: 'PsicologiaDetalle',
   TrabajoSocialDetalle: 'TrabajoSocialDetalle',
+  NutricionDetalle: 'NutricionDetalle',
   AuditoriaHistoria: 'AuditoriaHistoria'
 };
 

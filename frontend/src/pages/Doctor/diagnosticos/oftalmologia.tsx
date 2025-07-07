@@ -244,46 +244,47 @@ const handleCampoChange = (campo: string, valor: string) => {
   };
 
   return (
-  <DiagnosticoBase 
-    tituloEspecialidad="Oftalmología"
-    camposEvaluacion={camposEvaluacion}
-    onSubmit={handleSubmit}
-    onDiagnosticoPrincipalChange={setDiagnosticoPrincipal}
-    onDiagnosticosSecundariosChange={setDiagnosticosSecundarios}
-    isSubmitting={isSubmitting}
-    rutaCancelar="/pacientes-pendientes"
-    onCampoChange={handleCampoChange}
-  >
-    <div className="space-y-6">
-      <AgudezaVisualSection 
-        formData={formData} 
-        handleNestedChange={handleNestedChange} 
-      />
+    <DiagnosticoBase 
+      tituloEspecialidad="Oftalmología"
+      camposEvaluacion={camposEvaluacion}
+      onSubmit={handleSubmit}
+      onDiagnosticoPrincipalChange={setDiagnosticoPrincipal}
+      onDiagnosticosSecundariosChange={setDiagnosticosSecundarios}
+      isSubmitting={isSubmitting}
+      rutaCancelar="/pacientes-pendientes"
+      onCampoChange={handleCampoChange}
+    >
+      <div className="space-y-6">
+        <AgudezaVisualSection 
+          formData={formData} 
+          handleNestedChange={handleNestedChange} 
+        />
 
-      <RefraccionSection 
-        formData={formData} 
-        handleChange={handleChange} 
-      />
+        <RefraccionSection 
+          formData={formData} 
+          handleChange={handleChange} 
+        />
 
-      <PresionIntraocularSection 
-        formData={formData} 
-        handleChange={handleChange} 
-        handleSelectChange={handleSelectChange} 
-      />
+        <PresionIntraocularSection 
+          formData={formData} 
+          handleChange={handleChange} 
+          handleSelectChange={handleSelectChange} 
+        />
 
-      <MotilidadOcularSection 
-        formData={formData} 
-        handleSelectChange={handleSelectChange} 
-      />
+        <MotilidadOcularSection 
+          formData={formData} 
+          handleSelectChange={handleSelectChange} 
+        />
 
-      <ObservacionesSection 
-        value={formData.observaciones} 
-        onChange={(value) => 
-          setFormData(prev => ({ ...prev, observaciones: value }))
-        }
-      />
-    </div>
-  </DiagnosticoBase>
-);
+        <ObservacionesSection 
+          value={formData.observaciones} 
+          onChange={(value) => 
+            setFormData(prev => ({ ...prev, observaciones: value }))
+          }
+        />
+      </div>
+    </DiagnosticoBase>
+  );
+}
 
 export default DiagnosticoOftalmologia;

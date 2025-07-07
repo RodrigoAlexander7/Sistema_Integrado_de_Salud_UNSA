@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DiagnosticoBase from "@/components/DiagnosticoBase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DiagnosticoService } from "@/services/diagnosticoService";
 
 const DiagnosticoNutricion: React.FC = () => {
+  const { pacienteId } = useParams<{ pacienteId: string }>();
   const camposEvaluacion = [
     "Evaluación Nutricional",
     "Diagnóstico Nutricional", 
@@ -15,7 +16,30 @@ const DiagnosticoNutricion: React.FC = () => {
   const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");
   const [diagnosticosSecundarios, setDiagnosticosSecundarios] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [setPacienteData] = useState<any>(null);
   const navigate = useNavigate();
+
+  // Cargar datos del paciente al montar el componente
+  useEffect(() => {
+    const loadPacienteData = async () => {
+      if (pacienteId) {
+        try {
+          // Simulación de datos - reemplazar con llamada real al servicio
+          const mockData = {
+            id: pacienteId,
+            nombre: "Paciente Ejemplo",
+            cui: "1234567890123",
+            fechaNacimiento: "1990-01-01"
+          };
+          setPacienteData(mockData);
+        } catch (error) {
+          console.error("Error cargando datos del paciente:", error);
+        }
+      }
+    };
+
+    loadPacienteData();
+  }, [pacienteId]);
 
   const handleChangeCampo = (campo: string, valor: string) => {
     setValoresCampos(prev => ({ ...prev, [campo]: valor }));
@@ -26,23 +50,22 @@ const DiagnosticoNutricion: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulamos un pacienteId - en una app real esto vendría del estado o params
-      const pacienteId = 1; 
+      if (!pacienteId) {
+        throw new Error("ID de paciente no definido");
+      }
       
       const response = await DiagnosticoService.saveDiagnostico({
-        pacienteId,
+        pacienteId: parseInt(pacienteId),
         evaluaciones: valoresCampos,
         diagnosticos: {
           principal: diagnosticoPrincipal,
           secundarios: diagnosticosSecundarios
         },
-        // Podemos añadir datos específicos de nutrición si es necesario
-        especialidad: "nutricion"
+        especialidad: "nutricion",
       });
 
       if (response.success) {
         alert("Diagnóstico nutricional guardado correctamente");
-        console.log("Diagnóstico guardado:", response);
         navigate(`/pacientes/${pacienteId}`);
       }
     } catch (error) {

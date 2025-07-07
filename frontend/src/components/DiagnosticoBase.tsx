@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import FichaEstudiante from "@/components/FichaEstudiante";
@@ -27,7 +27,7 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
   camposEvaluacion,
   rutaCancelar = "/pacientes-nuevos",
   children,
-  icono = <File className="h-8 w-8" />, // Valor por defecto
+  icono = <File className="h-8 w-8" />,
   onDiagnosticoPrincipalChange,
   onDiagnosticosSecundariosChange,
   onCampoChange,
@@ -37,9 +37,20 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
   const { theme } = useTheme();
   const navigate = useNavigate();
 
+  // Efecto para manejar cambios en los inputs
+  useEffect(() => {
+    // Puedes agregar lógica de validación o efectos secundarios aquí
+    console.log("Diagnóstico base montado");
+  }, []);
+
   const handlePacientesPendientes = (e: React.FormEvent) => {
     e.preventDefault();
     navigate(rutaCancelar);
+  };
+
+  const handleInputChange = (campo: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    onCampoChange(campo, valor);
   };
 
   return (
@@ -48,13 +59,13 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
         <div className="w-full max-w-full">
           <TitleCard 
             title={tituloEspecialidad} 
-            icon={icono} // Usar el icono personalizado
+            icon={icono}
           />
         </div>
       </main>
 
       <div className="w-full px-8">
-        <form onSubmit={onSubmit}> {/* Envolver en form y manejar onSubmit */}
+        <form onSubmit={onSubmit}>
           <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
             theme === 'dark' 
               ? 'bg-gray-800 border-gray-700' 
@@ -63,7 +74,6 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
             <FichaEstudiante />
 
             <Card className="p-6 mb-6">
-              {/* Renderizar camposEvaluacion solo si existe */}
               {camposEvaluacion && (
                 <div className="grid gap-4 mb-6">
                   {camposEvaluacion.map((titulo, idx) => (
@@ -84,6 +94,7 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
                         <Input
                           type="text"
                           placeholder="Completar aquí"
+                          onChange={(e) => handleInputChange(titulo, e)}
                           className={`flex-1 border-none outline-none ${
                             theme === 'dark' 
                               ? 'bg-gray-700 text-white placeholder-gray-400' 
@@ -96,7 +107,10 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
                 </div>
               )}
               
-              <SeleccionDiagnostico />
+              <SeleccionDiagnostico 
+                onDPrincipalChange={onDiagnosticoPrincipalChange}
+                onSecundariosChange={onDiagnosticosSecundariosChange}
+              />
               {children}
             </Card>
 

@@ -21,6 +21,7 @@ export interface Patient {
   bloodType?: string | null;          // grupoSanguineo (String?)
   allergies?: string | null;          // alergias (String?)
   vitalSigns: VitalSigns;             // Relación con SignosVitales
+  datosOftalmologicos?: DatosOftalmologicos;
 }
 
 export interface DiagnosisRequest {
@@ -34,3 +35,52 @@ export interface DiagnosisResponse {
   episodeId: number;                  // id del nuevo episodio (Int)
   clinicalRecordId: number;           // id de la historia clínica (Int)
 }
+
+export interface DatosOftalmologicos {
+  agudezaVisual: {
+    sinCorreccion: {
+      odLejos: string;
+      odCerca: string;
+      oiLejos: string;
+      oiCerca: string;
+    };
+    conCorreccion: {
+      odLejos: string;
+      odCerca: string;
+      oiLejos: string;
+      oiCerca: string;
+      lentesOd: string;
+      lentesOi: string;
+    };
+  };
+  refraccion: {
+    odEsfera: string;
+    odCilindro: string;
+    odEje: string;
+    odAv: string;
+    oiEsfera: string;
+    oiCilindro: string;
+    oiEje: string;
+    oiAv: string;
+  };
+  presionIntraocular: {
+    odValor: string;
+    odHora: string;
+    odMetodo: string;
+    oiValor: string;
+    oiHora: string;
+    oiMetodo: string;
+  };
+  motilidadOcular: {
+    derechaOd: string;
+    derechaOi: string;
+    izquierdaOd: string;
+    izquierdaOi: string;
+    arribaOd: string;
+    arribaOi: string;
+    abajoOd: string;
+    abajoOi: string;
+  };
+  observaciones: string;
+}
+

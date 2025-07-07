@@ -1,32 +1,52 @@
-import React, { useState } from "react";
-import { File } from "lucide-react";
-import FichaEstudiante from "@/components/FichaEstudiante";
-import SeleccionDiagnostico from "@/components/diagnostico-primario-secundario";
-import TitleCard from "@/components/TitleCard";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useTheme } from "@/context/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import DiagnosticoBase from "@/components/DiagnosticoBase";
 import { DiagnosticoService } from "@/services/diagnosticoService";
+import { PatientService } from "@/services/patientService";
+import RefraccionSection from "@/components/DiagnosticoOftalmologia/RefraccionSection";
+import AgudezaVisualSection from "@/components/DiagnosticoOftalmologia/AgudezaVisualSection";
+import ObservacionesSection from "@/components/DiagnosticoOftalmologia/Observaciones";
+import PresionIntraocularSection from "@/components/DiagnosticoOftalmologia/PresionIntraOcularSection";
+import MotilidadOcularSection from "@/components/DiagnosticoOftalmologia/MotilidadOcularSection";
+import type { Patient } from "@/types/patientTypes";
+import type { DatosOftalmologicos } from "@/types/patientTypes";
+
+const [] = useState<Patient | undefined>(undefined);
+const [] = useState<DatosOftalmologicos>({
+  agudezaVisual: {
+    sinCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "" },
+    conCorreccion: {
+      odLejos: "", odCerca: "", oiLejos: "", oiCerca: "",
+      lentesOd: "", lentesOi: ""
+    }
+  },
+  refraccion: {
+    odEsfera: "", odCilindro: "", odEje: "", odAv: "",
+    oiEsfera: "", oiCilindro: "", oiEje: "", oiAv: ""
+  },
+  presionIntraocular: {
+    odValor: "", odHora: "", odMetodo: "Tonómetro de aire",
+    oiValor: "", oiHora: "", oiMetodo: "Tonómetro de aire"
+  },
+  motilidadOcular: {
+    derechaOd: "Normal", derechaOi: "Normal",
+    izquierdaOd: "Normal", izquierdaOi: "Normal",
+    arribaOd: "Normal", arribaOi: "Normal",
+    abajoOd: "Normal", abajoOi: "Normal"
+  },
+  observaciones: ""
+});
 
 const DiagnosticoOftalmologia: React.FC = () => {
-  const { theme } = useTheme();
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { pacienteId } = useParams<{ pacienteId: string }>();
   
-  // Estados para los diagnósticos (compatibles con el servicio existente)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [setPacienteData] = useState<any>(null);
   const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");
   const [diagnosticosSecundarios, setDiagnosticosSecundarios] = useState<string[]>([]);
 
-  // Estado para los campos específicos de oftalmología
-  type NestedFormData = {
-  [key: string]: any;
-};
-
-const [formData, setFormData] = useState<NestedFormData>({
+  const [formData, setFormData] = useState<DatosOftalmologicos>({
   agudezaVisual: {
     sinCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "" },
     conCorreccion: { odLejos: "", odCerca: "", oiLejos: "", oiCerca: "", lentesOd: "", lentesOi: "" }
@@ -47,43 +67,141 @@ const [formData, setFormData] = useState<NestedFormData>({
   },
   observaciones: ""
 });
-;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    const keys = name.split('.');
-    setFormData(prev => ({ ...prev, [keys[0]]: { ...prev[keys[0]], [keys[1]]: value } }));
-  };
 
-  const handleNestedChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    const keys = name.split('.');
-    setFormData(prev => ({
-      ...prev,
-      [keys[0]]: {
-        ...prev[keys[0]],
-        [keys[1]]: {
-          ...prev[keys[0]][keys[1]],
-          [keys[2]]: value
-        }
+  const camposEvaluacion = [
+    "Agudeza Visual",
+    "Refracción",
+    "Presión Intraocular",
+    "Motilidad Ocular",
+    "Observaciones"
+  ];
+
+  useEffect(() => {
+  const cargarDatosPaciente = async () => {
+    if (!pacienteId) return;
+
+    try {
+      let paciente: Patient | null;
+
+      if (process.env.NODE_ENV === "development") {
+        paciente = {
+          id: Number(pacienteId),
+          documentType: "DNI",
+          documentNumber: "12345678",
+          firstName: "Paciente",
+          lastName: "Ejemplo",
+          birthDate: new Date("1990-01-01"),
+          gender: "M",
+          bloodType: "O+",
+          allergies: "Ninguna",
+          vitalSigns: {
+            bloodPressure: "120/80",
+            temperature: 36.5,
+            heartRate: 75,
+            respiratoryRate: 18,
+            oxygenSaturation: 98,
+            weight: 70,
+            height: 1.75,
+            bmi: 22.9,
+            registrationDate: new Date()
+          },
+          datosOftalmologicos: undefined // <- aquí puedes poner datos simulados si quieres
+        };
+      } else {
+        paciente = await PatientService.getNewPatient();
       }
-    }));
+
+      if (!paciente) {
+        console.warn("No se encontraron datos del paciente");
+        return;
+      }
+
+      setPacienteData(paciente);
+
+      if (paciente.datosOftalmologicos) {
+        setFormData(paciente.datosOftalmologicos);
+      }
+
+    } catch (error) {
+      console.error("Error cargando datos del paciente:", error);
+    }
   };
+
+  cargarDatosPaciente();
+}, [pacienteId]);
+
+const handleChange = <
+  K extends keyof DatosOftalmologicos,
+  F extends keyof DatosOftalmologicos[K]
+>(
+  section: K,
+  field: F,
+  value: DatosOftalmologicos[K][F]
+) => {
+  setFormData(prev => ({
+    ...prev,
+    [section]: {
+      ...(prev[section] as any),
+      [field]: value
+    }
+  }));
+};
+
+
+const handleNestedChange = <
+  K extends keyof DatosOftalmologicos,
+  S extends keyof DatosOftalmologicos[K],
+  F extends keyof DatosOftalmologicos[K][S]
+>(
+  section: K,
+  subSection: S,
+  field: F,
+  value: DatosOftalmologicos[K][S][F]
+) => {
+  setFormData(prev => ({
+    ...prev,
+    [section]: {
+      ...(prev[section] as any),
+      [subSection]: {
+        ...(prev[section] as any)[subSection],
+        [field]: value
+      }
+    }
+  }));
+};
 
   const handleSelectChange = (name: string, value: string) => {
-    const keys = name.split('.');
+  const keys = name.split(".");
+  if (keys.length === 2) {
     setFormData(prev => ({
       ...prev,
       [keys[0]]: {
-        ...prev[keys[0]],
+        ...(prev as any)[keys[0]],
+        [keys[1]]: value
+      }
+    }));
+  } else if (keys.length === 3) {
+    setFormData(prev => ({
+      ...prev,
+      [keys[0]]: {
+        ...(prev as any)[keys[0]],
         [keys[1]]: {
-          ...prev[keys[0]][keys[1]],
+          ...(prev as any)[keys[0]][keys[1]],
           [keys[2]]: value
         }
       }
     }));
-  };
+  }
+};
 
+const handleCampoChange = (campo: string, valor: string) => {
+  // Si el campo es "Observaciones", actualiza directamente
+  if (campo === "Observaciones") {
+    setFormData(prev => ({ ...prev, observaciones: valor }));
+  }
+  // Puedes extender esto para otros campos si se vuelven dinámicos
+};
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,29 +209,27 @@ const [formData, setFormData] = useState<NestedFormData>({
     setIsSubmitting(true);
 
     try {
-      // Simulamos el pacienteId (en producción vendría de parámetros o estado global)
-      const pacienteId = 1;
+      if (!pacienteId) throw new Error("ID de paciente no definido");
 
-      // Preparamos los datos en el formato esperado por el servicio existente
-      const evaluaciones = {
-        "Agudeza Visual (sin corrección)": `OD: ${formData.agudezaVisual.sinCorreccion.odLejos}/${formData.agudezaVisual.sinCorreccion.odCerca} | OI: ${formData.agudezaVisual.sinCorreccion.oiLejos}/${formData.agudezaVisual.sinCorreccion.oiCerca}`,
-        "Agudeza Visual (con corrección)": `OD: ${formData.agudezaVisual.conCorreccion.odLejos}/${formData.agudezaVisual.conCorreccion.odCerca} (${formData.agudezaVisual.conCorreccion.lentesOd}) | OI: ${formData.agudezaVisual.conCorreccion.oiLejos}/${formData.agudezaVisual.conCorreccion.oiCerca} (${formData.agudezaVisual.conCorreccion.lentesOi})`,
-        "Refracción": `OD: ${formData.refraccion.odEsfera} ${formData.refraccion.odCilindro} x${formData.refraccion.odEje} (AV:${formData.refraccion.odAv}) | OI: ${formData.refraccion.oiEsfera} ${formData.refraccion.oiCilindro} x${formData.refraccion.oiEje} (AV:${formData.refraccion.oiAv})`,
-        "Presión Intraocular": `OD: ${formData.presionIntraocular.odValor}mmHg (${formData.presionIntraocular.odMetodo}) | OI: ${formData.presionIntraocular.oiValor}mmHg (${formData.presionIntraocular.oiMetodo})`,
-        "Motilidad Ocular": `Derecha: OD-${formData.motilidadOcular.derechaOd}/OI-${formData.motilidadOcular.derechaOi} | Izquierda: OD-${formData.motilidadOcular.izquierdaOd}/OI-${formData.motilidadOcular.izquierdaOi} | Arriba: OD-${formData.motilidadOcular.arribaOd}/OI-${formData.motilidadOcular.arribaOi} | Abajo: OD-${formData.motilidadOcular.abajoOd}/OI-${formData.motilidadOcular.abajoOi}`,
-        "Observaciones": formData.observaciones
-      };
-
-      // Usamos el servicio existente sin modificaciones
-      const response = await DiagnosticoService.saveDiagnostico({
-        pacienteId,
-        evaluaciones,
+      const datosParaBackend = {
+        pacienteId: parseInt(pacienteId),
+        evaluaciones: {
+          "Agudeza Visual (sin corrección)": `OD: ${formData.agudezaVisual.sinCorreccion.odLejos}/${formData.agudezaVisual.sinCorreccion.odCerca} | OI: ${formData.agudezaVisual.sinCorreccion.oiLejos}/${formData.agudezaVisual.sinCorreccion.oiCerca}`,
+          "Agudeza Visual (con corrección)": `OD: ${formData.agudezaVisual.conCorreccion.odLejos}/${formData.agudezaVisual.conCorreccion.odCerca} (${formData.agudezaVisual.conCorreccion.lentesOd}) | OI: ${formData.agudezaVisual.conCorreccion.oiLejos}/${formData.agudezaVisual.conCorreccion.oiCerca} (${formData.agudezaVisual.conCorreccion.lentesOi})`,
+          "Refracción": `OD: ${formData.refraccion.odEsfera} ${formData.refraccion.odCilindro} x${formData.refraccion.odEje} (AV:${formData.refraccion.odAv}) | OI: ${formData.refraccion.oiEsfera} ${formData.refraccion.oiCilindro} x${formData.refraccion.oiEje} (AV:${formData.refraccion.oiAv})`,
+          "Presión Intraocular": `OD: ${formData.presionIntraocular.odValor}mmHg (${formData.presionIntraocular.odMetodo}) | OI: ${formData.presionIntraocular.oiValor}mmHg (${formData.presionIntraocular.oiMetodo})`,
+          "Motilidad Ocular": `Derecha: OD-${formData.motilidadOcular.derechaOd}/OI-${formData.motilidadOcular.derechaOi} | Izquierda: OD-${formData.motilidadOcular.izquierdaOd}/OI-${formData.motilidadOcular.izquierdaOi} | Arriba: OD-${formData.motilidadOcular.arribaOd}/OI-${formData.motilidadOcular.arribaOi} | Abajo: OD-${formData.motilidadOcular.abajoOd}/OI-${formData.motilidadOcular.abajoOi}`,
+          Observaciones: formData.observaciones
+        },
         diagnosticos: {
           principal: diagnosticoPrincipal,
           secundarios: diagnosticosSecundarios
         },
-        especialidad: "oftalmologia"
-      });
+        especialidad: "oftalmologia",
+        datosOftalmologicos: formData
+      };
+
+      const response = await DiagnosticoService.saveDiagnostico(datosParaBackend);
 
       if (response.success) {
         alert("Diagnóstico oftalmológico guardado correctamente");
@@ -127,468 +243,47 @@ const [formData, setFormData] = useState<NestedFormData>({
     }
   };
 
-  const handleCancelar = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate("/pacientes-nuevos");
-  };
-
   return (
-    <div className="w-full">
-      {/* Encabezado */}
-      <main className="flex-1 min-w-0 pl-8 pr-8 py-4">
-        <div className="w-full max-w-full">
-          <TitleCard 
-            title="Oftalmología" 
-            icon={<File className="h-8 w-8" />} 
-          />
-        </div>
-      </main>
+  <DiagnosticoBase 
+    tituloEspecialidad="Oftalmología"
+    camposEvaluacion={camposEvaluacion}
+    onSubmit={handleSubmit}
+    onDiagnosticoPrincipalChange={setDiagnosticoPrincipal}
+    onDiagnosticosSecundariosChange={setDiagnosticosSecundarios}
+    isSubmitting={isSubmitting}
+    rutaCancelar="/pacientes-pendientes"
+    onCampoChange={handleCampoChange}
+  >
+    <div className="space-y-6">
+      <AgudezaVisualSection 
+        formData={formData} 
+        handleNestedChange={handleNestedChange} 
+      />
 
-      {/* Contenido principal */}
-      <div className="w-full px-8">
-        <form onSubmit={handleSubmit}>
-          <div className={`w-full max-w-6xl border rounded-xl shadow-sm p-6 ${
-            theme === 'dark' 
-              ? 'bg-gray-800 border-gray-700' 
-              : 'bg-white border-gray-300'
-          }`}>
-            <FichaEstudiante />
+      <RefraccionSection 
+        formData={formData} 
+        handleChange={handleChange} 
+      />
 
-            {/* Sección Agudeza Visual */}
-            <Card className={`p-6 mb-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
-              <h3 className="text-lg font-semibold mb-4">Agudeza visual</h3>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Sin Corrección */}
-                <div>
-                  <h4 className="font-semibold mb-2">Sin Corrección</h4>
-                  <div className={`grid grid-cols-3 gap-2 text-sm border rounded p-3 ${
-                    theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
-                  }`}>
-                    <span className="font-medium text-center">Ojo</span>
-                    <span className="text-center">Lejos</span>
-                    <span className="text-center">Cerca</span>
-                    
-                    <span className="text-center">OD</span>
-                    <Input 
-                      name="agudezaVisual.sinCorreccion.odLejos"
-                      value={formData.agudezaVisual.sinCorreccion.odLejos}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="20/20"
-                    />
-                    <Input 
-                      name="agudezaVisual.sinCorreccion.odCerca"
-                      value={formData.agudezaVisual.sinCorreccion.odCerca}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="J1"
-                    />
-                    
-                    <span className="text-center">OI</span>
-                    <Input 
-                      name="agudezaVisual.sinCorreccion.oiLejos"
-                      value={formData.agudezaVisual.sinCorreccion.oiLejos}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="20/20"
-                    />
-                    <Input 
-                      name="agudezaVisual.sinCorreccion.oiCerca"
-                      value={formData.agudezaVisual.sinCorreccion.oiCerca}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="J1"
-                    />
-                  </div>
-                </div>
+      <PresionIntraocularSection 
+        formData={formData} 
+        handleChange={handleChange} 
+        handleSelectChange={handleSelectChange} 
+      />
 
-                {/* Con Corrección */}
-                <div>
-                  <h4 className="font-semibold mb-2">Con Corrección</h4>
-                  <div className={`grid grid-cols-4 gap-2 text-sm border rounded p-3 ${
-                    theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
-                  }`}>
-                    <span className="font-medium text-center col-span-1">Ojo</span>
-                    <span className="text-center">Lejos</span>
-                    <span className="text-center">Cerca</span>
-                    <span className="text-center">Lentes</span>
-                    
-                    <span className="text-center">OD</span>
-                    <Input 
-                      name="agudezaVisual.conCorreccion.odLejos"
-                      value={formData.agudezaVisual.conCorreccion.odLejos}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="20/20"
-                    />
-                    <Input 
-                      name="agudezaVisual.conCorreccion.odCerca"
-                      value={formData.agudezaVisual.conCorreccion.odCerca}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="J1"
-                    />
-                    <Input 
-                      name="agudezaVisual.conCorreccion.lentesOd"
-                      value={formData.agudezaVisual.conCorreccion.lentesOd}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="-2.50 esf"
-                    />
-                    
-                    <span className="text-center">OI</span>
-                    <Input 
-                      name="agudezaVisual.conCorreccion.oiLejos"
-                      value={formData.agudezaVisual.conCorreccion.oiLejos}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="20/20"
-                    />
-                    <Input 
-                      name="agudezaVisual.conCorreccion.oiCerca"
-                      value={formData.agudezaVisual.conCorreccion.oiCerca}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="J1"
-                    />
-                    <Input 
-                      name="agudezaVisual.conCorreccion.lentesOi"
-                      value={formData.agudezaVisual.conCorreccion.lentesOi}
-                      onChange={handleChange}
-                      className="h-8 text-center"
-                      placeholder="-2.50 esf"
-                    />
-                  </div>
-                </div>
-              </div>
+      <MotilidadOcularSection 
+        formData={formData} 
+        handleSelectChange={handleSelectChange} 
+      />
 
-              <h3 className="text-lg font-semibold my-4">Exámenes Oculares</h3>
-
-              {/* Refracción */}
-              <div className="mb-6">
-                <h4 className="font-semibold mb-2">Refracción</h4>
-                <div className={`grid grid-cols-6 gap-2 text-sm border rounded p-3 ${
-                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
-                }`}>
-                  <span className="text-center">Ojo</span>
-                  <span className="text-center">Esfera</span>
-                  <span className="text-center">Cilindro</span>
-                  <span className="text-center">Eje</span>
-                  <span className="text-center">AV</span>
-                  <span></span>
-                  
-                  <span className="text-center">OD</span>
-                  <Input 
-                    name="refraccion.odEsfera"
-                    value={formData.refraccion.odEsfera}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="-2.50"
-                  />
-                  <Input 
-                    name="refraccion.odCilindro"
-                    value={formData.refraccion.odCilindro}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="+0.50"
-                  />
-                  <Input 
-                    name="refraccion.odEje"
-                    value={formData.refraccion.odEje}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="180"
-                  />
-                  <Input 
-                    name="refraccion.odAv"
-                    value={formData.refraccion.odAv}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="20/20"
-                  />
-                  <span></span>
-                  
-                  <span className="text-center">OI</span>
-                  <Input 
-                    name="refraccion.oiEsfera"
-                    value={formData.refraccion.oiEsfera}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="-2.50"
-                  />
-                  <Input 
-                    name="refraccion.oiCilindro"
-                    value={formData.refraccion.oiCilindro}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="+0.50"
-                  />
-                  <Input 
-                    name="refraccion.oiEje"
-                    value={formData.refraccion.oiEje}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="180"
-                  />
-                  <Input 
-                    name="refraccion.oiAv"
-                    value={formData.refraccion.oiAv}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="20/20"
-                  />
-                  <span></span>
-                </div>
-              </div>
-
-              {/* Presión Intraocular */}
-              <div className="mb-6">
-                <h4 className="font-semibold mb-2">Presión Intraocular</h4>
-                <div className={`grid grid-cols-5 gap-2 text-sm border rounded p-3 ${
-                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
-                }`}>
-                  <span className="text-center">Ojo</span>
-                  <span className="text-center">Valor (mmHg)</span>
-                  <span className="text-center">Hora</span>
-                  <span className="text-center">Método</span>
-                  <span></span>
-                  
-                  <span className="text-center">OD</span>
-                  <Input 
-                    name="presionIntraocular.odValor"
-                    value={formData.presionIntraocular.odValor}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="14"
-                  />
-                  <Input 
-                    name="presionIntraocular.odHora"
-                    value={formData.presionIntraocular.odHora}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="10:30"
-                  />
-                  <Select 
-                    value={formData.presionIntraocular.odMetodo}
-                    onValueChange={(value) => handleSelectChange("presionIntraocular.odMetodo", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue placeholder="Seleccione método" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Tonómetro de aire">Tonómetro de aire</SelectItem>
-                      <SelectItem value="Tonómetro de Goldmann">Tonómetro de Goldmann</SelectItem>
-                      <SelectItem value="Tonómetro de Perkins">Tonómetro de Perkins</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <span></span>
-                  
-                  <span className="text-center">OI</span>
-                  <Input 
-                    name="presionIntraocular.oiValor"
-                    value={formData.presionIntraocular.oiValor}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="14"
-                  />
-                  <Input 
-                    name="presionIntraocular.oiHora"
-                    value={formData.presionIntraocular.oiHora}
-                    onChange={handleChange}
-                    className="h-8 text-center"
-                    placeholder="10:30"
-                  />
-                  <Select 
-                    value={formData.presionIntraocular.oiMetodo}
-                    onValueChange={(value) => handleSelectChange("presionIntraocular.oiMetodo", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue placeholder="Seleccione método" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Tonómetro de aire">Tonómetro de aire</SelectItem>
-                      <SelectItem value="Tonómetro de Goldmann">Tonómetro de Goldmann</SelectItem>
-                      <SelectItem value="Tonómetro de Perkins">Tonómetro de Perkins</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <span></span>
-                </div>
-              </div>
-
-              {/* Motilidad Ocular */}
-              <div className="mb-6">
-                <h4 className="font-semibold mb-2">Motilidad Ocular</h4>
-                <div className={`grid grid-cols-3 text-sm border rounded p-3 ${
-                  theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
-                }`}>
-                  <span className="text-center font-medium">Movimiento</span>
-                  <span className="text-center font-medium">OD</span>
-                  <span className="text-center font-medium">OI</span>
-                  
-                  <span className="text-center">Derecha</span>
-                  <Select 
-                    value={formData.motilidadOcular.derechaOd}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.derechaOd", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select 
-                    value={formData.motilidadOcular.derechaOi}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.derechaOi", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  
-                  <span className="text-center">Izquierda</span>
-                  <Select 
-                    value={formData.motilidadOcular.izquierdaOd}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.izquierdaOd", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select 
-                    value={formData.motilidadOcular.izquierdaOi}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.izquierdaOi", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  
-                  <span className="text-center">Arriba</span>
-                  <Select 
-                    value={formData.motilidadOcular.arribaOd}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.arribaOd", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select 
-                    value={formData.motilidadOcular.arribaOi}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.arribaOi", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  
-                  <span className="text-center">Abajo</span>
-                  <Select 
-                    value={formData.motilidadOcular.abajoOd}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.abajoOd", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select 
-                    value={formData.motilidadOcular.abajoOi}
-                    onValueChange={(value) => handleSelectChange("motilidadOcular.abajoOi", value)}
-                  >
-                    <SelectTrigger className="h-8">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Normal">Normal</SelectItem>
-                      <SelectItem value="Limitada">Limitada</SelectItem>
-                      <SelectItem value="Ausente">Ausente</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              {/* Observaciones */}
-              <div className="mb-4">
-                <h4 className="font-semibold mb-2">Observaciones</h4>
-                <Textarea 
-                  name="observaciones"
-                  value={formData.observaciones}
-                  onChange={handleChange}
-                  placeholder="Escriba aquí cualquier observación adicional..."
-                  className={`min-h-[100px] ${
-                    theme === 'dark' 
-                      ? 'bg-gray-700 border-gray-600 text-white' 
-                      : 'bg-white border-gray-300'
-                  }`}
-                />
-              </div>
-
-              <SeleccionDiagnostico />
-            </Card>
-
-            {/* Botones de acción */}
-            <div className="flex justify-end gap-4 mt-6">
-              <Button 
-                type="button" 
-                variant="outline"
-                onClick={handleCancelar}
-                className={`${
-                  theme === 'dark' 
-                    ? 'border-gray-600 hover:bg-gray-700' 
-                    : 'border-gray-300 hover:bg-gray-100'
-                }`}
-              >
-                Cancelar
-              </Button>
-              <Button 
-                type="submit"
-                className={`${
-                  theme === 'dark' 
-                    ? 'bg-blue-600 hover:bg-blue-700' 
-                    : 'bg-blue-500 hover:bg-blue-600'
-                }`}
-              >
-                Guardar Diagnóstico
-              </Button>
-            </div>
-          </div>
-        </form>
-      </div>
+      <ObservacionesSection 
+        value={formData.observaciones} 
+        onChange={(value) => 
+          setFormData(prev => ({ ...prev, observaciones: value }))
+        }
+      />
     </div>
-  );
-};
+  </DiagnosticoBase>
+);
 
 export default DiagnosticoOftalmologia;

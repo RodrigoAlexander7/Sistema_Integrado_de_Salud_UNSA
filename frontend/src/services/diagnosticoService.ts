@@ -1,4 +1,4 @@
-import type { DiagnosisRequest, DiagnosisResponse } from "@/types/patientTypes";
+import type { DiagnosisResponse } from "@/types/patientTypes";
 
 const API_BASE_URL = "/api";
 

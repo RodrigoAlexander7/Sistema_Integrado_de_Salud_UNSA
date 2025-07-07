@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DiagnosticoBase from "@/components/DiagnosticoBase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DiagnosticoService } from "@/services/diagnosticoService";
 
 const DiagnosticoMedicinaGeneral: React.FC = () => {
+  const { pacienteId } = useParams<{ pacienteId: string }>();
   const camposEvaluacion = [
     "Evaluación General",
     "Diagnóstico General", 
@@ -14,7 +15,31 @@ const DiagnosticoMedicinaGeneral: React.FC = () => {
   const [diagnosticoPrincipal, setDiagnosticoPrincipal] = useState("");
   const [diagnosticosSecundarios, setDiagnosticosSecundarios] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [, setPacienteData] = useState<any>(null);
   const navigate = useNavigate();
+
+  // Efecto para cargar datos del paciente al montar el componente
+  useEffect(() => {
+    const fetchPacienteData = async () => {
+      try {
+        // Simulación de fetch de datos del paciente
+        // En una implementación real, usarías un servicio como PacienteService.getById(pacienteId)
+        const mockData = {
+          id: pacienteId,
+          nombre: "Juan Pérez",
+          cui: "1234567890123",
+          fechaNacimiento: "1990-01-01"
+        };
+        setPacienteData(mockData);
+      } catch (error) {
+        console.error("Error cargando datos del paciente:", error);
+      }
+    };
+
+    if (pacienteId) {
+      fetchPacienteData();
+    }
+  }, [pacienteId]);
 
   const handleChangeCampo = (campo: string, valor: string) => {
     setValoresCampos(prev => ({ ...prev, [campo]: valor }));
@@ -25,11 +50,12 @@ const DiagnosticoMedicinaGeneral: React.FC = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulamos un pacienteId - en una app real esto vendría del estado o params
-      const pacienteId = 1; 
-      
+      if (!pacienteId) {
+        throw new Error("ID de paciente no definido");
+      }
+
       const response = await DiagnosticoService.saveDiagnostico({
-        pacienteId,
+        pacienteId: parseInt(pacienteId),
         evaluaciones: valoresCampos,
         diagnosticos: {
           principal: diagnosticoPrincipal,
@@ -39,13 +65,12 @@ const DiagnosticoMedicinaGeneral: React.FC = () => {
       });
 
       if (response.success) {
-        alert("Diagnóstico guardado correctamente"); // Opción 1: alert básico
-        console.log("Diagnóstico guardado:", response); // Opción 2: log para desarrollo
+        alert("Diagnóstico guardado correctamente");
         navigate(`/pacientes/${pacienteId}`);
       }
     } catch (error) {
-      alert("Error al guardar el diagnóstico"); // Opción 1
-      console.error("Error al guardar:", error); // Opción 2
+      alert("Error al guardar el diagnóstico");
+      console.error("Error al guardar:", error);
     } finally {
       setIsSubmitting(false);
     }

@@ -17,9 +17,11 @@ import createAuthRoutes from './routes/auth.routes';
 import createMedicoRoutes from './routes/medico.routes';
 import createEnfermeraRoutes from './routes/enfermera.routes';
 
+import { PacienteService } from './services/paciente.service';
+import { PacienteController } from './controllers/paciente.controller';
+import createPacienteRoutes from './routes/paciente.routes';
 
 const app = express();
-
 
 // MIDDLEWARES GLOBALES
 // Se aplican a TODAS las peticiones entrantes.
@@ -62,6 +64,9 @@ const authService = new AuthService(usuarioService);
 const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);
 
+const pacienteService = new PacienteService();
+const pacienteController = new PacienteController(pacienteService);
+
 const cookieController = new CookieController();
 
 // MONTAJE DE RUTAS MODULARES 
@@ -69,6 +74,7 @@ app.use('/api/auth', createAuthRoutes(authController, authMiddleware, cookieCont
 app.use('/api/medicos', createMedicoRoutes(authMiddleware));
 app.use('/api/enfermeras', createEnfermeraRoutes(authMiddleware));
 
+app.use('/api/pacientes', createPacienteRoutes(pacienteController, authMiddleware));
 
 //MANEJO DE ERRORES
 // Si ninguna ruta anterior coincide, se ejecuta el 404

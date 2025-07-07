@@ -33,9 +33,25 @@ export function LoginForm({
           body: JSON.stringify({email, password})
         })
         const data = await response.json()
-        if(response.ok)
-          navigate("/inicio-doctor"); 
-        else throw new Error(data.message || 'Error iniciando sesion')
+        if (response.ok) {
+          const tipoUsuario = data.user?.tipoUsuario;
+
+          switch (tipoUsuario) {
+            case 'MEDICO':
+              navigate("/inicio-doctor");
+              break;
+            case 'ENFERMERA':
+              navigate("/inicio-enfermeria");
+              break;
+            case 'ADMIN':
+              navigate("/admin-dashboard");
+              break;
+            default:
+              navigate("/"); // Vista por defecto si es un tipo no reconocido
+          }
+        } else {
+          throw new Error(data.message || 'Error iniciando sesión');
+        }
     } catch (error) {
         console.log(error)
     }

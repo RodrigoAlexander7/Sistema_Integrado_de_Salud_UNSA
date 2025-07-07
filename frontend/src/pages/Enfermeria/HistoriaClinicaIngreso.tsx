@@ -11,153 +11,222 @@ import TitleCard from "@/components/TitleCard";
 
 
 const HistoriaClinicaIngreso: React.FC = () => {
-    const navigate = useNavigate(); 
-    const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const navigate = useNavigate();
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
-    const handleInicioEnf = (e: React.FormEvent) => {
-            e.preventDefault();
-            setMostrarAlerta(true); 
-            setTimeout(() => {
-                setMostrarAlerta(false);
-                
-            }, 5000);
-        };
-    return (
-        <div className="w-full min-h-screen bg-white px-4 py-8 flex flex-col items-center">
-            <TitleCard 
-            title="Creación de historia clínica" 
-            icon={<File className="h-8 w-8" />} 
+  const [formData, setFormData] = useState({
+    tipoDocumento: "DNI",
+    numDocumento: "",
+    nombres: "",
+    apellidos: "",
+    fechaNacimiento: "", // formato YYYY-MM-DD
+    genero: "",
+    direccion: "",
+    telefono: "",
+    correo: "",
+    grupoSanguineo: "",
+    antecedentesFamiliares: "",
+    estadoCivil: "",
+    programaAcademicoId: 1, 
+    contactosEmergencia: [
+      {
+        nombres: "",
+        apellidos: "",
+        parentesco: "",
+        telefonoPrincipal: "",
+        telefonoSecundario: "",
+        direccion: ""
+      }
+    ]
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleEmergenciaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      contactosEmergencia: [
+        {
+          ...prev.contactosEmergencia[0],
+          [name]: value
+        }
+      ]
+    }));
+  };
+
+  const handleInicioEnf = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const formDataToSend = {
+        ...formData,
+        fechaNacimiento: new Date(formData.fechaNacimiento).toISOString()
+      };
+
+      const res = await fetch("http://localhost:4000/api/pacientes/personal-info-input", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include", // <-- necesario para enviar la cookie con el token
+        body: JSON.stringify(formDataToSend)
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setMostrarAlerta(true);
+        setTimeout(() => {
+          setMostrarAlerta(false);
+          navigate("/Inicio-Enfermeria");
+        }, 3000);
+      } else {
+        alert(data.message || "Error al registrar paciente");
+      }
+    } catch (error) {
+      console.error("Error al registrar paciente:", error);
+    }
+  };
+
+  return (
+    <div className="w-full min-h-screen bg-white px-4 py-8 flex flex-col items-center">
+      <TitleCard title="Creación de historia clínica" icon={<File className="h-8 w-8" />} />
+
+      <div className="border-2 border-blue-400 p-6 rounded-md w-full max-w-5xl shadow-sm">
+        <h2 className="text-xl font-semibold text-center mb-6">
+          Ingreso de Información Personal del Paciente
+        </h2>
+
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4" onSubmit={handleInicioEnf}>
+          <div>
+            <Label>Facultad y/o ESC. PROF:</Label>
+            <Input type="text" value="Ingeniería de Sistemas" disabled />
+          </div>
+          
+          <div>
+            <Label>Tipo de Documento:</Label>
+            <Input
+                type="text"
+                name="tipoDocumento"
+                value={formData.tipoDocumento}
+                readOnly // <- permite que se envíe el valor pero sin modificarlo
+                className="w-full border border-gray-300 rounded px-2 py-2"
             />
-            <h1 className="text-3xl font-bold text-blue-900 mb-6">
-            </h1>
+          </div>
 
-            {/* Contenedor del formulario */}
-            <div className="border-2 border-blue-400 p-6 rounded-md w-full max-w-5xl shadow-sm">
-                <h2 className="text-xl font-semibold text-center mb-6">
-                    Ingreso de Información Personal del Paciente
-                </h2>
+          <div>
+            <Label>Nombres:</Label>
+            <Input name="nombres" value={formData.nombres} onChange={handleChange} />
+          </div>
 
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                    {/* Fila 1 */}
-                    <div>
-                        <Label>Facultad y/o ESC. PROF:</Label>
-                        <Input type="text" />
-                    </div>
-                    <div>
-                        <Label>CUI:</Label>
-                        <Input type="text" />
-                    </div>
+          <div>
+            <Label>Número de Documento:</Label>
+            <Input
+                name="numDocumento"
+                value={formData.numDocumento}
+                onChange={handleChange}
+                required
+            />
+          </div>
 
-                    {/* Fila 2 */}
-                    <div>
-                        <Label>Apellidos y Nombres:</Label>
-                        <Input type="text" />
-                    </div>
-                    <div>
-                        <Label>DNI:</Label>
-                        <Input type="text" />
-                    </div>
+          <div>
+            <Label>Apellidos:</Label>
+            <Input name="apellidos" value={formData.apellidos} onChange={handleChange} />
+          </div>
 
-                    {/* Fila 3 */}
-                    <div>
-                        <Label>Edad:</Label>
-                        <Input type="number" />
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <div>
-                            <Label>Sexo:</Label>
-                            <Input type="text" />
-                        </div>
-                        <div>
-                            <Label>Estado Civil:</Label>
-                            <Input type="text" />
-                        </div>
-                        <div>
-                            <Label>Procedencia:</Label>
-                            <Input type="text" />
-                        </div>
-                    </div>
-
-                    {/* Fila 4 */}
-                    <div className="col-span-2">
-                        <Label>Domicilio:</Label>
-                        <Input type="text" />
-                    </div>
-
-                    {/* Fila 5 */}
-                    <div>
-                        <Label>Teléfono:</Label>
-                        <Input type="text" />
-                    </div>
-                    <div>
-                        <Label>Correo Electrónico:</Label>
-                        <Input type="email" />
-                    </div>
-
-                    {/* Fila 6 */}
-                    <div>
-                        <Label>Ocupación:</Label>
-                        <Input type="text" />
-                    </div>
-                    <div>
-                        <Label>Contacto de Emergencia:</Label>
-                        <Input type="text" />
-                    </div>
-
-                    {/* Fila 7 - Fecha */}
-                    <div className="col-span-2 flex flex-wrap gap-4 mt-2">
-                        <div className="flex flex-col">
-                            <Label>Fecha:</Label>
-                            <div className="flex gap-2">
-                                <Input type="number" placeholder="Día" className="w-24" />
-                                <Input type="number" placeholder="Mes" className="w-24" />
-                                <Input type="number" placeholder="Año" className="w-28" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                {/* Botón */}
-                <div className="mt-6 flex justify-center">
-                    <Button className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg" onClick={handleInicioEnf}>
-                        Inscribir Paciente
-                    </Button>
-                    {mostrarAlerta && (
-                        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-xl p-6">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
-                                Triaje guardado exitosamente
-                            </h2>
-                            <p className="text-sm text-gray-600 mb-6 text-center">
-                                ¿Qué deseas hacer a continuación?
-                            </p>
-                            <div className="flex justify-center gap-4">
-                                <Button
-                                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                                    onClick={() => {
-                                        // Acción para iniciar episodio médico
-                                        // Por ejemplo, redirigir a otra página:
-                                        navigate("/Inicio-Enfermeria"); // Ajusta la ruta según tu app
-                                    }}>
-                                    Aceptar
-                                                                    </Button>
-                                <Button
-                                    className="bg-green-600 hover:bg-green-700 text-white"
-                                    onClick={() => {
-                                        // Acción para iniciar episodio médico
-                                        // Por ejemplo, redirigir a otra página:
-                                        navigate("/triaje"); // Ajusta la ruta según tu app
-                                    }}
-                                >
-                                    Comenzar episodio médico
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-
-                </div>
+          <div>
+            <Label>Fecha de Nacimiento:</Label>
+            <Input type="date" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} />
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <Label>Sexo:</Label>
+              <Input name="genero" value={formData.genero} onChange={handleChange} />
             </div>
-        </div>
-    );
+            <div>
+              <Label>Estado Civil:</Label>
+              <Input name="estadoCivil" value={formData.estadoCivil} onChange={handleChange} />
+            </div>
+            <div>
+              <Label>Grupo Sanguíneo:</Label>
+              <Input name="grupoSanguineo" value={formData.grupoSanguineo} onChange={handleChange} />
+            </div>
+          </div>
+
+          <div className="col-span-2">
+            <Label>Domicilio:</Label>
+            <Input name="direccion" value={formData.direccion} onChange={handleChange} />
+          </div>
+
+          <div>
+            <Label>Teléfono:</Label>
+            <Input name="telefono" value={formData.telefono} onChange={handleChange} />
+          </div>
+          <div>
+            <Label>Correo Electrónico:</Label>
+            <Input name="correo" value={formData.correo} onChange={handleChange} />
+          </div>
+
+          <div className="col-span-2">
+            <Label>Antecedentes Familiares:</Label>
+            <Input name="antecedentesFamiliares" value={formData.antecedentesFamiliares} onChange={handleChange} />
+          </div>
+
+          <div className="col-span-2">
+            <h3 className="text-lg font-medium mt-4">Contacto de Emergencia</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <Input name="nombres" placeholder="Nombres" value={formData.contactosEmergencia[0].nombres} onChange={handleEmergenciaChange} />
+              <Input name="apellidos" placeholder="Apellidos" value={formData.contactosEmergencia[0].apellidos} onChange={handleEmergenciaChange} />
+              <Input name="parentesco" placeholder="Parentesco" value={formData.contactosEmergencia[0].parentesco} onChange={handleEmergenciaChange} />
+              <Input name="direccion" placeholder="Dirección" value={formData.contactosEmergencia[0].direccion} onChange={handleEmergenciaChange} />
+              <Input name="telefonoPrincipal" placeholder="Tel. Principal" value={formData.contactosEmergencia[0].telefonoPrincipal} onChange={handleEmergenciaChange} />
+              <Input name="telefonoSecundario" placeholder="Tel. Secundario" value={formData.contactosEmergencia[0].telefonoSecundario} onChange={handleEmergenciaChange} />
+            </div>
+          </div>
+
+          <div className="col-span-2 mt-6 flex justify-center">
+            <Button
+              type="submit"
+              className="bg-blue-900 hover:bg-blue-700 text-white text-md px-6 py-2 rounded-lg"
+            >
+              Inscribir Paciente
+            </Button>
+          </div>
+        </form>
+
+        {mostrarAlerta && (
+          <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-xl p-6">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+              Paciente registrado exitosamente
+            </h2>
+            <p className="text-sm text-gray-600 mb-6 text-center">
+              ¿Qué deseas hacer a continuación?
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+                onClick={() => navigate("/Inicio-Enfermeria")}
+              >
+                Aceptar
+              </Button>
+              <Button
+                className="bg-green-600 hover:bg-green-700 text-white"
+                onClick={() => navigate("/triaje")}
+              >
+                Comenzar episodio médico
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default HistoriaClinicaIngreso;

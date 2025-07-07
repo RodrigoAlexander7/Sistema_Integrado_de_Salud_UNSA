@@ -1,22 +1,9 @@
-import { Paciente } from '../generated/prisma';
-
-import {
-   PatientRepository,
-   CreatePatientData,
-} from '../repositories/paciente.repository';
-
-import { logger } from '../utils/logger';
+import { CreatePatientData, PatientRepository  } from '../repositories/paciente.repository';
 
 export class PacienteService {
-   constructor(private patienRepository: PatientRepository){}
+  constructor(private pacienteRepo = new PatientRepository ()) {}
 
-   createPatient = async (data: CreatePatientData)=> {
-      try {
-         const patient = await this.patienRepository.createPatientData(data);
-         logger.info(`Perfil paciente creado para ${data.nombres}`)
-      } catch (error: any) {
-         logger.error('Error al crear perfil de paciente:', error);
-         throw new Error(error.message || 'Error al crear perfil de paciente');
-      }
-   }
+  async crearPaciente(data: CreatePatientData) {
+    return await this.pacienteRepo.createPatientData(data);
+  }
 }

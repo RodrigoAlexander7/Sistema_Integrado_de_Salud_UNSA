@@ -22,6 +22,7 @@ export interface Patient {
   allergies?: string | null;          // alergias (String?)
   vitalSigns: VitalSigns;             // Relación con SignosVitales
   datosOftalmologicos?: DatosOftalmologicos;
+  datosOdontologicos?: DatosOdontologicos;
 }
 
 export interface DiagnosisRequest {
@@ -82,5 +83,33 @@ export interface DatosOftalmologicos {
     abajoOi: string;
   };
   observaciones: string;
+}
+
+export type DienteCondicion = 
+  | "sano" 
+  | "caries" 
+  | "restauracion" 
+  | "ausente" 
+  | "sellante" 
+  | "corona" 
+  | "movilidad" 
+  | "fractura";
+
+export interface DienteEstado {
+  numero: number;
+  condicion: DienteCondicion;
+  observaciones: string;
+}
+
+export interface Tratamiento {
+  fecha: string;
+  diente: number;
+  procedimiento: string;
+  observaciones: string;
+}
+
+export interface DatosOdontologicos {
+  condiciones: Record<number, DienteEstado>;
+  tratamientos: Tratamiento[];
 }
 

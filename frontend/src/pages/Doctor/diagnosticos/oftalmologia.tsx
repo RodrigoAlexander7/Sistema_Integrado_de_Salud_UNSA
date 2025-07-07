@@ -195,12 +195,8 @@ const handleNestedChange = <
   }
 };
 
-const handleCampoChange = (campo: string, valor: string) => {
-  // Si el campo es "Observaciones", actualiza directamente
-  if (campo === "Observaciones") {
-    setFormData(prev => ({ ...prev, observaciones: valor }));
-  }
-  // Puedes extender esto para otros campos si se vuelven dinámicos
+const handleCampoChange = (_campo: string, valor: string) => {
+  setFormData(prev => ({ ...prev, observaciones: valor }));
 };
 
 

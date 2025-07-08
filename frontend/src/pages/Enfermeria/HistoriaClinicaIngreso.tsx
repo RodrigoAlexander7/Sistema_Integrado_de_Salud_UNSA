@@ -217,7 +217,11 @@ const HistoriaClinicaIngreso: React.FC = () => {
               </Button>
               <Button
                 className="bg-green-600 hover:bg-green-700 text-white"
-                onClick={() => navigate("/triaje")}
+                onClick={() => navigate('/nuevo-episodio', {
+                  state: { 
+                    historiaClinicaId: "123" 
+                  }
+          })}
               >
                 Comenzar episodio médico
               </Button>

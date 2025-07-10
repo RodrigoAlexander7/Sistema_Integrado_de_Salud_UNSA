@@ -11,20 +11,22 @@ import { useNavigate } from "react-router-dom";
 
 interface DiagnosticoBaseProps {
   tituloEspecialidad: string;
-  camposEvaluacion?: string[]; // Hacerlo opcional
+  camposEvaluacion?: string[];
   rutaCancelar?: string;
   children?: React.ReactNode;
-  icono?: React.ReactNode; // Nuevo prop para personalizar el icono
+  icono?: React.ReactNode;
   onDiagnosticoPrincipalChange: (diagnostico: string) => void;
   onDiagnosticosSecundariosChange: (diagnosticos: string[]) => void;
   onCampoChange: (campo: string, valor: string) => void;
-  onSubmit?: (e: React.FormEvent) => void; // Nuevo prop para manejar submit
+  onSubmit?: (e: React.FormEvent) => void;
   isSubmitting?: boolean;
+  mostrarDiagnosticosAlFinal?: boolean;
+  mostrarFichaEstudiante?: boolean;
 }
 
 const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
   tituloEspecialidad,
-  camposEvaluacion,
+  camposEvaluacion = [],
   rutaCancelar = "/pacientes-nuevos",
   children,
   icono = <File className="h-8 w-8" />,
@@ -32,14 +34,14 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
   onDiagnosticosSecundariosChange,
   onCampoChange,
   onSubmit,
-  isSubmitting
+  isSubmitting = false,
+  mostrarDiagnosticosAlFinal = true,
+  mostrarFichaEstudiante = true,
 }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  // Efecto para manejar cambios en los inputs
   useEffect(() => {
-    // Puedes agregar lógica de validación o efectos secundarios aquí
     console.log("Diagnóstico base montado");
   }, []);
 
@@ -49,9 +51,51 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
   };
 
   const handleInputChange = (campo: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const valor = e.target.value;
-    onCampoChange(campo, valor);
+    onCampoChange(campo, e.target.value);
   };
+
+  const renderCamposEvaluacion = () => (
+    <div className="grid gap-4 mb-6">
+      {camposEvaluacion.map((titulo, idx) => (
+        <Card 
+          key={idx}
+          className={`p-4 border rounded-md shadow-sm ${
+            theme === 'dark' 
+              ? 'bg-gray-700 border-gray-600' 
+              : 'bg-white border-slate-300'
+          }`}
+        >
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <p className={`font-semibold text-lg ${
+              theme === 'dark' ? 'text-blue-400' : 'text-blue-900'
+            }`}>
+              {titulo}
+            </p>
+            <Input
+              type="text"
+              placeholder="Completar aquí"
+              onChange={(e) => handleInputChange(titulo, e)}
+              className={`flex-1 border-none outline-none ${
+                theme === 'dark' 
+                  ? 'bg-gray-700 text-white placeholder-gray-400' 
+                  : 'bg-transparent text-gray-700 placeholder-gray-400'
+              }`}
+            />
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+
+  const renderSeccionDiagnosticos = () => (
+    <>
+      {camposEvaluacion?.length > 0 && renderCamposEvaluacion()}
+      <SeleccionDiagnostico 
+        onDPrincipalChange={onDiagnosticoPrincipalChange}
+        onSecundariosChange={onDiagnosticosSecundariosChange}
+      />
+    </>
+  );
 
   return (
     <div className="w-full">
@@ -71,47 +115,14 @@ const DiagnosticoBase: React.FC<DiagnosticoBaseProps> = ({
               ? 'bg-gray-800 border-gray-700' 
               : 'bg-white border-gray-300'
           }`}>
-            <FichaEstudiante />
+            {mostrarFichaEstudiante && <FichaEstudiante />}
 
             <Card className="p-6 mb-6">
-              {camposEvaluacion && (
-                <div className="grid gap-4 mb-6">
-                  {camposEvaluacion.map((titulo, idx) => (
-                    <Card 
-                      key={idx} 
-                      className={`p-4 border rounded-md shadow-sm ${
-                        theme === 'dark' 
-                          ? 'bg-gray-700 border-gray-600' 
-                          : 'bg-white border-slate-300'
-                      }`}
-                    >
-                      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-                        <p className={`font-semibold text-lg ${
-                          theme === 'dark' ? 'text-blue-400' : 'text-blue-900'
-                        }`}>
-                          {titulo}
-                        </p>
-                        <Input
-                          type="text"
-                          placeholder="Completar aquí"
-                          onChange={(e) => handleInputChange(titulo, e)}
-                          className={`flex-1 border-none outline-none ${
-                            theme === 'dark' 
-                              ? 'bg-gray-700 text-white placeholder-gray-400' 
-                              : 'bg-transparent text-gray-700 placeholder-gray-400'
-                          }`}
-                        />
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              )}
+              {!mostrarDiagnosticosAlFinal && renderSeccionDiagnosticos()}
               
-              <SeleccionDiagnostico 
-                onDPrincipalChange={onDiagnosticoPrincipalChange}
-                onSecundariosChange={onDiagnosticosSecundariosChange}
-              />
               {children}
+
+              {mostrarDiagnosticosAlFinal && renderSeccionDiagnosticos()}
             </Card>
 
             <div className="flex justify-end gap-4 mt-6">

@@ -5,6 +5,7 @@ import { DiagnosticoService } from "@/services/diagnosticoService";
 import { PatientService } from "@/services/patientService";
 import type { Patient } from "@/types/patientTypes";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 // Tipos específicos para odontología
 type DienteCondicion = 
@@ -432,18 +433,37 @@ const Odontograma: React.FC = () => {
     return iconos[condicion];
   };
 
+  function onCampoChange(_arg0: string, _value: string): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <DiagnosticoBase 
       tituloEspecialidad="Odontología"
-      camposEvaluacion={["Odontograma"]}
+      camposEvaluacion={[]} // Eliminamos los campos fijos
       onSubmit={handleSubmit}
       onDiagnosticoPrincipalChange={setDiagnosticoPrincipal}
       onDiagnosticosSecundariosChange={setDiagnosticosSecundarios}
       isSubmitting={isSubmitting}
       onCampoChange={() => {}}
       rutaCancelar="/pacientes-nuevos"
+      mostrarDiagnosticosAlFinal={true} // Nueva prop
     >
-      {renderOdontograma()}
+      {/* Contenido principal primero */}
+      <div className="space-y-6">
+        {/* Aquí va todo tu odontograma actual */}
+        {renderOdontograma()}
+        
+        {/* Sección de evaluación personalizada */}
+        <Card className="p-6 mb-6">
+          <h3 className="text-lg font-semibold mb-4">Evaluación Odontológica</h3>
+          <Input
+            type="text"
+            placeholder="Observaciones generales"
+            onChange={(e) => onCampoChange("Observaciones", e.target.value)}
+          />
+        </Card>
+      </div>
     </DiagnosticoBase>
   );
 };

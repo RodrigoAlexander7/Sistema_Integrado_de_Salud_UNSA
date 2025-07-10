@@ -16,11 +16,14 @@ import { PatientController } from './controllers/paciente.controller';
 import { PacienteService } from './services/paciente.service';
 import { CookieController } from './controllers/cookie.controller';
 
+import { EpisodioClinicoRepository } from './repositories/episodio.repository';
+import { EpisodioService } from './services/episodio.service';
+
 import createAuthRoutes from './routes/auth.routes';
 import createMedicoRoutes from './routes/medico.routes';
 import createEnfermeraRoutes from './routes/enfermera.routes';
-import createPacientesRoutes from './routes/paciente.routes'
-
+import createPacientesRoutes from './routes/paciente.routes';
+import episodioRoutes from './routes/episodio.routes';
 
 const app = express();
 
@@ -29,14 +32,14 @@ const app = express();
 // Se aplican a TODAS las peticiones entrantes.
 app.use(cors({ 
   origin: config.corsOrigin, 
-  credentials: true ,
+  credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json({ limit: '10mb' })); // MUY IMPORTANTE: para poder leer req.body
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser())
+app.use(cookieParser());
 
 const limiter = rateLimit(config.rateLimit);
 app.use(limiter);
@@ -47,7 +50,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // ENDPOINT DE SALUD
 app.get('/health', (req, res) => {
   res.json({
@@ -57,7 +59,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-
 // INYECCIÓN DE DEPENDENCIAS
 // Creamos una unica instancia de cada clase, conectandolas entre si.
 const usuarioRepository = new UsuarioRepository();
@@ -66,20 +67,22 @@ const authService = new AuthService(usuarioService);
 const authController = new AuthController(authService, usuarioService);
 const authMiddleware = new AuthMiddleware(usuarioService);
 
-const patienRepository = new PatientRepository()
-const pacienteService = new PacienteService(patienRepository)
-const patientController = new PatientController(pacienteService)
+const patienRepository = new PatientRepository();
+const pacienteService = new PacienteService(patienRepository);
+const patientController = new PatientController(pacienteService);
 const cookieController = new CookieController();
 
-// MONTAJE DE RUTAS MODULARES 
+const episodioRepository = new EpisodioClinicoRepository();
+const episodioService = new EpisodioService(episodioRepository);
+
+// MONTAJE DE RUTAS MODULARES
 app.use('/api/auth', createAuthRoutes(authController, authMiddleware, cookieController));
 app.use('/api/medicos', createMedicoRoutes(authMiddleware));
 app.use('/api/enfermeras', createEnfermeraRoutes(authMiddleware));
 app.use('/api/pacientes', createPacientesRoutes(patientController, authMiddleware));
+app.use('/api/episodios', episodioRoutes(authMiddleware, episodioService));
 
-
-//MANEJO DE ERRORES
-// Si ninguna ruta anterior coincide, se ejecuta el 404
+// MANEJO DE ERRORES
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
@@ -104,8 +107,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-
-//INICIO DEL SERVIDOR 
+// INICIO DEL SERVIDOR
 const PORT = config.port;
 app.listen(PORT, () => {
   logger.info(`Servidor corriendo en puerto ${PORT}`);

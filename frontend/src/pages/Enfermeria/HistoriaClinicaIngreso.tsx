@@ -15,7 +15,7 @@ const HistoriaClinicaIngreso: React.FC = () => {
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
 
   const [formData, setFormData] = useState({
-    tipoDocumento: "DNI",
+    tipoDocumento: "CUI",
     numDocumento: "",
     nombres: "",
     apellidos: "",

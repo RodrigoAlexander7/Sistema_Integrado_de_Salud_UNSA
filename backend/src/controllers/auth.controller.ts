@@ -174,32 +174,37 @@ export class AuthController {
 
       logger.info(`Intento de login para: ${email}`);
 
-      const result = await this.authService.login({email, password});
+      const result = await this.authService.login({ email, password });
 
       logger.info(`Login exitoso para: ${email}`);
 
+      // 1. Guardar el token en cookie httpOnly (útil para navegador)
       res.cookie('authToken', result.accessToken, {
         httpOnly: true,
-        secure: config.nodeEnv === 'production',
+        secure: config.nodeEnv === 'production', // solo en HTTPS en prod
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24, // 24 horas
         path: '/'
-      })
+      });
 
+      // 2. Enviar el token también en la respuesta JSON (útil para Postman o apps móviles)
       res.json({
         success: true,
-        token: result.accessToken,
         message: 'Login exitoso',
-        user: result.user
+        user: result.user,
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken
       });
 
     } catch (error: any) {
       logger.error('Error en login:', error);
 
       let statusCode = 500;
-      if (error.message.includes('credenciales') || 
-          error.message.includes('contraseña') ||
-          error.message.includes('no encontrado')) {
+      if (
+        error.message.includes('credenciales') ||
+        error.message.includes('contraseña') ||
+        error.message.includes('no encontrado')
+      ) {
         statusCode = 401; // Unauthorized
       }
 

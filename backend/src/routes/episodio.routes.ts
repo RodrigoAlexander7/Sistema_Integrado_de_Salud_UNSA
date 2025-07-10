@@ -1,3 +1,4 @@
+//episodio.routes.ts
 import { Router } from 'express';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 import { EpisodioController } from '../controllers/episodio.controller';

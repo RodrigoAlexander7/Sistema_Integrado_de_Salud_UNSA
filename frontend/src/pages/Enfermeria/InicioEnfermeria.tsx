@@ -92,7 +92,7 @@ const InicioEnf: React.FC = () => {
                     <Card className="flex flex-col items-center justify-center p-6 text-center border-blue-200 hover:shadow-lg cursor-pointer hover:scale-110">
                         <CardContent className="flex flex-col items-center" onClick={handlePacientesEnEspera}>
                             <FontAwesomeIcon icon={faBell} style={{ color: "#1c398e", scale: 3.5 }}  />
-                            <p className="text-md font-medium text-blue-950"><br /><br />Pacientes en espera</p>
+                            <p className="text-md font-medium text-blue-950"><br /><br />Nuevo Episodio Clínico</p>
                         </CardContent>
                     </Card>
                 </div>
